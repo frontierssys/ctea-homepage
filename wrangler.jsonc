@@ -3,5 +3,13 @@
   "name": "tanstack-start-app",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+  "main": "@tanstack/react-start/server-entry",
+  // Non-secret values for /api/revalidate (optional until you enable purge)
+  // "vars": {
+  //   "SITE_URL": "https://example.com",
+  //   "CF_ZONE_ID": "your-zone-id"
+  // }
+  // Secrets (do not commit):
+  //   wrangler secret put REVALIDATE_SECRET
+  //   wrangler secret put CF_API_TOKEN
 }

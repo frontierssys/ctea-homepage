@@ -13,7 +13,15 @@ const config = defineConfig({
     devtools(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        // leave CMS SPA and API routes out of prerender
+        filter: ({ path }) =>
+          !path.startsWith('/admin') && !path.startsWith('/api'),
+      },
+    }),
     viteReact(),
   ],
 })
