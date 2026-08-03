@@ -7,5 +7,10 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
+  },
+  "yaml.schemas": {
+    "https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json": [
+      "/public/admin/config.yml"
+    ]
   }
 }
