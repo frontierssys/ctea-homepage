@@ -27,6 +27,10 @@ collections:
               - { label: 副標, name: subcopy, widget: string }
               - { label: CTA 文字, name: ctaLabel, widget: string }
               - { label: CTA 連結, name: ctaHref, widget: string }
+              - { label: Logo, name: logo, widget: image }
+              - { label: 騎手圖（Rider）, name: rider, widget: image }
+              - { label: 背景（Light）, name: bg, widget: image }
+              - { label: 背景（Dark）, name: bgDark, widget: image }
 
 
   - name: posts

@@ -221,7 +221,7 @@ function SocialFeed() {
       className="relative overflow-hidden bg-[#f8f2e8] px-5 py-24 transition-colors duration-200 dark:bg-[#0B1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
       <img
-        src="/ctea-sketch-ivory-bg.webp"
+        src="/media/ctea-sketch-ivory-bg.webp"
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
@@ -413,7 +413,7 @@ function SiteFooter() {
         className="relative overflow-hidden bg-[#11283e] px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade] md:px-10 lg:px-16"
       >
         <img
-          src="/ctea-sketch-ivory-bg.webp"
+          src="/media/ctea-sketch-ivory-bg.webp"
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"

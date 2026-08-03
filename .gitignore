@@ -11,3 +11,5 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+public/admin/preview-bundle.js
+public/admin/preview-bundle.css

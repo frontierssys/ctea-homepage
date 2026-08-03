@@ -49,7 +49,7 @@ export function TopNavBar({ className, ...props }: React.ComponentProps<'header'
             className="flex min-h-14 shrink-0 items-center gap-4"
             aria-label="中華民國馬術協會首頁"
           >
-            <img src="/ctea-logo.png" alt="CTEA" className="h-10 w-auto" />
+            <img src="/media/ctea-logo.png" alt="CTEA" className="h-10 w-auto" />
             <span className="min-w-0">
               <strong className="block whitespace-nowrap font-['Noto_Serif_TC','Songti_TC',serif] text-[29px] font-semibold tracking-[0.16em] text-[#151310] dark:text-[#f1eade] max-2xl:text-2xl max-xl:text-xl max-sm:text-base">
                 中華民國馬術協會

@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { cn } from '#/lib/utils'
-import { wireHeroImage } from '../-hero-image-gate'
+import { wireHeroImage } from './hero-image-gate'
 
 type HeroGateImageProps = ComponentProps<'img'> & {
   imageKind: 'rider' | 'bg'

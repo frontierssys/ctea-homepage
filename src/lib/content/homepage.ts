@@ -1,4 +1,5 @@
 import homepageJson from '../../../content/homepage.json'
+import { DEFAULT_HERO_IMAGES } from '#/components/section-hero/hero-images'
 
 export type HomepageHero = {
   titleLine1: string
@@ -8,22 +9,32 @@ export type HomepageHero = {
   subcopy: string
   ctaLabel: string
   ctaHref: string
+  logo: string
+  rider: string
+  bg: string
+  bgDark: string
 }
 
 export type HomepageContent = {
   hero: HomepageHero
 }
 
+export const DEFAULT_HOMEPAGE_HERO: HomepageHero = {
+  titleLine1: 'Chinese Taipei',
+  titleLine2: 'Equestrian Association',
+  sloganAccent: '傳承經典，',
+  sloganRest: '策馬向前',
+  subcopy: '賽事主辦・教育推廣・國際接軌・培育卓越人才',
+  ctaLabel: '查看最近賽事',
+  ctaHref: '#events',
+  logo: DEFAULT_HERO_IMAGES.logo,
+  rider: DEFAULT_HERO_IMAGES.rider,
+  bg: DEFAULT_HERO_IMAGES.bg,
+  bgDark: DEFAULT_HERO_IMAGES.bgDark,
+}
+
 const FALLBACK_HOMEPAGE: HomepageContent = {
-  hero: {
-    titleLine1: 'Chinese Taipei',
-    titleLine2: 'Equestrian Association',
-    sloganAccent: '傳承經典，',
-    sloganRest: '策馬向前',
-    subcopy: '賽事主辦・教育推廣・國際接軌・培育卓越人才',
-    ctaLabel: '查看最近賽事',
-    ctaHref: '#events',
-  },
+  hero: DEFAULT_HOMEPAGE_HERO,
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -48,6 +59,10 @@ export function getHomepage(): HomepageContent {
         subcopy: pickString(hero?.subcopy, FALLBACK_HOMEPAGE.hero.subcopy),
         ctaLabel: pickString(hero?.ctaLabel, FALLBACK_HOMEPAGE.hero.ctaLabel),
         ctaHref: pickString(hero?.ctaHref, FALLBACK_HOMEPAGE.hero.ctaHref),
+        logo: pickString(hero?.logo, FALLBACK_HOMEPAGE.hero.logo),
+        rider: pickString(hero?.rider, FALLBACK_HOMEPAGE.hero.rider),
+        bg: pickString(hero?.bg, FALLBACK_HOMEPAGE.hero.bg),
+        bgDark: pickString(hero?.bgDark, FALLBACK_HOMEPAGE.hero.bgDark),
       },
     }
   } catch {

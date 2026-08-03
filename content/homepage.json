@@ -6,6 +6,10 @@
     "sloganRest": "策馬向前",
     "subcopy": "賽事主辦・教育推廣・國際接軌・培育卓越人才",
     "ctaLabel": "查看最近賽事",
-    "ctaHref": "#events"
+    "ctaHref": "#events",
+    "logo": "/media/ctea-logo.png",
+    "rider": "/media/ctea-sketch-ivory-rider.webp",
+    "bg": "/media/ctea-sketch-ivory-bg.webp",
+    "bgDark": "/media/ctea-sketch-ivory-bg-dark.webp"
   }
 }

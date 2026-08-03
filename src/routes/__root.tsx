@@ -51,11 +51,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         rel: 'icon',
         type: 'image/png',
-        href: '/ctea-logo.png',
+        href: '/media/ctea-logo.png',
       },
       {
         rel: 'apple-touch-icon',
-        href: '/ctea-logo.png',
+        href: '/media/ctea-logo.png',
       },
     ],
   }),

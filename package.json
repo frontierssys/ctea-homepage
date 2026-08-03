@@ -7,8 +7,11 @@
   },
   "scripts": {
     "dev": "vite dev --port 4321",
+    "dev:admin-preview": "vite build --config vite.admin-preview.config.ts --watch",
     "generate-routes": "tsr generate",
-    "build": "vite build",
+    "build:site": "vite build",
+    "build:admin-preview": "vite build --config vite.admin-preview.config.ts",
+    "build": "npm run build:admin-preview && npm run build:site",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy"
   },
