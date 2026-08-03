@@ -1,5 +1,6 @@
 import { createFileRoute, ScriptOnce } from '@tanstack/react-router'
 import { Minus } from 'lucide-react'
+import { getHomepage, type HomepageHero } from '#/lib/content/homepage'
 import { HeroGateImage } from './-component/hero-gate-image'
 import { LandingContent } from './-component/landing-content'
 import { TopNavBar } from './-component/top-nav-bar'
@@ -9,6 +10,7 @@ import { HERO_DESKTOP_MQ, HERO_IMAGES, HERO_MOBILE_MQ } from './-hero-images'
 import './style.css'
 
 export const Route = createFileRoute('/')({
+  loader: () => getHomepage(),
   head: () => ({
     links: [
       // LCP 候選：全 viewport 都會用到，最高優先
@@ -45,16 +47,18 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
+  const { hero } = Route.useLoaderData()
+
   return (
     <>
       <TopNavBar />
-      <CteaSketchIvoryHero />
+      <CteaSketchIvoryHero hero={hero} />
       <LandingContent />
     </>
   )
 }
 
-function CteaSketchIvoryHero() {
+function CteaSketchIvoryHero({ hero }: { hero: HomepageHero }) {
   return (
     <section
       id="home"
@@ -173,8 +177,8 @@ function CteaSketchIvoryHero() {
               id="ctea-sketch-title"
               className="ctea-sketch-title font-[Georgia,'Times_New_Roman',serif] text-[clamp(39px,3.35vw,56px)] leading-[1.16] font-normal tracking-[0.005em] uppercase max-sm:text-[clamp(25px,7.2vw,27px)]"
             >
-              <span className="block">Chinese Taipei</span>
-              <span className="block">Equestrian Association</span>
+              <span className="block">{hero.titleLine1}</span>
+              <span className="block">{hero.titleLine2}</span>
             </h1>
 
             <div
@@ -187,21 +191,21 @@ function CteaSketchIvoryHero() {
             </div>
 
             <p className="ctea-sketch-statement font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(38px,3.45vw,56px)] leading-[1.2] font-medium tracking-[0.11em] whitespace-nowrap max-md:whitespace-normal max-sm:text-[clamp(27px,8vw,30px)] max-sm:tracking-[0.06em]">
-              <span className="text-[#a77d35] dark:text-[#c6a465]">傳承經典，</span>
-              <span>策馬向前</span>
+              <span className="text-[#a77d35] dark:text-[#c6a465]">{hero.sloganAccent}</span>
+              <span>{hero.sloganRest}</span>
             </p>
             <p className="ctea-sketch-subcopy mt-5 font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(17px,1.4vw,23px)] tracking-[0.14em] text-[#62615e] dark:text-[#b3aa99] max-sm:mx-auto max-sm:max-w-[330px] max-sm:text-[clamp(12px,3.45vw,13px)] max-sm:leading-7 max-sm:tracking-[0.025em]">
-              賽事主辦・教育推廣・國際接軌・培育卓越人才
+              {hero.subcopy}
             </p>
 
             <a
-              href="#events"
+              href={hero.ctaHref}
               className="ctea-sketch-cta group mx-auto mt-16 flex min-h-[92px] w-[356px] max-w-full flex-col items-center justify-center border border-[#c5a15d] bg-[#122b43] !text-white shadow-[0_0_0_4px_#122b43,0_0_0_5px_#c5a15d,0_10px_24px_rgba(33,42,47,.18)] transition-[background,box-shadow] duration-200 hover:bg-[#183650] hover:shadow-[0_0_0_4px_#183650,0_0_0_5px_#c5a15d,0_12px_27px_rgba(33,42,47,.18)] focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#9b742e] dark:border-[#c6a465] dark:bg-[#f1eade] dark:!text-[#122b43] dark:shadow-[0_0_0_4px_#f1eade,0_0_0_5px_#c6a465,0_10px_24px_rgba(2,8,14,.5)] dark:hover:bg-[#fff8ec] dark:hover:shadow-[0_0_0_4px_#fff8ec,0_0_0_5px_#c6a465,0_12px_27px_rgba(2,8,14,.5)] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none max-sm:mt-8 max-sm:min-h-[80px] max-sm:w-[290px]"
             >
               <div className="flex flex-row justify-center items-center gap-4">
                 <Minus strokeWidth={1} className="text-[#c5a15d] dark:text-[#c6a465]" />
                 <div className="font-['Noto_Serif_TC','Songti_TC',serif] text-[27px] tracking-[0.15em] max-sm:text-2xl">
-                  查看最近賽事
+                  {hero.ctaLabel}
                 </div>
                 <Minus strokeWidth={1} className="text-[#c5a15d] dark:text-[#c6a465]" />
               </div>

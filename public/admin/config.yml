@@ -8,6 +8,27 @@ media_folder: /public/media
 public_folder: /media
 
 collections:
+  - name: pages
+    label: 頁面
+    files:
+      - name: homepage
+        label: 首頁
+        file: content/homepage.json
+        format: json
+        fields:
+          - name: hero
+            label: Hero
+            widget: object
+            fields:
+              - { label: 英文標題第一行, name: titleLine1, widget: string }
+              - { label: 英文標題第二行, name: titleLine2, widget: string }
+              - { label: Slogan 強調色, name: sloganAccent, widget: string }
+              - { label: Slogan 其餘, name: sloganRest, widget: string }
+              - { label: 副標, name: subcopy, widget: string }
+              - { label: CTA 文字, name: ctaLabel, widget: string }
+              - { label: CTA 連結, name: ctaHref, widget: string }
+
+
   - name: posts
     label: Posts
     label_singular: Post
