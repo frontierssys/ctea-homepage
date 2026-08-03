@@ -10,18 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
@@ -29,44 +22,31 @@ const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
   path: '/api/revalidate',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/api/revalidate': typeof ApiRevalidateRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/api/revalidate': typeof ApiRevalidateRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/api/revalidate': typeof ApiRevalidateRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/api/revalidate' | '/demo/tanstack-query'
+  fullPaths: '/' | '/api/revalidate'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/api/revalidate' | '/demo/tanstack-query'
-  id: '__root__' | '/' | '/about' | '/api/revalidate' | '/demo/tanstack-query'
+  to: '/' | '/api/revalidate'
+  id: '__root__' | '/' | '/api/revalidate'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   ApiRevalidateRoute: typeof ApiRevalidateRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,13 +58,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/revalidate': {
       id: '/api/revalidate'
       path: '/api/revalidate'
@@ -92,21 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRevalidateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   ApiRevalidateRoute: ApiRevalidateRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

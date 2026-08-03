@@ -1,87 +1,238 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, ScriptOnce } from '@tanstack/react-router'
+import { Minus } from 'lucide-react'
+import { HeroGateImage } from './-component/hero-gate-image'
+import { LandingContent } from './-component/landing-content'
+import { TopNavBar } from './-component/top-nav-bar'
+import { SKETCH_CURVE_PATH, SKETCH_LEFT_CLIP_OB, SKETCH_RIGHT_BG_CLIP_OB } from './-curve-clip'
+import { getHeroImageGateScript } from './-hero-image-gate'
+import { HERO_DESKTOP_MQ, HERO_IMAGES, HERO_MOBILE_MQ } from './-hero-images'
+import './style.css'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  head: () => ({
+    links: [
+      // LCP 候選：全 viewport 都會用到，最高優先
+      {
+        rel: 'preload',
+        as: 'image',
+        href: HERO_IMAGES.rider,
+        fetchPriority: 'high',
+      },
+      // 手機：rider 佔上方 43vh，bg 全幅墊底 → 兩張都 preload
+      {
+        rel: 'preload',
+        as: 'image',
+        href: HERO_IMAGES.bg,
+        media: HERO_MOBILE_MQ,
+      },
+      // Desktop：右側 bg（light）
+      {
+        rel: 'preload',
+        as: 'image',
+        href: HERO_IMAGES.bg,
+        media: `${HERO_DESKTOP_MQ} and (prefers-color-scheme: light)`,
+      },
+      // Desktop dark bg：用 media 避免 light 使用者多載一張
+      {
+        rel: 'preload',
+        as: 'image',
+        href: HERO_IMAGES.bgDark,
+        media: `${HERO_DESKTOP_MQ} and (prefers-color-scheme: dark)`,
+      },
+    ],
+  }),
+  component: RouteComponent,
+})
 
-function App() {
+function RouteComponent() {
   return (
-    <main className="page-wrap px-4 pb-8 pt-14">
-      <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
-        <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-        <p className="island-kicker mb-3">TanStack Start Base Template</p>
-        <h1 className="display-title mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight text-[var(--sea-ink)] sm:text-6xl">
-          Start simple, ship quickly.
-        </h1>
-        <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
-          structure, and the essentials you need to build from scratch.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/about"
-            className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
-          >
-            About This Starter
-          </a>
-          <a
-            href="https://tanstack.com/router"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-5 py-2.5 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:-translate-y-0.5 hover:border-[rgba(23,58,64,0.35)]"
-          >
-            Router Guide
-          </a>
+    <>
+      <TopNavBar />
+      <CteaSketchIvoryHero />
+      <LandingContent />
+    </>
+  )
+}
+
+function CteaSketchIvoryHero() {
+  return (
+    <section
+      id="home"
+      className="ctea-sketch-hero bg-[#f8f2e8] text-[#151310] transition-colors duration-200 dark:bg-[#122231] dark:text-[#f1eade] motion-reduce:transition-none"
+      aria-labelledby="ctea-sketch-title"
+    >
+      <div className="relative overflow-hidden min-h-dvh max-md:flex max-md:min-h-0 max-md:flex-col ">
+        <div
+          className="pointer-events-none absolute inset-0 z-0 bg-[#fbf6ed] transition-colors duration-200 dark:bg-[#0b1825] motion-reduce:transition-none"
+          aria-hidden="true"
+        />
+
+        <svg aria-hidden="true" className="pointer-events-none absolute h-0 w-0">
+          <defs>
+            <clipPath id="ctea-sketch-bg-right" clipPathUnits="objectBoundingBox">
+              <path d={SKETCH_RIGHT_BG_CLIP_OB} />
+            </clipPath>
+            <clipPath id="ctea-sketch-rider-left" clipPathUnits="objectBoundingBox">
+              <path d={SKETCH_LEFT_CLIP_OB} />
+            </clipPath>
+          </defs>
+        </svg>
+
+        <div className="ctea-sketch-bg-desktop pointer-events-none absolute inset-0 max-md:hidden">
+          <div className="absolute left-[40%] inset-y-0 right-0">
+            <ThemeAwareHeroBackground />
+          </div>
         </div>
-      </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [
-            'Type-Safe Routing',
-            'Routes and links stay in sync across every page.',
-          ],
-          [
-            'Server Functions',
-            'Call server code from your UI without creating API boilerplate.',
-          ],
-          [
-            'Streaming by Default',
-            'Ship progressively rendered responses for faster experiences.',
-          ],
-          [
-            'Tailwind Native',
-            'Design quickly with utility-first styling and reusable tokens.',
-          ],
-        ].map(([title, desc], index) => (
-          <article
-            key={title}
-            className="island-shell feature-card rise-in rounded-2xl p-5"
-            style={{ animationDelay: `${index * 90 + 80}ms` }}
-          >
-            <h2 className="mb-2 text-base font-semibold text-[var(--sea-ink)]">
-              {title}
-            </h2>
-            <p className="m-0 text-sm text-[var(--sea-ink-soft)]">{desc}</p>
-          </article>
-        ))}
-      </section>
+        <div className="ctea-sketch-rider-desktop absolute inset-0 z-10 max-md:hidden group">
+          <div className="absolute inset-y-0 left-0 w-[42.3%]">
+            <HeroGateImage
+              imageKind="rider"
+              src={HERO_IMAGES.rider}
+              alt="馬場馬術騎手騎乘黑馬"
+              fetchPriority="high"
+              decoding="async"
+              className="h-full w-full object-cover object-[30%_center] group-hover:scale-[1.007] transition-transform ease-out duration-700"
+            />
+            <div
+              className="
+                    absolute inset-0 
+                    bg-[linear-gradient(90deg,transparent_0%,rgba(251,246,237,0)_42%,rgba(251,246,237,0.14)_68%,rgba(251,246,237,0.42)_86%,rgba(247,239,226,0.68)_100%)] 
+                    dark:bg-[linear-gradient(90deg,transparent_0%,rgba(11,24,37,0)_42%,rgba(11,24,37,.12)_68%,rgba(11,24,37,.52)_86%,rgba(11,24,37,.9)_100%)]
+                  "
+              aria-hidden="true"
+            />
+          </div>
+        </div>
 
-      <section className="island-shell mt-8 rounded-2xl p-6">
-        <p className="island-kicker mb-2">Quick Start</p>
-        <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-[var(--sea-ink-soft)]">
-          <li>
-            Edit <code>src/routes/index.tsx</code> to customize the home page.
-          </li>
-          <li>
-            Update <code>src/components/Header.tsx</code> and{' '}
-            <code>src/components/Footer.tsx</code> for brand links.
-          </li>
-          <li>
-            Add routes in <code>src/routes</code> and tweak visual tokens in{' '}
-            <code>src/styles.css</code>.
-          </li>
-        </ul>
-      </section>
-    </main>
+        <HeroGateImage
+          imageKind="bg"
+          src={HERO_IMAGES.bg}
+          alt="sketch ivory background"
+          aria-hidden="true"
+          decoding="async"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-95 transition-opacity duration-200 dark:opacity-10 dark:mix-blend-screen motion-reduce:transition-none md:hidden"
+        />
+
+        <div className="relative order-1 h-[43vh] min-h-[300px] w-full overflow-hidden md:hidden">
+          <HeroGateImage
+            imageKind="rider"
+            src={HERO_IMAGES.rider}
+            alt="馬場馬術騎手騎乘黑馬"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover object-[5%_center]"
+          />
+          <div
+            className="
+                absolute inset-0 
+                bg-[linear-gradient(180deg,rgba(250,246,238,.02),rgba(247,239,226,.08))] 
+                dark:bg-[linear-gradient(180deg,transparent_55%,rgba(11,24,37,.9))]
+              "
+            aria-hidden="true"
+          />
+        </div>
+
+        <svg
+          className="ctea-sketch-divider pointer-events-none absolute inset-y-0 left-[37.7%] z-20 h-full w-[5.8%] overflow-visible text-[#b88d42]/72 dark:text-[#c6a465] max-md:hidden"
+          viewBox="0 0 100 820"
+          preserveAspectRatio="none"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d={SKETCH_CURVE_PATH} stroke="currentColor" strokeWidth="1.15" pathLength="1" />
+          <path
+            d="M61-8C27 94 29 195 59 315c12 48 14 69 3 95-20 49-20 107 0 174 25 91 25 165-3 244"
+            stroke="currentColor"
+            strokeWidth=".55"
+            pathLength="1"
+          />
+          <path
+            d="m57 399 8 11-8 11-8-11 8-11Z"
+            className="fill-[#fbf6ed] dark:fill-[#0B1825]"
+            stroke="currentColor"
+            strokeWidth="1"
+          />
+        </svg>
+
+        <div
+          className="
+            relative z-30 ml-[42.3%] flex items-center justify-center px-10 pt-8 pb-14 text-center max-md:order-2 max-md:ml-0  max-md:px-5 max-md:py-14
+            translate-y-0 lg:translate-y-30
+            min-h-dvh max-md:min-h-[560px] max-sm:min-h-[520px]
+          "
+        >
+          <div className="w-full max-w-[860px]  max-xl:max-w-[740px] max-md:max-w-[680px] max-md:translate-y-0">
+            <div className="ctea-sketch-ornament relative -top-9 mb-1 flex items-center justify-center gap-5 max-sm:top-0 max-sm:mb-3">
+              <span className="h-px w-24 bg-[rgba(182,140,67,.65)] dark:bg-[rgba(198,164,101,.62)] max-sm:w-14" />
+              <img src="/ctea-logo.png" alt="CTEA" className="h-18 w-auto" />
+              <span className="h-px w-24 bg-[rgba(182,140,67,.65)] dark:bg-[rgba(198,164,101,.62)] max-sm:w-14" />
+            </div>
+
+            <h1
+              id="ctea-sketch-title"
+              className="ctea-sketch-title font-[Georgia,'Times_New_Roman',serif] text-[clamp(39px,3.35vw,56px)] leading-[1.16] font-normal tracking-[0.005em] uppercase max-sm:text-[clamp(25px,7.2vw,27px)]"
+            >
+              <span className="block">Chinese Taipei</span>
+              <span className="block">Equestrian Association</span>
+            </h1>
+
+            <div
+              className="ctea-sketch-rule my-6 flex items-center gap-4 max-sm:my-5"
+              aria-hidden="true"
+            >
+              <span className="h-px flex-1 bg-[rgba(182,140,67,.65)] dark:bg-[rgba(198,164,101,.62)]" />
+              <span className="size-2 rotate-45 bg-[#b68c43] dark:bg-[#c6a465]" />
+              <span className="h-px flex-1 bg-[rgba(182,140,67,.65)] dark:bg-[rgba(198,164,101,.62)]" />
+            </div>
+
+            <p className="ctea-sketch-statement font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(38px,3.45vw,56px)] leading-[1.2] font-medium tracking-[0.11em] whitespace-nowrap max-md:whitespace-normal max-sm:text-[clamp(27px,8vw,30px)] max-sm:tracking-[0.06em]">
+              <span className="text-[#a77d35] dark:text-[#c6a465]">傳承經典，</span>
+              <span>策馬向前</span>
+            </p>
+            <p className="ctea-sketch-subcopy mt-5 font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(17px,1.4vw,23px)] tracking-[0.14em] text-[#62615e] dark:text-[#b3aa99] max-sm:mx-auto max-sm:max-w-[330px] max-sm:text-[clamp(12px,3.45vw,13px)] max-sm:leading-7 max-sm:tracking-[0.025em]">
+              賽事主辦・教育推廣・國際接軌・培育卓越人才
+            </p>
+
+            <a
+              href="#events"
+              className="ctea-sketch-cta group mx-auto mt-16 flex min-h-[92px] w-[356px] max-w-full flex-col items-center justify-center border border-[#c5a15d] bg-[#122b43] !text-white shadow-[0_0_0_4px_#122b43,0_0_0_5px_#c5a15d,0_10px_24px_rgba(33,42,47,.18)] transition-[background,box-shadow] duration-200 hover:bg-[#183650] hover:shadow-[0_0_0_4px_#183650,0_0_0_5px_#c5a15d,0_12px_27px_rgba(33,42,47,.18)] focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[#9b742e] dark:border-[#c6a465] dark:bg-[#f1eade] dark:!text-[#122b43] dark:shadow-[0_0_0_4px_#f1eade,0_0_0_5px_#c6a465,0_10px_24px_rgba(2,8,14,.5)] dark:hover:bg-[#fff8ec] dark:hover:shadow-[0_0_0_4px_#fff8ec,0_0_0_5px_#c6a465,0_12px_27px_rgba(2,8,14,.5)] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none max-sm:mt-8 max-sm:min-h-[80px] max-sm:w-[290px]"
+            >
+              <div className="flex flex-row justify-center items-center gap-4">
+                <Minus strokeWidth={1} className="text-[#c5a15d] dark:text-[#c6a465]" />
+                <div className="font-['Noto_Serif_TC','Songti_TC',serif] text-[27px] tracking-[0.15em] max-sm:text-2xl">
+                  查看最近賽事
+                </div>
+                <Minus strokeWidth={1} className="text-[#c5a15d] dark:text-[#c6a465]" />
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <ScriptOnce>{getHeroImageGateScript()}</ScriptOnce>
+    </section>
+  )
+}
+
+function ThemeAwareHeroBackground() {
+  return (
+    <>
+      <HeroGateImage
+        imageKind="bg"
+        src={HERO_IMAGES.bg}
+        alt="sketch-ivory-bg"
+        aria-hidden="true"
+        decoding="async"
+        className="h-full w-full object-cover object-bottom-right opacity-95 dark:hidden"
+      />
+      <HeroGateImage
+        imageKind="bg"
+        src={HERO_IMAGES.bgDark}
+        alt="sketch-ivory-bg-dark"
+        aria-hidden="true"
+        decoding="async"
+        className="hidden h-full w-full object-cover object-bottom-right opacity-50 dark:block"
+      />
+    </>
   )
 }
