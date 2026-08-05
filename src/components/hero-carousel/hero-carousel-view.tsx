@@ -101,11 +101,6 @@ export function HeroCarouselView({
         })}
       </div>
 
-      <div
-        className="pointer-events-none absolute inset-5 z-10 border border-[rgba(208,174,109,.3)] max-sm:inset-3"
-        aria-hidden="true"
-      />
-
       <div className="relative z-20 mx-auto flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-[1600px] flex-col px-12 max-lg:px-8 max-sm:px-6">
         <div className="grid flex-1 items-center py-6 max-sm:items-end max-sm:pt-8 max-sm:pb-5">
           {slides.map((slide, index) => {
@@ -152,7 +147,7 @@ export function HeroCarouselView({
         </div>
 
         {slideCount > 1 ? (
-          <div className="mb-5 flex min-h-16 items-center gap-7 border-t border-[rgba(208,174,109,.38)] max-sm:mb-4 max-sm:gap-3">
+          <div className="mb-5 flex min-h-16 items-center gap-7 max-sm:mb-4 max-sm:gap-3">
             <button
               type="button"
               className="grid size-12 shrink-0 cursor-pointer place-items-center border border-[rgba(208,174,109,.5)] text-[#fffaf0] transition-[background-color,color,border-color] duration-200 hover:border-[#d0ae6d] hover:bg-[#d0ae6d] hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:size-11"
