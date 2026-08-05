@@ -9,7 +9,21 @@
 :root {
   --background: #fbf6ed;
   --foreground: #151310;
+  --layout-header-content-height: 122px;
+  --layout-header-height: calc(var(--layout-header-content-height) + 1px);
   --radius: 0.625rem;
+}
+
+@media (width < 64rem) {
+  :root {
+    --layout-header-content-height: 96px;
+  }
+}
+
+@media (width < 40rem) {
+  :root {
+    --layout-header-content-height: 82px;
+  }
 }
 
 .dark {
@@ -47,4 +61,3 @@ a {
   color: inherit;
   text-decoration: none;
 }
-

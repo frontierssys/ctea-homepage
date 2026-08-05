@@ -43,7 +43,7 @@ export function HeroCarouselView({
   return (
     <section
       id="home"
-      className="ctea-hero-carousel relative isolate min-h-dvh overflow-hidden bg-[#091725] text-[#fffaf0]"
+      className="ctea-hero-carousel relative isolate mt-(--layout-header-height) min-h-[calc(100dvh-var(--layout-header-height))] overflow-hidden bg-[#091725] text-[#fffaf0]"
       role="region"
       aria-roledescription="carousel"
       aria-label="首頁焦點輪播"
@@ -109,11 +109,11 @@ export function HeroCarouselView({
       </div>
 
       <div
-        className="pointer-events-none absolute inset-5 z-10 border border-[rgba(208,174,109,.3)] max-sm:inset-x-3 max-sm:top-[94px] max-sm:bottom-3"
+        className="pointer-events-none absolute inset-5 z-10 border border-[rgba(208,174,109,.3)] max-sm:inset-3"
         aria-hidden="true"
       />
 
-      <div className="relative z-20 mx-auto flex min-h-dvh w-full max-w-[1600px] flex-col px-12 pt-[122px] max-lg:px-8 max-lg:pt-[96px] max-sm:px-6 max-sm:pt-[82px]">
+      <div className="relative z-20 mx-auto flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-[1600px] flex-col px-12 max-lg:px-8 max-sm:px-6">
         <div className="flex items-center justify-between border-b border-[rgba(208,174,109,.38)] py-4">
           <p className="font-[Georgia,serif] text-[10px] tracking-[0.28em] text-[#d0ae6d] uppercase max-sm:tracking-[0.18em]">
             CTEA · Official
@@ -129,7 +129,7 @@ export function HeroCarouselView({
 
             return (
               <div
-                className="ctea-carousel-copy col-start-1 row-start-1 w-full max-w-[880px]"
+                className="ctea-carousel-copy col-start-1 row-start-1 w-full max-w-220"
                 data-active={isActive}
                 aria-hidden={!isActive}
                 key={`${slide.eyebrow}-${index}`}
@@ -146,7 +146,7 @@ export function HeroCarouselView({
                   <span className="block text-[#d0ae6d]">{slide.titleLine2}</span>
                 </h1>
 
-                <p className="mt-5 max-w-[640px] text-pretty font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(15px,1.25vw,19px)] leading-8 tracking-[0.08em] text-[rgba(255,250,240,.82)] max-sm:text-sm max-sm:leading-7 max-sm:tracking-[0.045em]">
+                <p className="mt-5 max-w-160 text-pretty font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(15px,1.25vw,19px)] leading-8 tracking-[0.08em] text-[rgba(255,250,240,.82)] max-sm:text-sm max-sm:leading-7 max-sm:tracking-[0.045em]">
                   {slide.description}
                 </p>
 

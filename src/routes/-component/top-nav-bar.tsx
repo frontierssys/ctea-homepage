@@ -15,8 +15,6 @@ const navItems = [
   ['下載專區', '#footer'],
 ] as const
 
-const navSpacerClassName = 'h-[122px] max-lg:h-[96px] max-sm:h-[82px]'
-
 export function TopNavBar({ className, ...props }: React.ComponentProps<'header'>) {
   const [menuOpen, setMenuOpen] = useState(false)
   const { direction: scrollDirection, isAtTop } = useScrollDirection()
@@ -40,8 +38,7 @@ export function TopNavBar({ className, ...props }: React.ComponentProps<'header'
       >
         <div
           className={cn(
-            'mx-auto flex w-full items-center px-[44px] max-xl:px-7 max-sm:px-4',
-            navSpacerClassName,
+            'mx-auto flex h-[var(--layout-header-content-height)] w-full items-center px-[44px] max-xl:px-7 max-sm:px-4',
           )}
         >
           <Link
