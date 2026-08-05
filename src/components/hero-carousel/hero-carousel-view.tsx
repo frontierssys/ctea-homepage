@@ -95,14 +95,7 @@ export function HeroCarouselView({
                 loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
               />
-              <div
-                className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,15,25,.94)_0%,rgba(7,20,33,.79)_38%,rgba(8,21,34,.28)_70%,rgba(8,21,34,.12)_100%)] max-md:bg-[linear-gradient(90deg,rgba(5,15,25,.9)_0%,rgba(7,20,33,.64)_70%,rgba(8,21,34,.4)_100%)]"
-                aria-hidden="true"
-              />
-              <div
-                className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,15,25,.38)_0%,transparent_35%,rgba(5,15,25,.78)_100%)]"
-                aria-hidden="true"
-              />
+              <div className="ctea-carousel-scrim" aria-hidden="true" />
             </article>
           )
         })}
@@ -114,15 +107,6 @@ export function HeroCarouselView({
       />
 
       <div className="relative z-20 mx-auto flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-[1600px] flex-col px-12 max-lg:px-8 max-sm:px-6">
-        <div className="flex items-center justify-between border-b border-[rgba(208,174,109,.38)] py-4">
-          <p className="font-[Georgia,serif] text-[10px] tracking-[0.28em] text-[#d0ae6d] uppercase max-sm:tracking-[0.18em]">
-            CTEA · Official
-          </p>
-          <p className="font-[Georgia,serif] text-[10px] tracking-[0.22em] text-[rgba(255,250,240,.72)] uppercase">
-            Taiwan · Est. 1973
-          </p>
-        </div>
-
         <div className="grid flex-1 items-center py-6 max-sm:items-end max-sm:pt-8 max-sm:pb-5">
           {slides.map((slide, index) => {
             const isActive = index === activeIndex

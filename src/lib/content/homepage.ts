@@ -21,7 +21,7 @@ export type HomepageContent = {
 export const DEFAULT_CAROUSEL_SLIDES: HomepageCarouselSlide[] = [
   {
     eyebrow: 'Chinese Taipei Equestrian Association',
-    titleLine1: '傳承經典，',
+    titleLine1: '傳承經典',
     titleLine2: '策馬向前',
     description: '串連賽事、教育與國際交流，讓每一份專注都成為臺灣馬術向前的力量。',
     ctaLabel: '探索協會動態',
@@ -43,12 +43,12 @@ export const DEFAULT_CAROUSEL_SLIDES: HomepageCarouselSlide[] = [
   },
   {
     eyebrow: 'Education · International',
-    titleLine1: '讓專業扎根，',
+    titleLine1: '讓專業扎根',
     titleLine2: '與世界並肩',
     description: '以人才培育、制度接軌與國際合作，建立安全、專業且永續的馬術環境。',
     ctaLabel: '觀看精選影音',
     ctaHref: '#video',
-    image: '/media/ctea-sketch-ivory-bg-dark.webp',
+    image: '/media/ctea-sketch-ivory-bg.webp',
     imageAlt: '深藍色臺灣歷史建築線稿背景',
     imagePosition: 'center bottom',
   },

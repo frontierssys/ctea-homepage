@@ -1,3 +1,10 @@
+.ctea-hero-carousel {
+  --ctea-hero-scrim-strong: rgb(5 15 25 / 76%);
+  --ctea-hero-scrim-medium: rgb(5 15 25 / 48%);
+  --ctea-hero-scrim-soft: rgb(5 15 25 / 20%);
+  --ctea-hero-text-shadow: rgb(0 0 0 / 72%);
+}
+
 .ctea-carousel-slide {
   visibility: hidden;
   opacity: 0;
@@ -21,6 +28,34 @@
 
 .ctea-carousel-slide[data-active='true'] .ctea-carousel-image {
   transform: scale(1);
+}
+
+.ctea-carousel-scrim {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      0deg,
+      var(--ctea-hero-scrim-medium) 0%,
+      var(--ctea-hero-scrim-soft) 24%,
+      transparent 52%
+    ),
+    linear-gradient(
+      90deg,
+      var(--ctea-hero-scrim-strong) 0%,
+      var(--ctea-hero-scrim-medium) 54%,
+      var(--ctea-hero-scrim-soft) 76%,
+      transparent 100%
+    );
+  background-position: left bottom, left top;
+  background-repeat: no-repeat;
+  background-size: 100% 100%, min(82%, 72rem) 100%;
+  pointer-events: none;
+}
+
+.ctea-carousel-copy h1,
+.ctea-carousel-copy p {
+  text-shadow: 0 2px 18px var(--ctea-hero-text-shadow);
 }
 
 .ctea-carousel-copy {
@@ -65,6 +100,21 @@
 
   to {
     transform: scaleX(1);
+  }
+}
+
+@media (width < 48rem) {
+  .ctea-carousel-scrim {
+    inset: auto 0 0;
+    width: auto;
+    height: 84%;
+    background: linear-gradient(
+      0deg,
+      var(--ctea-hero-scrim-strong) 0%,
+      var(--ctea-hero-scrim-medium) 52%,
+      var(--ctea-hero-scrim-soft) 76%,
+      transparent 100%
+    );
   }
 }
 
