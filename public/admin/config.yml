@@ -16,21 +16,35 @@ collections:
         file: content/homepage.json
         format: json
         fields:
-          - name: hero
-            label: Hero
+          - name: carousel
+            label: 首頁焦點輪播
             widget: object
             fields:
-              - { label: 英文標題第一行, name: titleLine1, widget: string }
-              - { label: 英文標題第二行, name: titleLine2, widget: string }
-              - { label: Slogan 強調色, name: sloganAccent, widget: string }
-              - { label: Slogan 其餘, name: sloganRest, widget: string }
-              - { label: 副標, name: subcopy, widget: string }
-              - { label: CTA 文字, name: ctaLabel, widget: string }
-              - { label: CTA 連結, name: ctaHref, widget: string }
-              - { label: Logo, name: logo, widget: image }
-              - { label: 騎手圖（Rider）, name: rider, widget: image }
-              - { label: 背景（Light）, name: bg, widget: image }
-              - { label: 背景（Dark）, name: bgDark, widget: image }
+              - name: slides
+                label: 輪播內容
+                label_singular: 投影片
+                widget: list
+                min: 1
+                max: 6
+                summary: '{{fields.titleLine1}}{{fields.titleLine2}}'
+                fields:
+                  - { label: 英文分類標示, name: eyebrow, widget: string }
+                  - { label: 主標題第一行, name: titleLine1, widget: string }
+                  - { label: 金色主標題第二行, name: titleLine2, widget: string }
+                  - { label: 說明文字, name: description, widget: text }
+                  - { label: CTA 文字, name: ctaLabel, widget: string }
+                  - { label: CTA 連結, name: ctaHref, widget: string }
+                  - { label: 背景圖片, name: image, widget: image }
+                  - { label: 圖片替代文字, name: imageAlt, widget: string }
+                  - label: 圖片焦點
+                    name: imagePosition
+                    widget: select
+                    default: center center
+                    options:
+                      - { label: 置中, value: center center }
+                      - { label: 靠左, value: left center }
+                      - { label: 靠右, value: right center }
+                      - { label: 底部置中, value: center bottom }
 
 
   - name: posts

@@ -1,41 +1,21 @@
-import { createFileRoute, ScriptOnce } from '@tanstack/react-router'
-import { SectionHero } from '#/components/section-hero/section-hero'
-import { HERO_DESKTOP_MQ, HERO_MOBILE_MQ } from '#/components/section-hero/hero-images'
-import { getHeroImageGateScript } from '#/components/section-hero/hero-image-gate'
-import { DEFAULT_HOMEPAGE_HERO, getHomepage } from '#/lib/content/homepage'
+import { createFileRoute } from '@tanstack/react-router'
+import { HeroCarousel } from '#/components/hero-carousel/hero-carousel'
+import { DEFAULT_CAROUSEL_SLIDES, getHomepage } from '#/lib/content/homepage'
 import { LandingContent } from './-component/landing-content'
 import { TopNavBar } from './-component/top-nav-bar'
 
 export const Route = createFileRoute('/')({
   loader: () => getHomepage(),
   head: ({ loaderData }) => {
-    const hero = loaderData?.hero ?? DEFAULT_HOMEPAGE_HERO
+    const firstSlide = loaderData?.carousel.slides[0] ?? DEFAULT_CAROUSEL_SLIDES[0]
 
     return {
       links: [
         {
           rel: 'preload',
           as: 'image',
-          href: hero.rider,
+          href: firstSlide.image,
           fetchPriority: 'high',
-        },
-        {
-          rel: 'preload',
-          as: 'image',
-          href: hero.bg,
-          media: HERO_MOBILE_MQ,
-        },
-        {
-          rel: 'preload',
-          as: 'image',
-          href: hero.bg,
-          media: `${HERO_DESKTOP_MQ} and (prefers-color-scheme: light)`,
-        },
-        {
-          rel: 'preload',
-          as: 'image',
-          href: hero.bgDark,
-          media: `${HERO_DESKTOP_MQ} and (prefers-color-scheme: dark)`,
         },
       ],
     }
@@ -44,15 +24,12 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
-  const { hero } = Route.useLoaderData()
+  const { carousel } = Route.useLoaderData()
 
   return (
     <>
       <TopNavBar />
-      <SectionHero
-        hero={hero}
-        footer={<ScriptOnce>{getHeroImageGateScript()}</ScriptOnce>}
-      />
+      <HeroCarousel slides={carousel.slides} />
       <LandingContent />
     </>
   )
