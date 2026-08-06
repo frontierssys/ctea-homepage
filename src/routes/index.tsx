@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HeroCarousel } from '#/components/hero-carousel/hero-carousel'
+import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
 import { DEFAULT_CAROUSEL_SLIDES, getHomepage } from '#/lib/content/homepage'
 import { LandingContent } from './-component/landing-content'
-import { TopNavBar } from './-component/top-nav-bar'
 
 export const Route = createFileRoute('/')({
   loader: () => getHomepage(),

@@ -4,11 +4,14 @@ import {
   HeroCarouselView,
   shiftCarouselIndex,
 } from '#/components/hero-carousel/hero-carousel-view'
+import { TopNavBarView } from '#/components/top-nav-bar/top-nav-bar-view'
 import '#/styles.css'
 
 type HomepagePreviewProps = {
   entry: Parameters<typeof entryToCarouselSlides>[0]
   getAsset: (path: string) => { url?: string } | undefined
+  window?: Window
+  document?: Document
 }
 
 type HomepagePreviewState = {
@@ -17,6 +20,8 @@ type HomepagePreviewState = {
   isHovered: boolean
   hasFocus: boolean
   prefersReducedMotion: boolean
+  navMenuOpen: boolean
+  previewTheme: 'light' | 'dark'
 }
 
 type HomepagePreviewInstance = {
@@ -37,18 +42,36 @@ function getPreviewSlides(instance: HomepagePreviewInstance) {
   return entryToCarouselSlides(entry, { getAsset })
 }
 
+function getPreviewWindow(instance: HomepagePreviewInstance) {
+  return instance.props.window ?? window
+}
+
+function getPreviewDocument(instance: HomepagePreviewInstance) {
+  return instance.props.document ?? document
+}
+
+function applyPreviewTheme(instance: HomepagePreviewInstance) {
+  const previewDocument = getPreviewDocument(instance)
+  const root = previewDocument.documentElement
+
+  root.classList.remove('light', 'dark')
+  root.classList.add(instance.state.previewTheme)
+  root.style.colorScheme = instance.state.previewTheme
+}
+
 function isPreviewRotating(instance: HomepagePreviewInstance, slideCount: number) {
   const { autoplayEnabled, isHovered, hasFocus, prefersReducedMotion } = instance.state
   return slideCount > 1 && autoplayEnabled && !isHovered && !hasFocus && !prefersReducedMotion
 }
 
 function schedulePreviewAutoplay(instance: HomepagePreviewInstance) {
-  if (instance.autoplayTimer !== undefined) window.clearTimeout(instance.autoplayTimer)
+  const previewWindow = getPreviewWindow(instance)
+  if (instance.autoplayTimer !== undefined) previewWindow.clearTimeout(instance.autoplayTimer)
 
   const slideCount = getPreviewSlides(instance).length
   if (!isPreviewRotating(instance, slideCount)) return
 
-  instance.autoplayTimer = window.setTimeout(() => {
+  instance.autoplayTimer = previewWindow.setTimeout(() => {
     instance.setState((state) => ({
       activeIndex: shiftCarouselIndex(state.activeIndex, 1, slideCount),
     }))
@@ -65,11 +88,14 @@ const HomepagePreview = createClass({
       isHovered: false,
       hasFocus: false,
       prefersReducedMotion: false,
+      navMenuOpen: false,
+      previewTheme: 'light',
     }
   },
 
   componentDidMount: function (this: HomepagePreviewInstance) {
-    this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const previewWindow = getPreviewWindow(this)
+    this.motionQuery = previewWindow.matchMedia('(prefers-reduced-motion: reduce)')
     this.updateMotionPreference = () => {
       const prefersReducedMotion = this.motionQuery?.matches ?? false
       if (prefersReducedMotion !== this.state.prefersReducedMotion) {
@@ -79,10 +105,17 @@ const HomepagePreview = createClass({
 
     this.updateMotionPreference()
     this.motionQuery.addEventListener('change', this.updateMotionPreference)
+    applyPreviewTheme(this)
     schedulePreviewAutoplay(this)
   },
 
-  componentDidUpdate: function (this: HomepagePreviewInstance) {
+  componentDidUpdate: function (
+    this: HomepagePreviewInstance,
+    _previousProps: HomepagePreviewProps,
+    previousState: HomepagePreviewState,
+  ) {
+    if (previousState.previewTheme !== this.state.previewTheme) applyPreviewTheme(this)
+
     const slideCount = getPreviewSlides(this).length
 
     if (this.state.activeIndex !== 0 && this.state.activeIndex >= slideCount) {
@@ -94,10 +127,16 @@ const HomepagePreview = createClass({
   },
 
   componentWillUnmount: function (this: HomepagePreviewInstance) {
-    if (this.autoplayTimer !== undefined) window.clearTimeout(this.autoplayTimer)
+    if (this.autoplayTimer !== undefined) {
+      getPreviewWindow(this).clearTimeout(this.autoplayTimer)
+    }
     if (this.motionQuery && this.updateMotionPreference) {
       this.motionQuery.removeEventListener('change', this.updateMotionPreference)
     }
+
+    const root = getPreviewDocument(this).documentElement
+    root.classList.remove('light', 'dark')
+    root.style.removeProperty('color-scheme')
   },
 
   render: function (this: HomepagePreviewInstance) {
@@ -107,23 +146,42 @@ const HomepagePreview = createClass({
     const isRotating = isPreviewRotating(this, slideCount)
 
     return (
-      <HeroCarouselView
-        slides={slides}
-        activeIndex={activeIndex}
-        autoplayEnabled={this.state.autoplayEnabled}
-        isRotating={isRotating}
-        onChangeSlide={(direction) => {
-          this.setState((state) => ({
-            activeIndex: shiftCarouselIndex(state.activeIndex, direction, slideCount),
-          }))
-        }}
-        onSelectSlide={(nextIndex) => this.setState({ activeIndex: nextIndex })}
-        onAutoplayToggle={() => {
-          this.setState((state) => ({ autoplayEnabled: !state.autoplayEnabled }))
-        }}
-        onHoverChange={(isHovered) => this.setState({ isHovered })}
-        onFocusWithinChange={(hasFocus) => this.setState({ hasFocus })}
-      />
+      <>
+        <TopNavBarView
+          menuOpen={this.state.navMenuOpen}
+          hidden={false}
+          theme={this.state.previewTheme}
+          hydrated={true}
+          onMenuToggle={() => {
+            this.setState((state) => ({ navMenuOpen: !state.navMenuOpen }))
+          }}
+          onMenuClose={() => this.setState({ navMenuOpen: false })}
+          onThemeToggle={() => {
+            this.setState((state) => ({
+              previewTheme: state.previewTheme === 'dark' ? 'light' : 'dark',
+            }))
+          }}
+          onNavigate={(event) => event.preventDefault()}
+        />
+
+        <HeroCarouselView
+          slides={slides}
+          activeIndex={activeIndex}
+          autoplayEnabled={this.state.autoplayEnabled}
+          isRotating={isRotating}
+          onChangeSlide={(direction) => {
+            this.setState((state) => ({
+              activeIndex: shiftCarouselIndex(state.activeIndex, direction, slideCount),
+            }))
+          }}
+          onSelectSlide={(nextIndex) => this.setState({ activeIndex: nextIndex })}
+          onAutoplayToggle={() => {
+            this.setState((state) => ({ autoplayEnabled: !state.autoplayEnabled }))
+          }}
+          onHoverChange={(isHovered) => this.setState({ isHovered })}
+          onFocusWithinChange={(hasFocus) => this.setState({ hasFocus })}
+        />
+      </>
     )
   },
 })
