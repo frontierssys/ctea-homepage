@@ -1,16 +1,33 @@
 import { Moon, Sun } from 'lucide-react'
 import type { ComponentProps, MouseEventHandler } from 'react'
 import { cn } from '#/lib/utils'
+import { Link, type FileRouteTypes } from '@tanstack/react-router'
 
-const navItems = [
-  ['活動看板', '#news'],
-  ['關於協會', '#footer'],
-  ['馬術介紹', '#video'],
-  ['制度專區', '#news'],
-  ['行事曆', '#news'],
-  ['會員專區', '#footer'],
-  ['下載專區', '#footer'],
-] as const
+const navLinks = [{
+  label: '活動看板',
+  to: '/events',
+}, {
+  label: '關於協會',
+  to: '/about',
+}, {
+  label: '馬術介紹',
+  to: '/video',
+}, {
+  label: '制度專區',
+  to: '/regulation',
+}, {
+  label: '行事曆',
+  to: '/calendar',
+}, {
+  label: '會員專區',
+  to: '/member',
+}, {
+  label: '下載專區',
+  to: '/download',
+}] as const satisfies Array<{
+  label: string
+  to: FileRouteTypes['to']
+}>
 
 export type TopNavBarViewProps = Omit<ComponentProps<'header'>, 'hidden'> & {
   menuOpen: boolean
@@ -46,8 +63,8 @@ export function TopNavBarView({
       )}
     >
       <div className="mx-auto flex h-[var(--layout-header-content-height)] w-full items-center px-[44px] max-xl:px-7 max-sm:px-4">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex min-h-14 shrink-0 items-center gap-4"
           aria-label="中華民國馬術協會首頁"
           onClick={onNavigate}
@@ -61,21 +78,21 @@ export function TopNavBarView({
               Chinese Taipei Equestrian Association
             </span>
           </span>
-        </a>
+        </Link>
 
         <nav
           className="ml-12 flex flex-1 items-center justify-between max-[1500px]:ml-8 max-lg:hidden"
           aria-label="主要導覽"
         >
-          {navItems.map(([item, href]) => (
-            <a
+          {navLinks.map(({ label, to }) => (
+            <Link
               className="relative flex min-h-12 flex-1 items-center justify-center px-4 font-body text-nav whitespace-nowrap transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#a77d35] before:transition-transform before:duration-200 hover:text-[#a77d35] hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] after:absolute after:top-1/2 after:right-0 after:h-6 after:w-px after:-translate-y-1/2 after:bg-[rgba(182,140,67,.38)] last:after:hidden dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] dark:after:bg-[#3a4752] max-[1500px]:px-3"
-              href={href}
-              key={item}
+              to={to}
+              key={to}
               onClick={onNavigate}
             >
-              {item}
-            </a>
+              {label}
+            </Link>
           ))}
         </nav>
 
@@ -95,7 +112,7 @@ export function TopNavBarView({
           />
           <button
             type="button"
-            className="group grid size-12 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
+            className="group grid size-9 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
             aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
@@ -117,19 +134,19 @@ export function TopNavBarView({
         aria-label="行動版導覽"
         aria-hidden={!menuOpen}
       >
-        {navItems.map(([item, href]) => (
-          <a
-            href={href}
+        {navLinks.map(({ label, to }) => (
+          <Link
+            to={to}
             className="flex min-h-12 items-center border-b border-[rgba(182,140,67,.38)] font-body text-nav last:border-0 dark:border-[#3a4752]"
-            key={item}
+            key={to}
             tabIndex={menuOpen ? undefined : -1}
             onClick={(event) => {
               onNavigate?.(event)
               onMenuClose()
             }}
           >
-            {item}
-          </a>
+            {label}
+          </Link>
         ))}
       </nav>
     </header>
@@ -146,7 +163,7 @@ function ThemeToggle({
   return (
     <button
       type="button"
-      className="grid size-12 shrink-0 cursor-pointer place-items-center border border-[rgba(185,145,75,.45)] text-[#7e5f2e] transition-[background,color,border-color] duration-200 hover:border-[#b68c43] hover:bg-[rgba(185,145,75,.07)] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:text-[#a99267] dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
+      className="grid size-9 shrink-0 cursor-pointer place-items-center border border-[rgba(185,145,75,.45)] text-[#7e5f2e] transition-[background,color,border-color] duration-200 hover:border-[#b68c43] hover:bg-[rgba(185,145,75,.07)] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:text-[#a99267] dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
       aria-label={label}
       aria-pressed={theme === 'dark'}
       title={label}

@@ -7,10 +7,22 @@ const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig({
   publicDir: false,
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    // CMS preview shares Sveltia's React via h()/rf(); TanStack Link needs a
+    // Router provider the IIFE does not have. Swap the package entry for a
+    // plain <a> shim (type-only imports like FileRouteTypes are erased).
+    alias: {
+      '@tanstack/react-router': resolve(
+        rootDir,
+        'src/components/ui/shims/link.tsx',
+      ),
+    },
+  },
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
+
   // Compile JSX → Sveltia's global h()/rf() so we share one React with the CMS runtime.
   esbuild: {
     jsx: 'transform',
