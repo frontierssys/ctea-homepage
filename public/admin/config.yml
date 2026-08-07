@@ -4,15 +4,28 @@ backend:
   name: github
   repo: bensontuan-frt/ctea-homepage
 
-media_folder: /public/media
-public_folder: /media
+# Local repo media (e.g. logo). CMS image fields below prefer R2.
+# media_folder: /public/media
+# public_folder: /media
+
+# Cloudflare R2 — fill access_key_id, account_id, public_url after bucket setup.
+# Secret Access Key is entered in the CMS UI (never store it here).
+# Docs: https://sveltiacms.app/en/docs/media/cloudflare-r2
+media_libraries:
+  cloudflare_r2: &r2
+    access_key_id: 55c59e32643f220ede0d3494ea1a9c35
+    bucket: ctea
+    account_id: bb7bdac21855a417e8ed043d3efc6d01
+    # Dev: https://pub-xxxx.r2.dev | Prod: https://media.your-domain.com
+    public_url: https://pub-2bb6dae8f23943f19fe4d549fdfd5f2d.r2.dev
+    prefix: homepage/
 
 collections:
   - name: pages
     label: 頁面
     files:
       - name: homepage
-        label: 首頁
+        label: 首頁輪播
         file: content/homepage.json
         format: json
         fields:
@@ -34,7 +47,13 @@ collections:
                   - { label: 說明文字, name: description, widget: text }
                   - { label: CTA 文字, name: ctaLabel, widget: string }
                   - { label: CTA 連結, name: ctaHref, widget: string }
-                  - { label: 背景圖片, name: image, widget: image }
+                  - label: 背景圖片
+                    name: image
+                    widget: image
+                    media_libraries:
+                      cloudflare_r2:
+                        <<: *r2
+                        prefix: homepage/landingpage/
                   - { label: 圖片替代文字, name: imageAlt, widget: string }
                   - label: 圖片焦點
                     name: imagePosition

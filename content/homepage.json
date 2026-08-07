@@ -8,9 +8,9 @@
         "description": "串連賽事、教育與國際交流，讓每一份專注都成為臺灣馬術向前的力量。",
         "ctaLabel": "探索協會動態",
         "ctaHref": "#news",
-        "image": "/media/ctea-sketch-ivory-rider.webp",
+        "image": "https://pub-2bb6dae8f23943f19fe4d549fdfd5f2d.r2.dev/homepage/landingpage/ctea-sketch-ivory-rider.webp",
         "imageAlt": "馬場馬術騎手與黑馬在場上訓練",
-        "imagePosition": "center center"
+        "imagePosition": "left center"
       },
       {
         "eyebrow": "Competition · 2026",
@@ -19,7 +19,7 @@
         "description": "從全國賽事到國際舞台，掌握最新競賽規程、報名資訊與代表隊動態。",
         "ctaLabel": "查看賽事公告",
         "ctaHref": "#news",
-        "image": "/ctea-4.webp",
+        "image": "https://pub-2bb6dae8f23943f19fe4d549fdfd5f2d.r2.dev/homepage/landingpage/ctea-field-signal-hero.webp",
         "imageAlt": "馬場馬術騎手與馬匹在競賽場中",
         "imagePosition": "center center"
       },
@@ -30,7 +30,7 @@
         "description": "以人才培育、制度接軌與國際合作，建立安全、專業且永續的馬術環境。",
         "ctaLabel": "觀看精選影音",
         "ctaHref": "#video",
-        "image": "/media/ctea-sketch-ivory-bg.webp",
+        "image": "https://pub-2bb6dae8f23943f19fe4d549fdfd5f2d.r2.dev/homepage/landingpage/ctea-luxury-retreat.png",
         "imageAlt": "深藍色臺灣歷史建築線稿背景",
         "imagePosition": "center bottom"
       }
