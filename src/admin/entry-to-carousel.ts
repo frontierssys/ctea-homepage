@@ -1,5 +1,5 @@
-import type { HomepageCarouselSlide } from '#/lib/content/homepage'
-import { DEFAULT_CAROUSEL_SLIDES } from '#/lib/content/homepage'
+import type { CarouselSlide } from '#/lib/content/carousel'
+import { DEFAULT_CAROUSEL_SLIDES } from '#/lib/content/carousel'
 
 type CmsEntry = {
   getIn: (path: string[]) => unknown
@@ -32,7 +32,7 @@ function pickString(value: unknown, fallback: string) {
   return isNonEmptyString(value) ? value : fallback
 }
 
-function readField(slide: CmsFieldMap, key: keyof HomepageCarouselSlide) {
+function readField(slide: CmsFieldMap, key: keyof CarouselSlide) {
   if (!slide || typeof slide !== 'object') return undefined
   if ('get' in slide && typeof slide.get === 'function') return slide.get(key)
   return (slide as Record<string, unknown>)[key]
@@ -65,7 +65,7 @@ function toArray(value: unknown): unknown[] {
 export function entryToCarouselSlides(
   entry: CmsEntry,
   options: EntryToCarouselOptions = {},
-): HomepageCarouselSlide[] {
+): CarouselSlide[] {
   const slides = toArray(entry.getIn(['data', 'carousel', 'slides']))
   if (slides.length === 0) return DEFAULT_CAROUSEL_SLIDES
 

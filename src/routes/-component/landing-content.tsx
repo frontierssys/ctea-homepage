@@ -120,7 +120,13 @@ function EditorialLink({ children, href = '#' }: { children: React.ReactNode; hr
   )
 }
 
-function LatestNews() {
+export function LatestNews({
+  featuredImage,
+  featuredImageAlt,
+}: {
+  featuredImage: string
+  featuredImageAlt: string
+}) {
   const [featured, ...secondary] = newsItems
 
   return (
@@ -148,8 +154,8 @@ function LatestNews() {
           >
             <div className="relative mt-10 min-h-[330px] overflow-hidden [clip-path:ellipse(90%_88%_at_42%_46%)] max-md:mt-8 max-md:aspect-[4/3] max-md:min-h-0">
               <img
-                src="/ctea-4.webp"
-                alt="馬術賽事騎手與黑馬"
+                src={featuredImage}
+                alt={featuredImageAlt}
                 className="h-full w-full object-cover object-[38%_center] transition-transform duration-700 ease-out group-hover:scale-[1.018]"
                 loading="lazy"
               />
@@ -214,14 +220,14 @@ function LatestNews() {
   )
 }
 
-function SocialFeed() {
+export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
   return (
     <section
       id="social"
       className="relative overflow-hidden bg-[#f8f2e8] px-5 py-24 transition-colors duration-200 dark:bg-[#0B1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
       <img
-        src="/media/ctea-sketch-ivory-bg.webp"
+        src={backgroundImage}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
@@ -297,7 +303,7 @@ function SocialFeed() {
   )
 }
 
-function LatestVideo() {
+export function LatestVideo() {
   return (
     <section
       id="video"
@@ -382,7 +388,7 @@ function PartnerMark({ code, zh, en }: { code: string; zh: string; en: string })
   )
 }
 
-function SiteFooter() {
+export function SiteFooter() {
   return (
     <footer className="bg-[#fbf6ed] text-[#151310] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade]">
       <section className="border-b border-[rgba(182,140,67,.38)] px-5 py-20 dark:border-[#3a4752] md:px-10 lg:px-16">
@@ -499,16 +505,5 @@ function SiteFooter() {
         </div>
       </section>
     </footer>
-  )
-}
-
-export function LandingContent() {
-  return (
-    <>
-      <LatestNews />
-      <SocialFeed />
-      <LatestVideo />
-      <SiteFooter />
-    </>
   )
 }

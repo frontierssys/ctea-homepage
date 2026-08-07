@@ -1,11 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HeroCarousel } from '#/components/hero-carousel/hero-carousel'
 import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
-import { DEFAULT_CAROUSEL_SLIDES, getHomepage } from '#/lib/content/homepage'
-import { LandingContent } from './-component/landing-content'
+import { DEFAULT_CAROUSEL_SLIDES, getCarousel } from '#/lib/content/carousel'
+import { getNews } from '#/lib/content/news'
+import { getSocial } from '#/lib/content/social'
+import {
+  LatestNews,
+  LatestVideo,
+  SiteFooter,
+  SocialFeed,
+} from './-component/landing-content'
 
 export const Route = createFileRoute('/')({
-  loader: () => getHomepage(),
+  loader: () => ({
+    carousel: getCarousel(),
+    news: getNews(),
+    social: getSocial(),
+  }),
   head: ({ loaderData }) => {
     const firstSlide = loaderData?.carousel.slides[0] ?? DEFAULT_CAROUSEL_SLIDES[0]
 
@@ -24,13 +35,19 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
-  const { carousel } = Route.useLoaderData()
+  const { carousel, news, social } = Route.useLoaderData()
 
   return (
     <>
       <TopNavBar />
       <HeroCarousel slides={carousel.slides} />
-      <LandingContent />
+      <LatestNews
+        featuredImage={news.featuredImage}
+        featuredImageAlt={news.featuredImageAlt}
+      />
+      <SocialFeed backgroundImage={social.backgroundImage} />
+      <LatestVideo />
+      <SiteFooter />
     </>
   )
 }

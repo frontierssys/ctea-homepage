@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react'
-import type { HomepageCarouselSlide } from '#/lib/content/homepage'
+import type { CarouselSlide } from '#/lib/content/carousel'
 import './style.css'
 
 export const AUTOPLAY_DELAY_MS = 7000
@@ -14,7 +14,7 @@ export function shiftCarouselIndex(
 }
 
 export type HeroCarouselViewProps = {
-  slides: HomepageCarouselSlide[]
+  slides: CarouselSlide[]
   activeIndex: number
   autoplayEnabled: boolean
   isRotating: boolean

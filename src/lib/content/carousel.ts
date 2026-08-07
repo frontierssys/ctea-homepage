@@ -1,6 +1,6 @@
 import homepageJson from '../../../content/homepage.json'
 
-export type HomepageCarouselSlide = {
+export type CarouselSlide = {
   eyebrow: string
   titleLine1: string
   titleLine2: string
@@ -12,13 +12,11 @@ export type HomepageCarouselSlide = {
   imagePosition: string
 }
 
-export type HomepageContent = {
-  carousel: {
-    slides: HomepageCarouselSlide[]
-  }
+export type CarouselContent = {
+  slides: CarouselSlide[]
 }
 
-export const DEFAULT_CAROUSEL_SLIDES: HomepageCarouselSlide[] = [
+export const DEFAULT_CAROUSEL_SLIDES: CarouselSlide[] = [
   {
     eyebrow: 'Chinese Taipei Equestrian Association',
     titleLine1: '傳承經典',
@@ -54,8 +52,8 @@ export const DEFAULT_CAROUSEL_SLIDES: HomepageCarouselSlide[] = [
   },
 ]
 
-const FALLBACK_HOMEPAGE: HomepageContent = {
-  carousel: { slides: DEFAULT_CAROUSEL_SLIDES },
+const FALLBACK_CAROUSEL: CarouselContent = {
+  slides: DEFAULT_CAROUSEL_SLIDES,
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -66,7 +64,7 @@ function pickString(value: unknown, fallback: string) {
   return isNonEmptyString(value) ? value : fallback
 }
 
-function readSlide(value: unknown, fallback: HomepageCarouselSlide): HomepageCarouselSlide {
+function readSlide(value: unknown, fallback: CarouselSlide): CarouselSlide {
   const slide = value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 
   return {
@@ -82,20 +80,18 @@ function readSlide(value: unknown, fallback: HomepageCarouselSlide): HomepageCar
   }
 }
 
-export function getHomepage(): HomepageContent {
+export function getCarousel(): CarouselContent {
   try {
     const slides = (homepageJson as { carousel?: { slides?: unknown } }).carousel?.slides
 
-    if (!Array.isArray(slides) || slides.length === 0) return FALLBACK_HOMEPAGE
+    if (!Array.isArray(slides) || slides.length === 0) return FALLBACK_CAROUSEL
 
     return {
-      carousel: {
-        slides: slides.map((slide, index) =>
-          readSlide(slide, DEFAULT_CAROUSEL_SLIDES[index % DEFAULT_CAROUSEL_SLIDES.length]),
-        ),
-      },
+      slides: slides.map((slide, index) =>
+        readSlide(slide, DEFAULT_CAROUSEL_SLIDES[index % DEFAULT_CAROUSEL_SLIDES.length]),
+      ),
     }
   } catch {
-    return FALLBACK_HOMEPAGE
+    return FALLBACK_CAROUSEL
   }
 }

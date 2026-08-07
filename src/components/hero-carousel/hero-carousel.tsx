@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { HomepageCarouselSlide } from '#/lib/content/homepage'
+import type { CarouselSlide } from '#/lib/content/carousel'
 import {
   AUTOPLAY_DELAY_MS,
   HeroCarouselView,
@@ -7,7 +7,7 @@ import {
 } from './hero-carousel-view'
 
 export type HeroCarouselProps = {
-  slides: HomepageCarouselSlide[]
+  slides: CarouselSlide[]
 }
 
 export function HeroCarousel({ slides }: HeroCarouselProps) {

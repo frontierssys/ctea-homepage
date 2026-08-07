@@ -64,6 +64,31 @@ collections:
                       - { label: 靠左, value: left center }
                       - { label: 靠右, value: right center }
                       - { label: 底部置中, value: center bottom }
+      - name: news
+        label: 最新消息
+        file: content/news.json
+        format: json
+        fields:
+          - label: 焦點消息圖片
+            name: featuredImage
+            widget: image
+            media_libraries:
+              cloudflare_r2:
+                <<: *r2
+                prefix: homepage/landingpage/
+          - { label: 焦點消息圖片替代文字, name: featuredImageAlt, widget: string }
+      - name: social
+        label: 馬術現場
+        file: content/social.json
+        format: json
+        fields:
+          - label: 區塊背景圖片
+            name: backgroundImage
+            widget: image
+            media_libraries:
+              cloudflare_r2:
+                <<: *r2
+                prefix: homepage/landingpage/
 
 
   - name: posts
