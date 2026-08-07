@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600&display=swap');
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
@@ -32,7 +32,89 @@
 }
 
 @theme inline {
-  --font-sans: 'Noto Serif TC', 'Songti TC', ui-serif, Georgia, serif;
+  /*
+   * Typography role map
+   * - brand: the association name only; preserves a restrained heritage cue.
+   * - display: Chinese hero/section headlines; bold sans-serif for modern sport energy.
+   * - body: navigation, controls and reading text; optimized for clarity and density.
+   * - sport: Latin labels, dates and numbers; condensed forms add a competition feel.
+   *
+   * Components should combine one font role with one text role, for example:
+   * `font-display text-hero` or `font-body text-body`. Keep one-off font stacks,
+   * sizes, line heights and tracking values out of component class names.
+   */
+  --font-brand: 'Noto Serif TC', 'Songti TC', ui-serif, Georgia, serif;
+  --font-display: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
+  --font-body: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
+  --font-sport: 'Barlow Condensed', 'Noto Sans TC', ui-sans-serif, sans-serif;
+  --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
+  --tracking-brand: 0.08em;
+
+  --text-brand: clamp(1rem, 2vw, 1.8125rem);
+  --text-brand--line-height: 1.25;
+  --text-brand--letter-spacing: 0.08em;
+  --text-brand--font-weight: 600;
+
+  --text-hero: clamp(2.5rem, 6vw, 6rem);
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: 0.02em;
+  --text-hero--font-weight: 700;
+
+  --text-section: clamp(2.125rem, 4vw, 3.75rem);
+  --text-section--line-height: 1.15;
+  --text-section--letter-spacing: 0.035em;
+  --text-section--font-weight: 700;
+
+  --text-feature-title: clamp(1.5rem, 2.25vw, 2.25rem);
+  --text-feature-title--line-height: 1.45;
+  --text-feature-title--letter-spacing: 0.02em;
+  --text-feature-title--font-weight: 600;
+
+  --text-card-title: 1.25rem;
+  --text-card-title--line-height: 1.55;
+  --text-card-title--letter-spacing: 0.02em;
+  --text-card-title--font-weight: 600;
+
+  --text-lead: clamp(1rem, 1.25vw, 1.1875rem);
+  --text-lead--line-height: 1.75;
+  --text-lead--letter-spacing: 0.02em;
+  --text-lead--font-weight: 400;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.75;
+  --text-body--letter-spacing: 0.01em;
+  --text-body--font-weight: 400;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.7;
+  --text-body-sm--letter-spacing: 0.01em;
+  --text-body-sm--font-weight: 400;
+
+  --text-nav: clamp(0.9375rem, 1.15vw, 1.25rem);
+  --text-nav--line-height: 1.5;
+  --text-nav--letter-spacing: 0.04em;
+  --text-nav--font-weight: 600;
+
+  --text-action: 0.875rem;
+  --text-action--line-height: 1.5;
+  --text-action--letter-spacing: 0.07em;
+  --text-action--font-weight: 600;
+
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+  --text-meta--letter-spacing: 0.055em;
+  --text-meta--font-weight: 500;
+
+  --text-kicker: 0.75rem;
+  --text-kicker--line-height: 1.5;
+  --text-kicker--letter-spacing: 0.16em;
+  --text-kicker--font-weight: 600;
+
+  --text-overline: 0.6875rem;
+  --text-overline--line-height: 1.5;
+  --text-overline--letter-spacing: 0.12em;
+  --text-overline--font-weight: 600;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --radius-sm: calc(var(--radius) - 4px);
@@ -50,7 +132,7 @@ body,
 body {
   margin: 0;
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   background-color: var(--background);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;

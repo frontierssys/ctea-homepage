@@ -54,10 +54,10 @@ export function TopNavBarView({
         >
           <img src="/media/ctea-logo.png" alt="CTEA" className="h-10 w-auto" />
           <span className="min-w-0">
-            <strong className="block whitespace-nowrap font-['Noto_Serif_TC','Songti_TC',serif] text-[29px] font-semibold tracking-[0.16em] text-[#151310] dark:text-[#f1eade] max-2xl:text-2xl max-xl:text-xl max-sm:text-base">
+            <strong className="block whitespace-nowrap font-brand text-brand text-[#151310] dark:text-[#f1eade]">
               中華民國馬術協會
             </strong>
-            <span className="mt-1.5 block whitespace-nowrap font-[Georgia,serif] text-[12px] tracking-[0.08em] text-[#7e5f2e] dark:text-[#a99267] uppercase max-xl:text-[10px] max-sm:hidden">
+            <span className="mt-1.5 block whitespace-nowrap font-sport text-meta text-[#7e5f2e] uppercase dark:text-[#a99267] max-sm:hidden">
               Chinese Taipei Equestrian Association
             </span>
           </span>
@@ -69,7 +69,7 @@ export function TopNavBarView({
         >
           {navItems.map(([item, href]) => (
             <a
-              className="relative flex min-h-12 flex-1 items-center justify-center px-4 font-['Noto_Serif_TC','Songti_TC',serif] text-xl font-semibold tracking-[0.08em] whitespace-nowrap transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#a77d35] before:transition-transform before:duration-200 hover:text-[#a77d35] hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] after:absolute after:top-1/2 after:right-0 after:h-6 after:w-px after:-translate-y-1/2 after:bg-[rgba(182,140,67,.38)] last:after:hidden dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] dark:after:bg-[#3a4752] max-[1500px]:px-3 max-[1300px]:text-base"
+              className="relative flex min-h-12 flex-1 items-center justify-center px-4 font-body text-nav whitespace-nowrap transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#a77d35] before:transition-transform before:duration-200 hover:text-[#a77d35] hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] after:absolute after:top-1/2 after:right-0 after:h-6 after:w-px after:-translate-y-1/2 after:bg-[rgba(182,140,67,.38)] last:after:hidden dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] dark:after:bg-[#3a4752] max-[1500px]:px-3"
               href={href}
               key={item}
               onClick={onNavigate}
@@ -120,7 +120,7 @@ export function TopNavBarView({
         {navItems.map(([item, href]) => (
           <a
             href={href}
-            className="flex min-h-12 items-center border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] font-['Noto_Serif_TC','Songti_TC',serif] tracking-[0.1em] last:border-0"
+            className="flex min-h-12 items-center border-b border-[rgba(182,140,67,.38)] font-body text-nav last:border-0 dark:border-[#3a4752]"
             key={item}
             tabIndex={menuOpen ? undefined : -1}
             onClick={(event) => {

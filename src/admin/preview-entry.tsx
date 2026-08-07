@@ -82,21 +82,21 @@ function schedulePreviewAutoplay(instance: HomepagePreviewInstance) {
 // dragging into the preview iframe moves the pointer to a different document, so Sveltia misses
 // pointermove/pointerup and can leave the divider stuck in its dragging state.
 /** ref: https://github.com/sveltia/sveltia-cms/issues/875 */
-document.addEventListener(
-  'pointerdown',
-  (event) => {
-    const target = event.target
+// document.addEventListener(
+//   'pointerdown',
+//   (event) => {
+//     const target = event.target
 
-    if (!(target instanceof Element)) return
+//     if (!(target instanceof Element)) return
 
-    const handle = target.closest<HTMLElement>('.sui.resizable-handle')
+//     const handle = target.closest<HTMLElement>('.sui.resizable-handle')
 
-    if (!handle || handle.getAttribute('aria-disabled') === 'true') return
+//     if (!handle || handle.getAttribute('aria-disabled') === 'true') return
 
-    handle.setPointerCapture(event.pointerId)
-  },
-  { capture: true },
-)
+//     handle.setPointerCapture(event.pointerId)
+//   },
+//   { capture: true },
+// )
 
 CMS.registerPreviewStyle('/admin/preview-bundle.css')
 

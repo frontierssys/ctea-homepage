@@ -92,13 +92,13 @@ function SectionHeading({
 }) {
   return (
     <header className={align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'}>
-      <p className="font-[Georgia,serif] text-[11px] tracking-[0.26em] text-[#a77d35] dark:text-[#c6a465] uppercase">
+      <p className="font-sport text-kicker text-[#a77d35] uppercase dark:text-[#c6a465]">
         {eyebrow}
       </p>
-      <h2 className="mt-5 font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(34px,4vw,58px)] leading-[1.18] font-medium tracking-[0.1em] text-[#151310] dark:text-[#f1eade] max-sm:tracking-[0.06em]">
+      <h2 className="mt-5 font-display text-section text-[#151310] dark:text-[#f1eade]">
         {title}
       </h2>
-      <p className="mt-3 font-[Georgia,serif] text-sm tracking-[0.14em] text-[#7e5f2e] dark:text-[#a99267] uppercase">
+      <p className="mt-3 font-sport text-meta text-[#7e5f2e] uppercase dark:text-[#a99267]">
         {english}
       </p>
     </header>
@@ -109,7 +109,7 @@ function EditorialLink({ children, href = '#' }: { children: React.ReactNode; hr
   return (
     <a
       href={href}
-      className="group inline-flex min-h-11 items-center gap-5 border-b border-[rgba(182,140,67,.65)] font-['Noto_Serif_TC','Songti_TC',serif] text-sm tracking-[0.12em] transition-colors duration-200 hover:border-[#a77d35] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:border-[#52606b] dark:hover:border-[#c6a465] dark:hover:text-[#ddc28d] dark:focus-visible:outline-[#c6a465]"
+      className="group inline-flex min-h-11 items-center gap-5 border-b border-[rgba(182,140,67,.65)] font-body text-action transition-colors duration-200 hover:border-[#a77d35] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:border-[#52606b] dark:hover:border-[#c6a465] dark:hover:text-[#ddc28d] dark:focus-visible:outline-[#c6a465]"
     >
       {children}
       <ArrowUpRight
@@ -160,18 +160,18 @@ function LatestNews() {
             </div>
             <div className="grid grid-cols-[140px_1fr] gap-8 pt-8 max-sm:grid-cols-1 max-sm:gap-3">
               <div>
-                <time className="font-[Georgia,serif] text-sm tracking-[0.08em] text-[#7e5f2e] dark:text-[#a99267]">
+                <time className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]">
                   {featured.date}
                 </time>
-                <p className="mt-2 text-xs tracking-[0.14em] text-[#a77d35] dark:text-[#c6a465]">
+                <p className="mt-2 font-body text-meta text-[#a77d35] dark:text-[#c6a465]">
                   {featured.category}
                 </p>
               </div>
               <div>
-                <h3 className="font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(24px,2.25vw,36px)] leading-[1.55] font-medium tracking-[0.06em] transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
+                <h3 className="font-display text-feature-title transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
                   {featured.title}
                 </h3>
-                <p className="mt-4 max-w-2xl font-['Noto_Serif_TC','Songti_TC',serif] text-base leading-8 tracking-[0.04em] text-[#62615e] dark:text-[#b3aa99]">
+                <p className="mt-4 max-w-2xl font-body text-body text-[#62615e] dark:text-[#b3aa99]">
                   {featured.excerpt}
                 </p>
               </div>
@@ -186,18 +186,18 @@ function LatestNews() {
                 key={item.title}
               >
                 <div className="max-sm:col-span-2">
-                  <time className="font-[Georgia,serif] text-sm tracking-[0.08em] text-[#7e5f2e] dark:text-[#a99267]">
+                  <time className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]">
                     {item.date}
                   </time>
-                  <p className="mt-2 text-[11px] tracking-[0.14em] text-[#a77d35] dark:text-[#c6a465]">
+                  <p className="mt-2 font-body text-meta text-[#a77d35] dark:text-[#c6a465]">
                     {item.category}
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-['Noto_Serif_TC','Songti_TC',serif] text-xl leading-[1.7] font-medium tracking-[0.06em] transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
+                  <h3 className="font-display text-card-title transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-7 tracking-[0.035em] text-[#62615e] dark:text-[#b3aa99]">
+                  <p className="mt-2 font-body text-body-sm text-[#62615e] dark:text-[#b3aa99]">
                     {item.excerpt}
                   </p>
                 </div>
@@ -230,7 +230,7 @@ function SocialFeed() {
       <div className="relative mx-auto grid max-w-[1500px] grid-cols-12 items-start gap-10 max-lg:gap-6 max-md:block">
         <div className="col-span-4">
           <SectionHeading eyebrow="From Our Community" title="馬術現場" english="Social Stories" />
-          <p className="mt-8 max-w-sm font-['Noto_Serif_TC','Songti_TC',serif] text-base leading-8 tracking-[0.05em] text-[#62615e] dark:text-[#b3aa99]">
+          <p className="mt-8 max-w-sm font-body text-body text-[#62615e] dark:text-[#b3aa99]">
             從賽場、訓練到國際交流，透過社群紀錄每一次專注、合作與成長。
           </p>
           <div className="mt-10 flex gap-3">
@@ -254,10 +254,10 @@ function SocialFeed() {
         <div className="col-span-8 grid grid-cols-2 gap-8 max-lg:gap-5 max-md:mt-14 max-sm:grid-cols-1">
           <article className="border border-[rgba(182,140,67,.38)] bg-[rgba(251,248,241,.85)] p-3 shadow-[0_20px_55px_rgba(78,58,27,.07)] transition-[background,border-color,box-shadow] duration-200 dark:border-[#3a4752] dark:bg-[#122231] dark:shadow-[0_20px_55px_rgba(2,8,14,.35)]">
             <div className="flex min-h-14 items-center justify-between border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] px-3">
-              <span className="flex items-center gap-3 font-['Noto_Serif_TC','Songti_TC',serif] tracking-[0.08em]">
+              <span className="flex items-center gap-3 font-sport text-action">
                 <FacebookIcon className="size-5 text-[#a77d35] dark:text-[#c6a465]" /> Facebook
               </span>
-              <span className="text-[10px] tracking-[0.16em] text-[#7e5f2e] dark:text-[#a99267] uppercase">
+              <span className="font-sport text-overline text-[#7e5f2e] uppercase dark:text-[#a99267]">
                 Official Feed
               </span>
             </div>
@@ -274,10 +274,10 @@ function SocialFeed() {
 
           <article className="border border-[rgba(182,140,67,.38)] bg-[rgba(251,248,241,.85)] p-3 shadow-[0_20px_55px_rgba(78,58,27,.07)] transition-[background,border-color,box-shadow] duration-200 dark:border-[#3a4752] dark:bg-[#122231] dark:shadow-[0_20px_55px_rgba(2,8,14,.35)]">
             <div className="flex min-h-14 items-center justify-between border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] px-3">
-              <span className="flex items-center gap-3 font-['Noto_Serif_TC','Songti_TC',serif] tracking-[0.08em]">
+              <span className="flex items-center gap-3 font-sport text-action">
                 <InstagramIcon className="size-5 text-[#a77d35] dark:text-[#c6a465]" /> Instagram
               </span>
-              <span className="text-[10px] tracking-[0.16em] text-[#7e5f2e] dark:text-[#a99267] uppercase">
+              <span className="font-sport text-overline text-[#7e5f2e] uppercase dark:text-[#a99267]">
                 Latest Post
               </span>
             </div>
@@ -307,17 +307,17 @@ function LatestVideo() {
       <div className="relative mx-auto max-w-[1500px]">
         <div className="grid grid-cols-12 items-end gap-10 max-md:block">
           <header className="col-span-7">
-            <p className="font-[Georgia,serif] text-[11px] tracking-[0.26em] text-[#c5a15d] dark:text-[#c6a465] uppercase">
+            <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
               Latest Films
             </p>
-            <h2 className="mt-5 font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(34px,4vw,58px)] font-medium tracking-[0.1em] max-sm:tracking-[0.06em]">
+            <h2 className="mt-5 font-display text-section">
               最新影音
             </h2>
-            <p className="mt-3 font-[Georgia,serif] text-sm tracking-[0.14em] text-[#d8c49e] dark:text-[#a99267] uppercase">
+            <p className="mt-3 font-sport text-meta text-[#d8c49e] uppercase dark:text-[#a99267]">
               Equestrian Films & Highlights
             </p>
           </header>
-          <p className="col-span-5 max-w-lg justify-self-end font-['Noto_Serif_TC','Songti_TC',serif] text-base leading-8 tracking-[0.05em] text-[rgba(229,220,205,.78)] dark:text-[#b3aa99] max-md:mt-8">
+          <p className="col-span-5 max-w-lg justify-self-end font-body text-body text-[rgba(229,220,205,.78)] dark:text-[#b3aa99] max-md:mt-8">
             精選國際賽事、選手故事與馬術教育內容，從影像看見人馬之間的默契與競技精神。
           </p>
         </div>
@@ -337,19 +337,19 @@ function LatestVideo() {
           <aside className="flex flex-col justify-between border-l border-[rgba(197,161,93,.35)] pl-8 dark:border-[rgba(198,164,101,.45)] max-lg:border-l-0 max-lg:border-t max-lg:pt-8 max-lg:pl-0">
             <div>
               <YoutubeIcon className="size-8 text-[#c5a15d] dark:text-[#c6a465]" />
-              <p className="mt-8 font-[Georgia,serif] text-xs tracking-[0.18em] text-[#d8c49e] dark:text-[#a99267] uppercase">
+              <p className="mt-8 font-sport text-kicker text-[#d8c49e] uppercase dark:text-[#a99267]">
                 Featured Playlist
               </p>
-              <h3 className="mt-4 font-['Noto_Serif_TC','Songti_TC',serif] text-2xl leading-[1.6] tracking-[0.08em]">
+              <h3 className="mt-4 font-display text-card-title">
                 2026年FEI障礙超越世界挑戰賽(第1場)暨全國公開賽
               </h3>
-              <p className="mt-4 text-sm leading-7 tracking-[0.035em] text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
+              <p className="mt-4 font-body text-body-sm text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
                 透過官方影音頻道，持續掌握最新馬術動態。
               </p>
             </div>
             <a
               href="https://www.youtube.com/channel/UCiBcihOoWBIBvu6-UM2i9tw/playlists"
-              className="group mt-10 inline-flex min-h-11 items-center gap-4 self-start border-b border-[rgba(197,161,93,.7)] text-sm tracking-[0.12em] text-[#fbf6ed] transition-colors hover:text-[#c5a15d] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c5a15d] dark:border-[#c6a465] dark:text-[#f1eade] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465]"
+              className="group mt-10 inline-flex min-h-11 items-center gap-4 self-start border-b border-[rgba(197,161,93,.7)] font-body text-action text-[#fbf6ed] transition-colors hover:text-[#c5a15d] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c5a15d] dark:border-[#c6a465] dark:text-[#f1eade] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465]"
             >
               前往 YouTube 頻道
               <ArrowUpRight
@@ -367,14 +367,14 @@ function LatestVideo() {
 function PartnerMark({ code, zh, en }: { code: string; zh: string; en: string }) {
   return (
     <div className="group flex min-h-28 items-center gap-5 border-r border-[rgba(182,140,67,.38)] dark:border-[#3a4752] px-7 last:border-r-0 max-lg:border-b max-lg:border-r-0 max-sm:px-2">
-      <span className="grid size-14 shrink-0 place-items-center border border-[rgba(182,140,67,.65)] font-[Georgia,serif] text-xs tracking-[0.08em] text-[#a77d35] transition-colors duration-200 group-hover:bg-[#122b43] group-hover:text-[#fbf6ed] dark:border-[#52606b] dark:text-[#c6a465] dark:group-hover:bg-[#172a3c] dark:group-hover:text-[#f1eade]">
+      <span className="grid size-14 shrink-0 place-items-center border border-[rgba(182,140,67,.65)] font-sport text-meta text-[#a77d35] transition-colors duration-200 group-hover:bg-[#122b43] group-hover:text-[#fbf6ed] dark:border-[#52606b] dark:text-[#c6a465] dark:group-hover:bg-[#172a3c] dark:group-hover:text-[#f1eade]">
         {code}
       </span>
       <span>
-        <strong className="block font-['Noto_Serif_TC','Songti_TC',serif] text-sm font-medium tracking-[0.08em]">
+        <strong className="block font-body text-body-sm font-semibold">
           {zh}
         </strong>
-        <small className="mt-2 block font-[Georgia,serif] text-[9px] leading-4 tracking-[0.08em] text-[#7e5f2e] dark:text-[#a99267] uppercase">
+        <small className="mt-2 block font-sport text-overline text-[#7e5f2e] uppercase dark:text-[#a99267]">
           {en}
         </small>
       </span>
@@ -389,14 +389,14 @@ function SiteFooter() {
         <div className="mx-auto max-w-[1500px]">
           <header className="flex items-end justify-between gap-8 max-md:block">
             <div>
-              <p className="font-[Georgia,serif] text-[11px] tracking-[0.26em] text-[#a77d35] uppercase">
+              <p className="font-sport text-kicker text-[#a77d35] uppercase">
                 Sponsors & Partners
               </p>
-              <h2 className="mt-4 font-['Noto_Serif_TC','Songti_TC',serif] text-3xl tracking-[0.1em]">
+              <h2 className="mt-4 font-display text-feature-title">
                 贊助商與合作夥伴
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-7 tracking-[0.04em] text-[#62615e] dark:text-[#b3aa99] max-md:mt-5">
+            <p className="max-w-md font-body text-body-sm text-[#62615e] dark:text-[#b3aa99] max-md:mt-5">
               感謝各界夥伴共同支持臺灣馬術運動的長期發展。
             </p>
           </header>
@@ -422,22 +422,22 @@ function SiteFooter() {
         <div className="relative mx-auto max-w-[1500px]">
           <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
             <div className="col-span-5 max-lg:col-span-2">
-              <p className="font-['Noto_Serif_TC','Songti_TC',serif] text-2xl font-medium tracking-[0.15em]">
+              <p className="font-brand text-xl font-semibold tracking-brand">
                 中華民國馬術協會
               </p>
-              <p className="mt-3 font-[Georgia,serif] text-xs tracking-[0.1em] text-[#d8c49e] dark:text-[#a99267] uppercase">
+              <p className="mt-3 font-sport text-meta text-[#d8c49e] uppercase dark:text-[#a99267]">
                 Chinese Taipei Equestrian Association
               </p>
-              <p className="mt-8 max-w-md font-['Noto_Serif_TC','Songti_TC',serif] text-sm leading-8 tracking-[0.05em] text-[#e5dccd]/75">
+              <p className="mt-8 max-w-md font-body text-body-sm text-[#e5dccd]/75">
                 推動馬術競技、教育培訓與國際交流，建立安全、專業且永續的馬術運動環境。
               </p>
             </div>
 
             <address className="col-span-4 not-italic max-lg:col-span-1 max-md:mt-12">
-              <p className="text-xs tracking-[0.18em] text-[#c5a15d] dark:text-[#c6a465] uppercase">
+              <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
                 Contact
               </p>
-              <div className="mt-6 grid gap-5 text-sm leading-7 text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
+              <div className="mt-6 grid gap-5 font-body text-body-sm text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
                 <a
                   href="tel:+886227512142"
                   className="flex min-h-11 items-center gap-4 transition-colors hover:text-white"
@@ -463,7 +463,7 @@ function SiteFooter() {
             </address>
 
             <div className="col-span-3 max-lg:col-span-1 max-md:mt-12">
-              <p className="text-xs tracking-[0.18em] text-[#c5a15d] dark:text-[#c6a465] uppercase">
+              <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
                 Follow
               </p>
               <div className="mt-6 flex gap-3">
@@ -485,7 +485,7 @@ function SiteFooter() {
             </div>
           </div>
 
-          <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 text-[11px] tracking-[0.08em] text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.4)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
+          <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.4)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
             <p>© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.</p>
             <div className="flex gap-7 max-sm:mt-3">
               <a href="#privacy" className="hover:text-white dark:hover:text-[#f1eade]">

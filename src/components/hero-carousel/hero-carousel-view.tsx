@@ -115,24 +115,24 @@ export function HeroCarouselView({
               >
                 <div className="flex items-center gap-4 text-[#d0ae6d]">
                   <span className="h-px w-12 bg-current" aria-hidden="true" />
-                  <p className="font-[Georgia,serif] text-[11px] tracking-[0.24em] uppercase max-sm:text-[9px] max-sm:tracking-[0.16em]">
+                  <p className="font-sport text-kicker uppercase">
                     {slide.eyebrow}
                   </p>
                 </div>
 
-                <h1 className="mt-6 text-balance font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(46px,5.8vw,90px)] leading-[1.12] font-medium tracking-[0.055em] text-[#fffaf0] max-sm:mt-5 max-sm:text-[clamp(36px,11.2vw,52px)] max-sm:leading-[1.2] max-sm:tracking-[0.035em]">
+                <h1 className="mt-6 text-balance font-display text-hero text-[#fffaf0] max-sm:mt-5">
                   <span className="block">{slide.titleLine1}</span>
                   <span className="block text-[#d0ae6d]">{slide.titleLine2}</span>
                 </h1>
 
-                <p className="mt-5 max-w-160 text-pretty font-['Noto_Serif_TC','Songti_TC',serif] text-[clamp(15px,1.25vw,19px)] leading-8 tracking-[0.08em] text-[rgba(255,250,240,.82)] max-sm:text-sm max-sm:leading-7 max-sm:tracking-[0.045em]">
+                <p className="mt-5 max-w-160 text-pretty font-body text-lead text-[rgba(255,250,240,.82)]">
                   {slide.description}
                 </p>
 
                 <a
                   href={slide.ctaHref}
                   tabIndex={isActive ? 0 : -1}
-                  className="group mt-7 inline-flex min-h-13 items-center gap-7 border border-[#d0ae6d] bg-[rgba(9,23,37,.62)] px-7 font-['Noto_Serif_TC','Songti_TC',serif] text-sm tracking-[0.12em] text-[#fffaf0] backdrop-blur-sm transition-[background-color,color] duration-200 hover:bg-[#d0ae6d] hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:min-h-12 max-sm:px-5 max-sm:text-xs"
+                  className="group mt-7 inline-flex min-h-13 items-center gap-7 border border-[#d0ae6d] bg-[rgba(9,23,37,.62)] px-7 font-body text-action text-[#fffaf0] backdrop-blur-sm transition-[background-color,color] duration-200 hover:bg-[#d0ae6d] hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:min-h-12 max-sm:px-5"
                 >
                   {slide.ctaLabel}
                   <ArrowUpRight
@@ -170,7 +170,7 @@ export function HeroCarouselView({
                     onClick={() => onSelectSlide(index)}
                     key={`${slide.titleLine1}-indicator`}
                   >
-                    <span className="font-[Georgia,serif] text-[10px] text-[rgba(255,250,240,.65)] tabular-nums max-md:hidden">
+                    <span className="font-sport text-overline text-[rgba(255,250,240,.65)] tabular-nums max-md:hidden">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="relative h-px flex-1 overflow-hidden bg-[rgba(255,250,240,.28)]">
