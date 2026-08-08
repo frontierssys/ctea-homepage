@@ -1,6 +1,6 @@
 # CTEA Homepage
 
-TanStack Start site for 中華民國馬術協會, with Sveltia CMS editing content under `content/`.
+TanStack Start site for 中華民國馬術協會 homepage, with Sveltia CMS editing content under `content/`.
 
 ## Getting Started
 
@@ -24,13 +24,62 @@ npm run dev:admin-preview
 npm run build
 ```
 
-This builds the admin preview bundle, then the site (including content-collections + prerender).
+## Deployment
 
 ```bash
+npm run build
 npm run deploy
 ```
 
-## Static content pipeline (build-time, not runtime)
+### Worker secrets / vars (for `/api/revalidate`)
+
+Uncomment and fill `vars` in `wrangler.jsonc`, then set secrets (do not commit):
+
+```bash
+npx wrangler secret put REVALIDATE_SECRET
+npx wrangler secret put CF_API_TOKEN
+```
+
+| Name | Where | Purpose |
+| --- | --- | --- |
+| `SITE_URL` | `wrangler.jsonc` `vars` | Public origin |
+| `CF_ZONE_ID` | `wrangler.jsonc` `vars` | Zone to purge |
+| `REVALIDATE_SECRET` | secret | Shared token; must match webhook / CI body |
+| `CF_API_TOKEN` | secret | Cloudflare API token with Cache Purge |
+
+### GitHub webhook → `POST /api/revalidate` (on `content/` changes)
+
+CMS writes under `content/`. After those files land on the default branch, trigger CDN purge via the Worker endpoint:
+
+```http
+POST https://<your-worker-host>/api/revalidate
+Content-Type: application/json
+
+{ "path": "/events", "secret": "<REVALIDATE_SECRET>" }
+```
+
+`path` should be the page URL path to purge (e.g. `/`, `/events`, `/events/events-1`).
+
+**Recommended setup (path-filtered):** add a GitHub Action (or equivalent CI webhook job) that runs only when `content/**` changes, then `curl`s the endpoint above. Native GitHub → Settings → Webhooks fire on whole-repo pushes and send GitHub’s own payload, which this route does not accept—so prefer Actions with:
+
+```yaml
+on:
+  push:
+    paths:
+      - 'content/**'
+```
+
+Manual check:
+
+```bash
+curl -X POST "https://<your-worker-host>/api/revalidate" \
+  -H "Content-Type: application/json" \
+  -d '{"path":"/","secret":"<REVALIDATE_SECRET>"}'
+```
+
+Note: `/api/revalidate` only purges CDN cache for the given path. It does not rebuild content-collections / prerender output—new CMS copy still needs `npm run build` + deploy (or CI that does both) before purge is useful.
+
+## Ref: Static content pipeline (build-time, not runtime)
 
 Announcement bodies are **not** Markdown-parsed on each request. CMS writes source files; Vite / content-collections turn them into HTML **at build (and during `vite dev` startup / on file change)**. The deployed site reads that prebuilt data.
 
