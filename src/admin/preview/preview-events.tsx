@@ -1,21 +1,18 @@
-import { entryToEvents } from '#/admin/preview/entry-to-events'
+import { entryToEvent } from '#/admin/preview/entry-to-events'
 import {
   applyPreviewTheme,
   clearPreviewTheme,
   PreviewLayout,
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
-import { EventsIndexView } from '#/components/events/events-index-view'
-import type { EventCategoryId, EventFilterTag } from '#/lib/content/events'
+import { EventDetailView } from '#/components/events/event-detail-view'
 
 type EventsPreviewProps = PreviewWindowProps & {
-  entry: Parameters<typeof entryToEvents>[0]
+  entry: Parameters<typeof entryToEvent>[0]
   getAsset: (path: string) => { url?: string } | undefined
 }
 
 type EventsPreviewState = {
-  activeCategory: EventCategoryId
-  selectedTags: Array<EventFilterTag>
   navMenuOpen: boolean
   previewTheme: 'light' | 'dark'
 }
@@ -30,16 +27,14 @@ type EventsPreviewInstance = {
   ) => void
 }
 
-function getPreviewEvents(instance: EventsPreviewInstance) {
+function getPreviewEvent(instance: EventsPreviewInstance) {
   const { entry, getAsset } = instance.props
-  return entryToEvents(entry, { getAsset })
+  return entryToEvent(entry, { getAsset })
 }
 
 export const EventsPreview = createClass({
   getInitialState: function (): EventsPreviewState {
     return {
-      activeCategory: 'events',
-      selectedTags: [],
       navMenuOpen: false,
       previewTheme: 'light',
     }
@@ -62,23 +57,20 @@ export const EventsPreview = createClass({
   },
 
   render: function (this: EventsPreviewInstance) {
+    const event = getPreviewEvent(this)
+
     return (
       <PreviewLayout instance={this}>
-        <EventsIndexView
-          events={getPreviewEvents(this)}
-          activeCategory={this.state.activeCategory}
-          selectedTags={this.state.selectedTags}
-          onCategoryChange={(category) => {
-            this.setState({ activeCategory: category, selectedTags: [] })
-          }}
-          onToggleTag={(tag) => {
-            this.setState((state) => ({
-              selectedTags: state.selectedTags.includes(tag)
-                ? state.selectedTags.filter((selectedTag) => selectedTag !== tag)
-                : [...state.selectedTags, tag],
-            }))
-          }}
-        />
+        {event ? (
+          <EventDetailView
+            event={event}
+            onNavigate={(clickEvent) => clickEvent.preventDefault()}
+          />
+        ) : (
+          <p className="px-5 py-10 font-body text-body text-[#686762] dark:text-[#b3aa99] md:px-10 lg:px-16">
+            請先填寫標題與分類，即可預覽公告詳情。
+          </p>
+        )}
       </PreviewLayout>
     )
   },

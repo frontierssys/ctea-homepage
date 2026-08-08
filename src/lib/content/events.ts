@@ -1,5 +1,3 @@
-import eventsJson from '../../../content/events.json'
-
 export const EVENT_CATEGORIES = [
   { id: 'events', label: '活動賽事' },
   { id: 'administration', label: '行政會務' },
@@ -63,12 +61,12 @@ export type EventItem = {
   attachments: Array<EventAttachment>
 }
 
-type EventsFile = {
-  items?: Array<Partial<EventItem> & Record<string, unknown>>
-}
-
 const CATEGORY_IDS = new Set<string>(EVENT_CATEGORIES.map((c) => c.id))
 const TAG_IDS = new Set<string>(EVENT_FILTER_TAGS)
+
+const eventModules = import.meta.glob('../../../content/events/*.json', {
+  eager: true,
+}) as Record<string, { default?: unknown } | unknown>
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0
@@ -94,11 +92,25 @@ function normalizeAttachment(value: unknown): EventAttachment | null {
   }
 }
 
-function normalizeEvent(value: unknown): EventItem | null {
+function slugFromModulePath(modulePath: string) {
+  const match = modulePath.match(/([^/]+)\.json$/)
+  return match?.[1]?.trim() ?? ''
+}
+
+export function normalizeEvent(
+  value: unknown,
+  fallbackId?: string,
+): EventItem | null {
   if (!value || typeof value !== 'object') return null
   const item = value as Record<string, unknown>
 
-  if (!isNonEmptyString(item.id) || !isNonEmptyString(item.title)) return null
+  const id = isNonEmptyString(item.id)
+    ? item.id.trim()
+    : isNonEmptyString(fallbackId)
+      ? fallbackId.trim()
+      : ''
+
+  if (!id || !isNonEmptyString(item.title)) return null
   if (!isCategoryId(item.category)) return null
 
   const tags = Array.isArray(item.tags) ? item.tags.filter(isFilterTag) : []
@@ -109,11 +121,11 @@ function normalizeEvent(value: unknown): EventItem | null {
     : []
 
   return {
-    id: item.id.trim(),
+    id,
     title: item.title.trim(),
     category: item.category,
     tags,
-    date: isNonEmptyString(item.date) ? item.date.trim() : '',
+    date: isNonEmptyString(item.date) ? item.date.trim().slice(0, 10) : '',
     author: isNonEmptyString(item.author) ? item.author.trim() : '',
     ...(isNonEmptyString(item.excerpt) ? { excerpt: item.excerpt.trim() } : {}),
     content: isNonEmptyString(item.content) ? item.content : '',
@@ -124,7 +136,7 @@ function normalizeEvent(value: unknown): EventItem | null {
 export function parseEventItems(items: unknown): Array<EventItem> {
   if (!Array.isArray(items)) return []
   return items
-    .map(normalizeEvent)
+    .map((item) => normalizeEvent(item))
     .filter((item): item is EventItem => item !== null)
 }
 
@@ -132,10 +144,22 @@ export function getCategoryLabel(category: EventCategoryId) {
   return EVENT_CATEGORIES.find((item) => item.id === category)?.label ?? category
 }
 
+function compareEventsByDateDesc(a: EventItem, b: EventItem) {
+  return b.date.localeCompare(a.date) || a.id.localeCompare(b.id)
+}
+
 export function getEvents(): Array<EventItem> {
   try {
-    const data = eventsJson as EventsFile
-    return parseEventItems(data.items)
+    return Object.entries(eventModules)
+      .map(([modulePath, module]) => {
+        const data =
+          module && typeof module === 'object' && 'default' in module
+            ? module.default
+            : module
+        return normalizeEvent(data, slugFromModulePath(modulePath))
+      })
+      .filter((item): item is EventItem => item !== null)
+      .sort(compareEventsByDateDesc)
   } catch {
     return []
   }

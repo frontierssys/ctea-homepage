@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { EventsIndexView } from '#/components/events/events-index-view'
+import { getEventPage } from '#/lib/content/event-page'
 import {
   getEvents,
   type EventCategoryId,
@@ -9,27 +10,32 @@ import {
 
 export const Route = createFileRoute('/events/')({
   loader: () => ({
+    page: getEventPage(),
     events: getEvents(),
   }),
-  head: () => ({
-    meta: [
-      { title: '活動看板｜中華民國馬術協會 CTEA' },
-      {
-        name: 'description',
-        content: '中華民國馬術協會活動看板：賽事、會務、培訓與國際公告。',
-      },
-    ],
-  }),
+  head: () => {
+    const page = getEventPage()
+    return {
+      meta: [
+        { title: `${page.title}｜中華民國馬術協會 CTEA` },
+        {
+          name: 'description',
+          content: page.description,
+        },
+      ],
+    }
+  },
   component: EventsIndexPage,
 })
 
 function EventsIndexPage() {
-  const { events } = Route.useLoaderData()
+  const { page, events } = Route.useLoaderData()
   const [activeCategory, setActiveCategory] = useState<EventCategoryId>('events')
   const [selectedTags, setSelectedTags] = useState<Array<EventFilterTag>>([])
 
   return (
     <EventsIndexView
+      page={page}
       events={events}
       activeCategory={activeCategory}
       selectedTags={selectedTags}

@@ -1,6 +1,7 @@
-import { parseEventItems, type EventItem } from '#/lib/content/events'
+import { normalizeEvent, type EventItem } from '#/lib/content/events'
 
 type CmsEntry = {
+  get?: (key: string) => unknown
   getIn: (path: string[]) => unknown
 }
 
@@ -19,7 +20,7 @@ type CmsList = {
   toJS?: () => unknown
 }
 
-type EntryToEventsOptions = {
+type EntryToEventOptions = {
   getAsset?: (path: string) => CmsAsset | undefined
 }
 
@@ -42,17 +43,20 @@ function toArray(value: unknown): unknown[] {
   return []
 }
 
-function readField(item: CmsFieldMap, key: string) {
-  if (!item || typeof item !== 'object') return undefined
-  if ('get' in item && typeof item.get === 'function') return item.get(key)
-  return (item as Record<string, unknown>)[key]
+function readData(entry: CmsEntry, key: string) {
+  return entry.getIn(['data', key])
 }
 
 function toPlainObject(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== 'object') return null
 
   const maybeMap = value as CmsFieldMap
-  if (maybeMap && typeof maybeMap === 'object' && 'toJS' in maybeMap && typeof maybeMap.toJS === 'function') {
+  if (
+    maybeMap &&
+    typeof maybeMap === 'object' &&
+    'toJS' in maybeMap &&
+    typeof maybeMap.toJS === 'function'
+  ) {
     const plain = maybeMap.toJS()
     return plain && typeof plain === 'object' && !Array.isArray(plain)
       ? (plain as Record<string, unknown>)
@@ -65,7 +69,7 @@ function toPlainObject(value: unknown): Record<string, unknown> | null {
 
 function resolveAssetPath(
   value: unknown,
-  getAsset?: EntryToEventsOptions['getAsset'],
+  getAsset?: EntryToEventOptions['getAsset'],
 ) {
   if (!isNonEmptyString(value)) return '#'
   return getAsset?.(value)?.url ?? value
@@ -88,40 +92,60 @@ function normalizeContent(value: unknown) {
   return ''
 }
 
-export function entryToEvents(
+function readEntrySlug(entry: CmsEntry) {
+  if (typeof entry.get === 'function') {
+    const slug = entry.get('slug')
+    if (isNonEmptyString(slug)) return slug.trim()
+  }
+  const slug = entry.getIn(['slug'])
+  return isNonEmptyString(slug) ? slug.trim() : ''
+}
+
+/** Map a folder-collection CMS entry to a single EventItem. */
+export function entryToEvent(
   entry: CmsEntry,
-  options: EntryToEventsOptions = {},
-): Array<EventItem> {
-  const rawItems = toArray(entry.getIn(['data', 'items']))
-
-  const plainItems = rawItems.map((value) => {
-    const item = toPlainObject(value) ?? {}
-    const tags = toArray(readField(value as CmsFieldMap, 'tags') ?? item.tags)
-    const attachments = toArray(
-      readField(value as CmsFieldMap, 'attachments') ?? item.attachments,
-    ).map((attachmentValue) => {
-      const attachment = toPlainObject(attachmentValue) ?? {}
-      const urlValue = readField(attachmentValue as CmsFieldMap, 'url') ?? attachment.url
-
-      return {
-        name: readField(attachmentValue as CmsFieldMap, 'name') ?? attachment.name,
-        url: resolveAssetPath(urlValue, options.getAsset),
-        size: readField(attachmentValue as CmsFieldMap, 'size') ?? attachment.size,
-      }
-    })
+  options: EntryToEventOptions = {},
+): EventItem | null {
+  const attachments = toArray(readData(entry, 'attachments')).map((attachmentValue) => {
+    const attachment = toPlainObject(attachmentValue) ?? {}
+    const urlValue =
+      (attachmentValue &&
+      typeof attachmentValue === 'object' &&
+      'get' in attachmentValue &&
+      typeof attachmentValue.get === 'function'
+        ? attachmentValue.get('url')
+        : undefined) ?? attachment.url
 
     return {
-      id: readField(value as CmsFieldMap, 'id') ?? item.id,
-      title: readField(value as CmsFieldMap, 'title') ?? item.title,
-      category: readField(value as CmsFieldMap, 'category') ?? item.category,
-      tags,
-      date: normalizeDate(readField(value as CmsFieldMap, 'date') ?? item.date),
-      author: readField(value as CmsFieldMap, 'author') ?? item.author,
-      excerpt: readField(value as CmsFieldMap, 'excerpt') ?? item.excerpt,
-      content: normalizeContent(readField(value as CmsFieldMap, 'content') ?? item.content),
-      attachments,
+      name:
+        (attachmentValue &&
+        typeof attachmentValue === 'object' &&
+        'get' in attachmentValue &&
+        typeof attachmentValue.get === 'function'
+          ? attachmentValue.get('name')
+          : undefined) ?? attachment.name,
+      url: resolveAssetPath(urlValue, options.getAsset),
+      size:
+        (attachmentValue &&
+        typeof attachmentValue === 'object' &&
+        'get' in attachmentValue &&
+        typeof attachmentValue.get === 'function'
+          ? attachmentValue.get('size')
+          : undefined) ?? attachment.size,
     }
   })
 
-  return parseEventItems(plainItems)
+  return normalizeEvent(
+    {
+      title: readData(entry, 'title'),
+      category: readData(entry, 'category'),
+      tags: toArray(readData(entry, 'tags')),
+      date: normalizeDate(readData(entry, 'date')),
+      author: readData(entry, 'author'),
+      excerpt: readData(entry, 'excerpt'),
+      content: normalizeContent(readData(entry, 'content')),
+      attachments,
+    },
+    readEntrySlug(entry),
+  )
 }

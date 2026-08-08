@@ -1,6 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import type { MouseEventHandler } from 'react'
 import {
+  DEFAULT_EVENT_PAGE,
+  type EventPageContent,
+} from '#/lib/content/event-page'
+import {
   EVENT_CATEGORIES,
   EVENT_FILTER_TAGS,
   type EventCategoryId,
@@ -10,6 +14,7 @@ import {
 import { cn } from '#/lib/utils'
 
 export type EventsIndexViewProps = {
+  page?: EventPageContent
   events: Array<EventItem>
   activeCategory: EventCategoryId
   selectedTags: Array<EventFilterTag>
@@ -19,6 +24,7 @@ export type EventsIndexViewProps = {
 }
 
 export function EventsIndexView({
+  page = DEFAULT_EVENT_PAGE,
   events,
   activeCategory,
   selectedTags,
@@ -36,13 +42,13 @@ export function EventsIndexView({
     <main className="relative z-10 px-5 py-10 text-[#151310] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16">
       <div className="mx-auto max-w-[1440px]">
         <p className="font-sport text-kicker text-[#a77d35] uppercase dark:text-[#c6a465]">
-          Announcements
+          {page.eyebrow}
         </p>
         <h1 className="mt-4 font-display text-section text-[#151310] dark:text-[#f1eade]">
-          活動看板
+          {page.title}
         </h1>
         <p className="mt-4 max-w-2xl font-body text-lead text-[#62615e] dark:text-[#b3aa99]">
-          依分類與標籤篩選協會公告，掌握賽事、會務、培訓與國際資訊。
+          {page.description}
         </p>
 
         <nav aria-label="公告分類" className="mt-8 flex flex-wrap gap-3">
