@@ -20,11 +20,11 @@ type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
 
 /**
  * Preview-only stand-in for `@tanstack/react-router`'s `Link`.
- * Renders a plain anchor so the CMS IIFE never needs Router context.
+ * No href / no navigation — CMS preview should never leave the current canvas.
  */
 function Link({
-  to,
-  href,
+  to: _to,
+  href: _href,
   params: _params,
   search: _search,
   hash: _hash,
@@ -37,12 +37,20 @@ function Link({
   resetScroll: _resetScroll,
   viewTransition: _viewTransition,
   children,
+  onClick,
   ...props
 }: LinkProps) {
-  const resolvedHref = typeof to === 'string' && to.length > 0 ? to : (href ?? '#')
-
   return (
-    <a href={resolvedHref} {...props}>
+    <a
+      {...props}
+      href={undefined}
+      role="link"
+      onClick={(event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        onClick?.(event)
+      }}
+    >
       {children}
     </a>
   )
@@ -50,3 +58,6 @@ function Link({
 
 export { Link }
 export type { LinkProps }
+
+// Satisfy accidental named imports from `@tanstack/react-router` during preview builds.
+export type FileRouteTypes = { to: string }

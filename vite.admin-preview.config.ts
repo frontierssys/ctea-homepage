@@ -1,23 +1,15 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url))
+const routerShim = resolve(rootDir, 'src/components/ui/shims/link.tsx')
 
 export default defineConfig({
   publicDir: false,
   resolve: {
     tsconfigPaths: true,
-    // CMS preview shares Sveltia's React via h()/rf(); TanStack Link needs a
-    // Router provider the IIFE does not have. Swap the package entry for a
-    // plain <a> shim (type-only imports like FileRouteTypes are erased).
-    alias: {
-      '@tanstack/react-router': resolve(
-        rootDir,
-        'src/components/ui/shims/link.tsx',
-      ),
-    },
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -29,7 +21,7 @@ export default defineConfig({
     jsxFactory: 'h',
     jsxFragment: 'rf',
   },
-  plugins: [tailwindcss()],
+  plugins: [tanstackRouterShim(), tailwindcss()],
   build: {
     outDir: 'public/admin',
     emptyOutDir: false,
@@ -47,3 +39,21 @@ export default defineConfig({
     },
   },
 })
+
+/**
+ * CMS preview shares Sveltia's React via h()/rf(); TanStack Link needs a
+ * Router provider the IIFE does not have. Force every import onto a plain
+ * <a> shim (type-only imports like FileRouteTypes are erased).
+ */
+function tanstackRouterShim(): Plugin {
+  return {
+    name: 'tanstack-router-preview-shim',
+    enforce: 'pre',
+    resolveId(id) {
+      if (id === '@tanstack/react-router' || id.startsWith('@tanstack/react-router/')) {
+        return routerShim
+      }
+    },
+  }
+}
+

@@ -15,8 +15,6 @@ export type EventsIndexViewProps = {
   selectedTags: Array<EventFilterTag>
   onCategoryChange: (category: EventCategoryId) => void
   onToggleTag: (tag: EventFilterTag) => void
-  /** When set, list rows call this instead of navigating (CMS preview). */
-  onSelectEvent?: (eventId: string) => void
   onNavigate?: MouseEventHandler<HTMLAnchorElement>
 }
 
@@ -26,7 +24,6 @@ export function EventsIndexView({
   selectedTags,
   onCategoryChange,
   onToggleTag,
-  onSelectEvent,
   onNavigate,
 }: EventsIndexViewProps) {
   const filteredEvents = events.filter((event) => {
@@ -109,24 +106,14 @@ export function EventsIndexView({
             <ul className="divide-y divide-[rgba(182,140,67,.38)] border-y border-[rgba(182,140,67,.38)] dark:divide-[#3a4752] dark:border-[#3a4752]">
               {filteredEvents.map((event) => (
                 <li key={event.id}>
-                  {onSelectEvent ? (
-                    <button
-                      type="button"
-                      onClick={() => onSelectEvent(event.id)}
-                      className="group flex min-h-14 w-full flex-col gap-2 py-5 text-left transition-colors duration-200 hover:bg-[rgba(185,145,75,.06)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] sm:flex-row sm:items-baseline sm:justify-between sm:gap-8"
-                    >
-                      <EventRowContent event={event} />
-                    </button>
-                  ) : (
-                    <Link
-                      to="/events/$eventId"
-                      params={{ eventId: event.id }}
-                      onClick={onNavigate}
-                      className="group flex min-h-14 flex-col gap-2 py-5 transition-colors duration-200 hover:bg-[rgba(185,145,75,.06)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] sm:flex-row sm:items-baseline sm:justify-between sm:gap-8"
-                    >
-                      <EventRowContent event={event} />
-                    </Link>
-                  )}
+                  <Link
+                    to="/events/$eventId"
+                    params={{ eventId: event.id }}
+                    onClick={onNavigate}
+                    className="group flex min-h-14 flex-col gap-2 py-5 transition-colors duration-200 hover:bg-[rgba(185,145,75,.06)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] sm:flex-row sm:items-baseline sm:justify-between sm:gap-8"
+                  >
+                    <EventRowContent event={event} />
+                  </Link>
                 </li>
               ))}
             </ul>
