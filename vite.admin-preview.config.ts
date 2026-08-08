@@ -26,7 +26,7 @@ export default defineConfig({
     outDir: 'public/admin',
     emptyOutDir: false,
     lib: {
-      entry: resolve(rootDir, 'src/admin/preview-entry.tsx'),
+      entry: resolve(rootDir, 'src/admin/preview/index.tsx'),
       formats: ['iife'],
       name: 'CteaAdminPreview',
       fileName: () => 'preview-bundle.js',

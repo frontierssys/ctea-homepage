@@ -1,10 +1,10 @@
-import { entryToCarouselSlides } from '#/admin/entry-to-carousel'
+import { entryToCarouselSlides } from '#/admin/preview/entry-to-carousel'
 import {
   applyPreviewTheme,
   clearPreviewTheme,
   getPreviewWindow,
   type PreviewWindowProps,
-} from '#/admin/preview-shared'
+} from '#/admin/preview/shared'
 import {
   AUTOPLAY_DELAY_MS,
   HeroCarouselView,
@@ -12,12 +12,12 @@ import {
 } from '#/components/hero-carousel/hero-carousel-view'
 import { TopNavBarView } from '#/components/top-nav-bar/top-nav-bar-view'
 
-type HomepagePreviewProps = PreviewWindowProps & {
+type CarouselPreviewProps = PreviewWindowProps & {
   entry: Parameters<typeof entryToCarouselSlides>[0]
   getAsset: (path: string) => { url?: string } | undefined
 }
 
-type HomepagePreviewState = {
+type CarouselPreviewState = {
   activeIndex: number
   autoplayEnabled: boolean
   isHovered: boolean
@@ -27,30 +27,30 @@ type HomepagePreviewState = {
   previewTheme: 'light' | 'dark'
 }
 
-type HomepagePreviewInstance = {
-  props: HomepagePreviewProps
-  state: HomepagePreviewState
+type CarouselPreviewInstance = {
+  props: CarouselPreviewProps
+  state: CarouselPreviewState
   setState: (
     update:
-      | Partial<HomepagePreviewState>
-      | ((state: HomepagePreviewState) => Partial<HomepagePreviewState>),
+      | Partial<CarouselPreviewState>
+      | ((state: CarouselPreviewState) => Partial<CarouselPreviewState>),
   ) => void
   autoplayTimer?: number
   motionQuery?: MediaQueryList
   updateMotionPreference?: () => void
 }
 
-function getPreviewSlides(instance: HomepagePreviewInstance) {
+function getPreviewSlides(instance: CarouselPreviewInstance) {
   const { entry, getAsset } = instance.props
   return entryToCarouselSlides(entry, { getAsset })
 }
 
-function isPreviewRotating(instance: HomepagePreviewInstance, slideCount: number) {
+function isPreviewRotating(instance: CarouselPreviewInstance, slideCount: number) {
   const { autoplayEnabled, isHovered, hasFocus, prefersReducedMotion } = instance.state
   return slideCount > 1 && autoplayEnabled && !isHovered && !hasFocus && !prefersReducedMotion
 }
 
-function schedulePreviewAutoplay(instance: HomepagePreviewInstance) {
+function schedulePreviewAutoplay(instance: CarouselPreviewInstance) {
   const previewWindow = getPreviewWindow(instance)
   if (instance.autoplayTimer !== undefined) previewWindow.clearTimeout(instance.autoplayTimer)
 
@@ -64,8 +64,8 @@ function schedulePreviewAutoplay(instance: HomepagePreviewInstance) {
   }, AUTOPLAY_DELAY_MS)
 }
 
-export const HomepagePreview = createClass({
-  getInitialState: function (): HomepagePreviewState {
+export const CarouselPreview = createClass({
+  getInitialState: function (): CarouselPreviewState {
     return {
       activeIndex: 0,
       autoplayEnabled: true,
@@ -77,7 +77,7 @@ export const HomepagePreview = createClass({
     }
   },
 
-  componentDidMount: function (this: HomepagePreviewInstance) {
+  componentDidMount: function (this: CarouselPreviewInstance) {
     const previewWindow = getPreviewWindow(this)
     this.motionQuery = previewWindow.matchMedia('(prefers-reduced-motion: reduce)')
     this.updateMotionPreference = () => {
@@ -94,9 +94,9 @@ export const HomepagePreview = createClass({
   },
 
   componentDidUpdate: function (
-    this: HomepagePreviewInstance,
-    _previousProps: HomepagePreviewProps,
-    previousState: HomepagePreviewState,
+    this: CarouselPreviewInstance,
+    _previousProps: CarouselPreviewProps,
+    previousState: CarouselPreviewState,
   ) {
     if (previousState.previewTheme !== this.state.previewTheme) applyPreviewTheme(this)
 
@@ -110,7 +110,7 @@ export const HomepagePreview = createClass({
     schedulePreviewAutoplay(this)
   },
 
-  componentWillUnmount: function (this: HomepagePreviewInstance) {
+  componentWillUnmount: function (this: CarouselPreviewInstance) {
     if (this.autoplayTimer !== undefined) {
       getPreviewWindow(this).clearTimeout(this.autoplayTimer)
     }
@@ -121,7 +121,7 @@ export const HomepagePreview = createClass({
     clearPreviewTheme(this)
   },
 
-  render: function (this: HomepagePreviewInstance) {
+  render: function (this: CarouselPreviewInstance) {
     const slides = getPreviewSlides(this)
     const slideCount = slides.length
     const activeIndex = slideCount === 0 ? 0 : Math.min(this.state.activeIndex, slideCount - 1)

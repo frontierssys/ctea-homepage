@@ -1,10 +1,10 @@
-import { entryToEvents } from '#/admin/entry-to-events'
+import { entryToEvents } from '#/admin/preview/entry-to-events'
 import {
   applyPreviewTheme,
   clearPreviewTheme,
   PreviewChrome,
   type PreviewWindowProps,
-} from '#/admin/preview-shared'
+} from '#/admin/preview/shared'
 import { EventsIndexView } from '#/components/events/events-index-view'
 import type { EventCategoryId, EventFilterTag } from '#/lib/content/events'
 
