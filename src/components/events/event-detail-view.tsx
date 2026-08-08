@@ -55,6 +55,7 @@ export function EventDetailView({ event, onBack, onNavigate }: EventDetailViewPr
           {event.content ? (
             <div
               className="prose prose-lg mt-8 max-w-none text-[#43423e] prose-headings:font-display prose-headings:text-[#151310] prose-a:text-[#a77d35] prose-strong:text-[#151310] dark:text-[#b3aa99] dark:prose-headings:text-[#f1eade] dark:prose-a:text-[#c6a465] dark:prose-strong:text-[#f1eade]"
+              // Expects HTML from the route loader / CMS preview (Markdown → HTML via marked).
               dangerouslySetInnerHTML={{ __html: event.content }}
             />
           ) : null}

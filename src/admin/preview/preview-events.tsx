@@ -6,6 +6,7 @@ import {
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
 import { EventDetailView } from '#/components/events/event-detail-view'
+import { markdownToHtml } from '#/lib/markdown'
 
 type EventsPreviewProps = PreviewWindowProps & {
   entry: Parameters<typeof entryToEvent>[0]
@@ -29,7 +30,12 @@ type EventsPreviewInstance = {
 
 function getPreviewEvent(instance: EventsPreviewInstance) {
   const { entry, getAsset } = instance.props
-  return entryToEvent(entry, { getAsset })
+  const event = entryToEvent(entry, { getAsset })
+  if (!event) return null
+  return {
+    ...event,
+    content: markdownToHtml(event.content),
+  }
 }
 
 export const EventsPreview = createClass({
