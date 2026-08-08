@@ -6,7 +6,8 @@ import {
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
 import { EventDetailView } from '#/components/events/event-detail-view'
-import { markdownToHtml } from '#/lib/markdown'
+import type { EventItem } from '#/lib/content/events'
+import { renderMarkdown } from '#/lib/markdown'
 
 type EventsPreviewProps = PreviewWindowProps & {
   entry: Parameters<typeof entryToEvent>[0]
@@ -16,6 +17,8 @@ type EventsPreviewProps = PreviewWindowProps & {
 type EventsPreviewState = {
   navMenuOpen: boolean
   previewTheme: 'light' | 'dark'
+  contentHtml: string
+  contentSource: string
 }
 
 type EventsPreviewInstance = {
@@ -26,16 +29,28 @@ type EventsPreviewInstance = {
       | Partial<EventsPreviewState>
       | ((state: EventsPreviewState) => Partial<EventsPreviewState>),
   ) => void
+  _previewCompileToken?: number
 }
 
-function getPreviewEvent(instance: EventsPreviewInstance) {
+function getPreviewDraft(instance: EventsPreviewInstance) {
   const { entry, getAsset } = instance.props
-  const event = entryToEvent(entry, { getAsset })
-  if (!event) return null
-  return {
-    ...event,
-    content: markdownToHtml(event.content),
-  }
+  return entryToEvent(entry, { getAsset })
+}
+
+function syncPreviewHtml(instance: EventsPreviewInstance, draft: EventItem | null) {
+  const source = draft?.content ?? ''
+  if (source === instance.state.contentSource) return
+
+  const token = (instance._previewCompileToken ?? 0) + 1
+  instance._previewCompileToken = token
+  instance.setState({ contentSource: source, contentHtml: '' })
+
+  if (!source.trim()) return
+
+  void renderMarkdown(source).then(({ markup }) => {
+    if (instance._previewCompileToken !== token) return
+    instance.setState({ contentHtml: markup })
+  })
 }
 
 export const EventsPreview = createClass({
@@ -43,11 +58,14 @@ export const EventsPreview = createClass({
     return {
       navMenuOpen: false,
       previewTheme: 'light',
+      contentHtml: '',
+      contentSource: '',
     }
   },
 
   componentDidMount: function (this: EventsPreviewInstance) {
     applyPreviewTheme(this)
+    syncPreviewHtml(this, getPreviewDraft(this))
   },
 
   componentDidUpdate: function (
@@ -56,6 +74,7 @@ export const EventsPreview = createClass({
     previousState: EventsPreviewState,
   ) {
     if (previousState.previewTheme !== this.state.previewTheme) applyPreviewTheme(this)
+    syncPreviewHtml(this, getPreviewDraft(this))
   },
 
   componentWillUnmount: function (this: EventsPreviewInstance) {
@@ -63,15 +82,18 @@ export const EventsPreview = createClass({
   },
 
   render: function (this: EventsPreviewInstance) {
-    const event = getPreviewEvent(this)
+    const draft = getPreviewDraft(this)
+    const event =
+      draft &&
+      ({
+        ...draft,
+        content: this.state.contentHtml,
+      } satisfies EventItem)
 
     return (
       <PreviewLayout instance={this}>
         {event ? (
-          <EventDetailView
-            event={event}
-            onNavigate={(clickEvent) => clickEvent.preventDefault()}
-          />
+          <EventDetailView event={event} />
         ) : (
           <p className="px-5 py-10 font-body text-body text-[#686762] dark:text-[#b3aa99] md:px-10 lg:px-16">
             請先填寫標題與分類，即可預覽公告詳情。

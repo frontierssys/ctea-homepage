@@ -2,11 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { EventsIndexView } from '#/components/events/events-index-view'
 import { getEventPage } from '#/lib/content/event-page'
-import {
-  getEvents,
-  type EventCategoryId,
-  type EventFilterTag,
-} from '#/lib/content/events'
+import type { EventCategoryId, EventFilterTag } from '#/lib/content/events'
+import { getEvents } from '#/lib/content/get-events'
 
 export const Route = createFileRoute('/events/')({
   loader: () => ({

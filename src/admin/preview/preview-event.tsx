@@ -6,11 +6,8 @@ import {
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
 import { EventsIndexView } from '#/components/events/events-index-view'
-import {
-  getEvents,
-  type EventCategoryId,
-  type EventFilterTag,
-} from '#/lib/content/events'
+import { getPreviewEventList } from '#/admin/preview/preview-event-list-data'
+import type { EventCategoryId, EventFilterTag } from '#/lib/content/events'
 
 type EventPreviewProps = PreviewWindowProps & {
   entry: Parameters<typeof entryToEventPage>[0]
@@ -67,7 +64,7 @@ export const EventPreview = createClass({
       <PreviewLayout instance={this}>
         <EventsIndexView
           page={page}
-          events={getEvents()}
+          events={getPreviewEventList()}
           activeCategory={activeCategory}
           selectedTags={selectedTags}
           onCategoryChange={(category) => {
@@ -80,7 +77,6 @@ export const EventPreview = createClass({
                 : [...state.selectedTags, tag],
             }))
           }}
-          onNavigate={(clickEvent) => clickEvent.preventDefault()}
         />
       </PreviewLayout>
     )

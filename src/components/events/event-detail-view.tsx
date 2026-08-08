@@ -1,20 +1,19 @@
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft, Download, FileText } from 'lucide-react'
-import type { MouseEventHandler } from 'react'
+import { Markdown } from '#/components/markdown'
 import { getCategoryLabel, type EventItem } from '#/lib/content/events'
 
 export type EventDetailViewProps = {
   event: EventItem
   onBack?: () => void
-  onNavigate?: MouseEventHandler<HTMLAnchorElement>
 }
 
-export function EventDetailView({ event, onBack, onNavigate }: EventDetailViewProps) {
+export function EventDetailView({ event, onBack }: EventDetailViewProps) {
   const categoryLabel = getCategoryLabel(event.category)
 
   return (
     <main className="relative z-10 px-5 py-10 text-[#151310] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16">
-      <div className="mx-auto max-w-[840px]">
+      <div className="mx-auto max-w-210">
         <article>
           <header className="border-b border-[rgba(182,140,67,.38)] pb-8 dark:border-[#3a4752]">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -53,11 +52,7 @@ export function EventDetailView({ event, onBack, onNavigate }: EventDetailViewPr
           </header>
 
           {event.content ? (
-            <div
-              className="prose prose-lg mt-8 max-w-none text-[#43423e] prose-headings:font-display prose-headings:text-[#151310] prose-a:text-[#a77d35] prose-strong:text-[#151310] dark:text-[#b3aa99] dark:prose-headings:text-[#f1eade] dark:prose-a:text-[#c6a465] dark:prose-strong:text-[#f1eade]"
-              // Expects HTML from the route loader / CMS preview (Markdown → HTML via marked).
-              dangerouslySetInnerHTML={{ __html: event.content }}
-            />
+            <Markdown content={event.content} className="mt-8" />
           ) : null}
 
           {event.attachments.length > 0 ? (
@@ -77,7 +72,6 @@ export function EventDetailView({ event, onBack, onNavigate }: EventDetailViewPr
                     <a
                       href={file.url}
                       className="flex min-h-14 items-center gap-4 border border-[rgba(182,140,67,.38)] px-4 py-3 transition-colors duration-200 hover:bg-[rgba(185,145,75,.08)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465]"
-                      onClick={onNavigate}
                     >
                       <FileText
                         className="size-5 shrink-0 text-[#a77d35] dark:text-[#c6a465]"
@@ -119,7 +113,6 @@ export function EventDetailView({ event, onBack, onNavigate }: EventDetailViewPr
           ) : (
             <Link
               to="/events"
-              onClick={onNavigate}
               className="inline-flex min-h-11 items-center gap-2 font-body text-action text-[#a77d35] transition-colors hover:text-[#7e5f2e] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:text-[#c6a465] dark:hover:text-[#a99267] dark:focus-visible:outline-[#c6a465]"
             >
               <ArrowLeft className="size-4" strokeWidth={1.5} aria-hidden="true" />

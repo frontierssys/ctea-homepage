@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
+import contentCollections from '@content-collections/vite'
 
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
@@ -21,6 +22,7 @@ export default defineConfig(({ mode }) => {
       ...(allowedHosts?.length ? { allowedHosts } : {}),
     },
     plugins: [
+      contentCollections(),
       devtools(),
       cloudflare({ viteEnvironment: { name: 'ssr' } }),
       tailwindcss(),
@@ -37,3 +39,4 @@ export default defineConfig(({ mode }) => {
     ],
   }
 })
+

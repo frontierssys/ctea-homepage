@@ -57,16 +57,13 @@ export type EventItem = {
   date: string
   author: string
   excerpt?: string
+  /** HTML on the site (content-collections); Markdown in live CMS drafts. */
   content: string
   attachments: Array<EventAttachment>
 }
 
 const CATEGORY_IDS = new Set<string>(EVENT_CATEGORIES.map((c) => c.id))
 const TAG_IDS = new Set<string>(EVENT_FILTER_TAGS)
-
-const eventModules = import.meta.glob('../../../content/events/*.json', {
-  eager: true,
-}) as Record<string, { default?: unknown } | unknown>
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0
@@ -76,7 +73,7 @@ function isCategoryId(value: unknown): value is EventCategoryId {
   return isNonEmptyString(value) && CATEGORY_IDS.has(value)
 }
 
-function isFilterTag(value: unknown): value is EventFilterTag {
+export function isFilterTag(value: unknown): value is EventFilterTag {
   return isNonEmptyString(value) && TAG_IDS.has(value)
 }
 
@@ -92,11 +89,7 @@ function normalizeAttachment(value: unknown): EventAttachment | null {
   }
 }
 
-function slugFromModulePath(modulePath: string) {
-  const match = modulePath.match(/([^/]+)\.json$/)
-  return match?.[1]?.trim() ?? ''
-}
-
+/** Normalize a CMS / raw JSON entry into EventItem. */
 export function normalizeEvent(
   value: unknown,
   fallbackId?: string,
@@ -133,38 +126,6 @@ export function normalizeEvent(
   }
 }
 
-export function parseEventItems(items: unknown): Array<EventItem> {
-  if (!Array.isArray(items)) return []
-  return items
-    .map((item) => normalizeEvent(item))
-    .filter((item): item is EventItem => item !== null)
-}
-
 export function getCategoryLabel(category: EventCategoryId) {
   return EVENT_CATEGORIES.find((item) => item.id === category)?.label ?? category
-}
-
-function compareEventsByDateDesc(a: EventItem, b: EventItem) {
-  return b.date.localeCompare(a.date) || a.id.localeCompare(b.id)
-}
-
-export function getEvents(): Array<EventItem> {
-  try {
-    return Object.entries(eventModules)
-      .map(([modulePath, module]) => {
-        const data =
-          module && typeof module === 'object' && 'default' in module
-            ? module.default
-            : module
-        return normalizeEvent(data, slugFromModulePath(modulePath))
-      })
-      .filter((item): item is EventItem => item !== null)
-      .sort(compareEventsByDateDesc)
-  } catch {
-    return []
-  }
-}
-
-export function getEventById(eventId: string): EventItem | undefined {
-  return getEvents().find((item) => item.id === eventId)
 }

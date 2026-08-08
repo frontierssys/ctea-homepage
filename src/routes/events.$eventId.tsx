@@ -1,18 +1,12 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { EventDetailView } from '#/components/events/event-detail-view'
-import { getEventById } from '#/lib/content/events'
-import { markdownToHtml } from '#/lib/markdown'
+import { getEventById } from '#/lib/content/get-events'
 
 export const Route = createFileRoute('/events/$eventId')({
   loader: ({ params }) => {
     const event = getEventById(params.eventId)
     if (!event) throw notFound()
-    return {
-      event: {
-        ...event,
-        content: markdownToHtml(event.content),
-      },
-    }
+    return { event }
   },
   head: ({ loaderData }) => ({
     meta: [

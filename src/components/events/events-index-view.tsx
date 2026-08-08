@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import type { MouseEventHandler } from 'react'
 import {
   DEFAULT_EVENT_PAGE,
   type EventPageContent,
@@ -20,7 +19,6 @@ export type EventsIndexViewProps = {
   selectedTags: Array<EventFilterTag>
   onCategoryChange: (category: EventCategoryId) => void
   onToggleTag: (tag: EventFilterTag) => void
-  onNavigate?: MouseEventHandler<HTMLAnchorElement>
 }
 
 export function EventsIndexView({
@@ -30,7 +28,6 @@ export function EventsIndexView({
   selectedTags,
   onCategoryChange,
   onToggleTag,
-  onNavigate,
 }: EventsIndexViewProps) {
   const filteredEvents = events.filter((event) => {
     const matchesCategory = event.category === activeCategory
@@ -115,7 +112,6 @@ export function EventsIndexView({
                   <Link
                     to="/events/$eventId"
                     params={{ eventId: event.id }}
-                    onClick={onNavigate}
                     className="group flex min-h-14 flex-col gap-2 py-5 transition-colors duration-200 hover:bg-[rgba(185,145,75,.06)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] sm:flex-row sm:items-baseline sm:justify-between sm:gap-8"
                   >
                     <EventRowContent event={event} />
