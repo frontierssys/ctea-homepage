@@ -167,7 +167,7 @@ export function LoaderPlumBlossom({
 
       <span
         className={cn(
-          "font-['Noto_Serif_TC','Songti_TC',serif] text-xs tracking-[0.2em] text-[#7e5f2e] uppercase dark:text-[#a99267]",
+          "text-xs tracking-[0.2em] text-[#7e5f2e] uppercase dark:text-[#a99267]",
           showLabel ? 'block' : 'sr-only',
         )}
       >

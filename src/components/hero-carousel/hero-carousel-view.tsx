@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react'
 import type { CarouselSlide } from '#/lib/content/carousel'
-import './style.css'
 
 export const AUTOPLAY_DELAY_MS = 7000
 

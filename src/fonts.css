@@ -1,0 +1,6 @@
+/*
+ * Self-hosted Barlow Condensed WOFF2 (fontsource @font-face).
+ * Loaded non-blocking from RootDocument — keep out of styles.css critical path.
+ */
+@import '@fontsource/barlow-condensed/latin-600.css';
+@import '@fontsource/barlow-condensed/latin-700.css';

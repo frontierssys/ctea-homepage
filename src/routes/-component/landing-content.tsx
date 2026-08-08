@@ -1,5 +1,7 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
 
+import { DeferredEmbed } from '#/components/deferred-embed'
+
 type BrandIconProps = React.ComponentProps<'svg'>
 
 function FacebookIcon(props: BrandIconProps) {
@@ -268,11 +270,10 @@ export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
               </span>
             </div>
             <div className="relative aspect-4/5 overflow-hidden bg-[#eee4d5]">
-              <iframe
+              <DeferredEmbed
                 title="Facebook 社群貼文"
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100068596600748&tabs=timeline&width=380&height=625&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
-                className="absolute inset-0 h-full w-full border-0"
-                loading="lazy"
+                label="載入 Facebook 動態"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
               />
             </div>
@@ -288,11 +289,11 @@ export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
               </span>
             </div>
             <div className="relative aspect-4/5 overflow-hidden bg-[#eee4d5] dark:bg-[#213140]">
-              <iframe
+              <DeferredEmbed
                 title="Instagram 社群貼文"
                 src="https://www.instagram.com/chinese_taipei_ea/embed/"
-                className="absolute inset-0 h-full w-full border-0 bg-white"
-                loading="lazy"
+                label="載入 Instagram 動態"
+                iframeClassName="absolute inset-0 h-full w-full border-0 bg-white"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
               />
             </div>
@@ -330,11 +331,11 @@ export function LatestVideo() {
 
         <div className="mt-14 grid grid-cols-[minmax(0,1fr)_280px] gap-8 border-y border-[rgba(197,161,93,.45)] py-8 dark:border-[rgba(198,164,101,.5)] max-lg:grid-cols-1">
           <div className="relative aspect-video overflow-hidden border border-[rgba(197,161,93,.6)] bg-black shadow-[0_24px_65px_rgba(0,0,0,.24)] dark:border-[#c6a465]">
-            <iframe
-              className="absolute inset-0 h-full w-full"
+            <DeferredEmbed
               src="https://www.youtube-nocookie.com/embed/Y0WHt-kUwdg?rel=0"
               title="第48屆全國中正盃馬場馬術錦標賽(積分第2站)"
-              loading="lazy"
+              label="播放影音"
+              poster="https://i.ytimg.com/vi/Y0WHt-kUwdg/hqdefault.jpg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen

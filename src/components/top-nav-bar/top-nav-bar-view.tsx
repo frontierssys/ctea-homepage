@@ -70,7 +70,14 @@ export function TopNavBarView({
           aria-label="中華民國馬術協會首頁"
           onClick={onNavigate}
         >
-          <img src="/media/ctea-logo.png" alt="CTEA" className="h-10 w-auto" />
+          <img
+            src="/media/ctea-logo-nav.webp"
+            alt="CTEA"
+            width={80}
+            height={80}
+            className="h-10 w-auto"
+            decoding="async"
+          />
           <span className="min-w-0">
             <strong className="block whitespace-nowrap font-brand text-brand text-[#151310] dark:text-[#f1eade]">
               中華民國馬術協會

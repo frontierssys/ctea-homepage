@@ -1,6 +1,7 @@
 import {
   HeadContent,
   Outlet,
+  ScriptOnce,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
@@ -8,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
+import { FONTS_NONBLOCKING_SCRIPT, FONTS_STYLESHEET } from '#/lib/fonts'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { ThemeProvider } from '../components/theme-provider'
 import { SiteFooter } from './-component/landing-content'
@@ -54,11 +56,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         rel: 'icon',
         type: 'image/png',
-        href: '/media/ctea-logo.png',
+        sizes: '32x32',
+        href: '/media/favicon-32.png',
       },
       {
         rel: 'apple-touch-icon',
-        href: '/media/ctea-logo.png',
+        href: '/media/apple-touch-icon.png',
       },
     ],
   }),
@@ -83,6 +86,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="zh-Hant" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <ScriptOnce>{FONTS_NONBLOCKING_SCRIPT}</ScriptOnce>
+        <noscript>
+          <link rel="stylesheet" href={FONTS_STYLESHEET} />
+        </noscript>
       </head>
       <body className="antialiased wrap-anywhere">
         <ThemeProvider defaultTheme="system" storageKey="theme">
