@@ -2,7 +2,7 @@ import { entryToEvents } from '#/admin/preview/entry-to-events'
 import {
   applyPreviewTheme,
   clearPreviewTheme,
-  PreviewChrome,
+  PreviewLayout,
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
 import { EventsIndexView } from '#/components/events/events-index-view'
@@ -63,7 +63,7 @@ export const EventsPreview = createClass({
 
   render: function (this: EventsPreviewInstance) {
     return (
-      <PreviewChrome instance={this}>
+      <PreviewLayout instance={this}>
         <EventsIndexView
           events={getPreviewEvents(this)}
           activeCategory={this.state.activeCategory}
@@ -79,7 +79,7 @@ export const EventsPreview = createClass({
             }))
           }}
         />
-      </PreviewChrome>
+      </PreviewLayout>
     )
   },
 })

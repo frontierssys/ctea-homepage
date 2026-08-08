@@ -43,7 +43,7 @@ export function HeroCarouselView({
   return (
     <section
       id="home"
-      className="ctea-hero-carousel relative isolate mt-(--layout-header-height) min-h-[calc(100dvh-var(--layout-header-height))] overflow-hidden bg-[#091725] text-[#fffaf0]"
+      className="ctea-hero-carousel relative isolate min-h-[calc(100dvh-var(--layout-header-height))] overflow-hidden bg-[#091725] text-[#fffaf0]"
       role="region"
       aria-roledescription="carousel"
       aria-label="首頁焦點輪播"

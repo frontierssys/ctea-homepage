@@ -3,6 +3,7 @@ import {
   applyPreviewTheme,
   clearPreviewTheme,
   getPreviewWindow,
+  PreviewLayout,
   type PreviewWindowProps,
 } from '#/admin/preview/shared'
 import {
@@ -10,7 +11,6 @@ import {
   HeroCarouselView,
   shiftCarouselIndex,
 } from '#/components/hero-carousel/hero-carousel-view'
-import { TopNavBarView } from '#/components/top-nav-bar/top-nav-bar-view'
 
 type CarouselPreviewProps = PreviewWindowProps & {
   entry: Parameters<typeof entryToCarouselSlides>[0]
@@ -128,24 +128,7 @@ export const CarouselPreview = createClass({
     const isRotating = isPreviewRotating(this, slideCount)
 
     return (
-      <>
-        <TopNavBarView
-          menuOpen={this.state.navMenuOpen}
-          hidden={false}
-          theme={this.state.previewTheme}
-          hydrated={true}
-          onMenuToggle={() => {
-            this.setState((state) => ({ navMenuOpen: !state.navMenuOpen }))
-          }}
-          onMenuClose={() => this.setState({ navMenuOpen: false })}
-          onThemeToggle={() => {
-            this.setState((state) => ({
-              previewTheme: state.previewTheme === 'dark' ? 'light' : 'dark',
-            }))
-          }}
-          onNavigate={(event) => event.preventDefault()}
-        />
-
+      <PreviewLayout instance={this}>
         <HeroCarouselView
           slides={slides}
           activeIndex={activeIndex}
@@ -163,7 +146,7 @@ export const CarouselPreview = createClass({
           onHoverChange={(isHovered) => this.setState({ isHovered })}
           onFocusWithinChange={(hasFocus) => this.setState({ hasFocus })}
         />
-      </>
+      </PreviewLayout>
     )
   },
 })

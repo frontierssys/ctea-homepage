@@ -1,13 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HeroCarousel } from '#/components/hero-carousel/hero-carousel'
-import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
 import { DEFAULT_CAROUSEL_SLIDES, getCarousel } from '#/lib/content/carousel'
 import { getNews } from '#/lib/content/news'
 import { getSocial } from '#/lib/content/social'
 import {
   LatestNews,
   LatestVideo,
-  SiteFooter,
   SocialFeed,
 } from './-component/landing-content'
 
@@ -39,7 +37,6 @@ function RouteComponent() {
 
   return (
     <>
-      <TopNavBar />
       <HeroCarousel slides={carousel.slides} />
       <LatestNews
         featuredImage={news.featuredImage}
@@ -47,7 +44,6 @@ function RouteComponent() {
       />
       <SocialFeed backgroundImage={social.backgroundImage} />
       <LatestVideo />
-      <SiteFooter />
     </>
   )
 }

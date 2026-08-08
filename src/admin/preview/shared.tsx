@@ -6,18 +6,18 @@ export type PreviewWindowProps = {
   document?: Document
 }
 
-export type PreviewChromeState = {
+export type PreviewLayoutState = {
   navMenuOpen: boolean
   previewTheme: 'light' | 'dark'
 }
 
-export type PreviewChromeInstance = {
+export type PreviewLayoutInstance = {
   props: PreviewWindowProps
-  state: PreviewChromeState
+  state: PreviewLayoutState
   setState: (
     update:
-      | Partial<PreviewChromeState>
-      | ((state: PreviewChromeState) => Partial<PreviewChromeState>),
+      | Partial<PreviewLayoutState>
+      | ((state: PreviewLayoutState) => Partial<PreviewLayoutState>),
   ) => void
 }
 
@@ -47,11 +47,11 @@ export function clearPreviewTheme(instance: { props: PreviewWindowProps }) {
   root.style.removeProperty('color-scheme')
 }
 
-export function PreviewChrome({
+export function PreviewLayout({
   instance,
   children,
 }: {
-  instance: PreviewChromeInstance
+  instance: PreviewLayoutInstance
   children: ReactNode
 }) {
   return (
@@ -72,7 +72,7 @@ export function PreviewChrome({
         }}
         onNavigate={(event) => event.preventDefault()}
       />
-      <div className="min-h-screen pt-[var(--layout-header-height)]">{children}</div>
+      <div className="min-h-screen pt-(--layout-header-height)">{children}</div>
     </>
   )
 }

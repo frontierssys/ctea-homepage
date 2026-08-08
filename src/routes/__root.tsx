@@ -1,13 +1,16 @@
 import {
   HeadContent,
+  Outlet,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
+import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { ThemeProvider } from '../components/theme-provider'
+import { SiteFooter } from './-component/landing-content'
 
 import appCss from '../styles.css?url'
 
@@ -60,7 +63,20 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  component: RootLayout,
 })
+
+function RootLayout() {
+  return (
+    <>
+      <TopNavBar />
+      <div className="min-h-screen pt-(--layout-header-height)">
+        <Outlet />
+      </div>
+      <SiteFooter />
+    </>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
