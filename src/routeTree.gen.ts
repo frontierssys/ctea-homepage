@@ -10,30 +10,55 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as EventsRouteRouteImport } from './routes/events/route'
-import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as DownloadRouteImport } from './routes/download'
+import { Route as EquestrianRouteImport } from './routes/equestrian'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as MemberRouteImport } from './routes/member'
+import { Route as RegulationRouteImport } from './routes/regulation'
 import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
-import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
-import { Route as DownloadIndexRouteImport } from './routes/download/index'
-import { Route as EventsIndexRouteImport } from './routes/events/index'
-import { Route as EventsEventIdRouteImport } from './routes/events/$eventId'
-import { Route as MemberIndexRouteImport } from './routes/member/index'
-import { Route as RegulationIndexRouteImport } from './routes/regulation/index'
-import { Route as VideoIndexRouteImport } from './routes/video/index'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EventsRouteRoute = EventsRouteRouteImport.update({
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadRoute = DownloadRouteImport.update({
+  id: '/download',
+  path: '/download',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquestrianRoute = EquestrianRouteImport.update({
+  id: '/equestrian',
+  path: '/equestrian',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutIndexRoute = AboutIndexRouteImport.update({
-  id: '/about/',
-  path: '/about/',
+const MemberRoute = MemberRouteImport.update({
+  id: '/member',
+  path: '/member',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegulationRoute = RegulationRouteImport.update({
+  id: '/regulation',
+  path: '/regulation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
@@ -41,132 +66,107 @@ const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
   path: '/api/revalidate',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CalendarIndexRoute = CalendarIndexRouteImport.update({
-  id: '/calendar/',
-  path: '/calendar/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DownloadIndexRoute = DownloadIndexRouteImport.update({
-  id: '/download/',
-  path: '/download/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => EventsRouteRoute,
+  getParentRoute: () => EventsRoute,
 } as any)
 const EventsEventIdRoute = EventsEventIdRouteImport.update({
   id: '/$eventId',
   path: '/$eventId',
-  getParentRoute: () => EventsRouteRoute,
-} as any)
-const MemberIndexRoute = MemberIndexRouteImport.update({
-  id: '/member/',
-  path: '/member/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegulationIndexRoute = RegulationIndexRouteImport.update({
-  id: '/regulation/',
-  path: '/regulation/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VideoIndexRoute = VideoIndexRouteImport.update({
-  id: '/video/',
-  path: '/video/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => EventsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/events': typeof EventsRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/download': typeof DownloadRoute
+  '/equestrian': typeof EquestrianRoute
+  '/events': typeof EventsRouteWithChildren
+  '/member': typeof MemberRoute
+  '/regulation': typeof RegulationRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
-  '/about/': typeof AboutIndexRoute
-  '/calendar/': typeof CalendarIndexRoute
-  '/download/': typeof DownloadIndexRoute
   '/events/': typeof EventsIndexRoute
-  '/member/': typeof MemberIndexRoute
-  '/regulation/': typeof RegulationIndexRoute
-  '/video/': typeof VideoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/download': typeof DownloadRoute
+  '/equestrian': typeof EquestrianRoute
+  '/member': typeof MemberRoute
+  '/regulation': typeof RegulationRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
-  '/about': typeof AboutIndexRoute
-  '/calendar': typeof CalendarIndexRoute
-  '/download': typeof DownloadIndexRoute
   '/events': typeof EventsIndexRoute
-  '/member': typeof MemberIndexRoute
-  '/regulation': typeof RegulationIndexRoute
-  '/video': typeof VideoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/events': typeof EventsRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/calendar': typeof CalendarRoute
+  '/download': typeof DownloadRoute
+  '/equestrian': typeof EquestrianRoute
+  '/events': typeof EventsRouteWithChildren
+  '/member': typeof MemberRoute
+  '/regulation': typeof RegulationRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
-  '/about/': typeof AboutIndexRoute
-  '/calendar/': typeof CalendarIndexRoute
-  '/download/': typeof DownloadIndexRoute
   '/events/': typeof EventsIndexRoute
-  '/member/': typeof MemberIndexRoute
-  '/regulation/': typeof RegulationIndexRoute
-  '/video/': typeof VideoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/events'
-    | '/api/revalidate'
-    | '/events/$eventId'
-    | '/about/'
-    | '/calendar/'
-    | '/download/'
-    | '/events/'
-    | '/member/'
-    | '/regulation/'
-    | '/video/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/api/revalidate'
-    | '/events/$eventId'
     | '/about'
     | '/calendar'
     | '/download'
+    | '/equestrian'
     | '/events'
     | '/member'
     | '/regulation'
-    | '/video'
+    | '/api/revalidate'
+    | '/events/$eventId'
+    | '/events/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/about'
+    | '/calendar'
+    | '/download'
+    | '/equestrian'
+    | '/member'
+    | '/regulation'
+    | '/api/revalidate'
+    | '/events/$eventId'
+    | '/events'
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/calendar'
+    | '/download'
+    | '/equestrian'
     | '/events'
+    | '/member'
+    | '/regulation'
     | '/api/revalidate'
     | '/events/$eventId'
-    | '/about/'
-    | '/calendar/'
-    | '/download/'
     | '/events/'
-    | '/member/'
-    | '/regulation/'
-    | '/video/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  EventsRouteRoute: typeof EventsRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  CalendarRoute: typeof CalendarRoute
+  DownloadRoute: typeof DownloadRoute
+  EquestrianRoute: typeof EquestrianRoute
+  EventsRoute: typeof EventsRouteWithChildren
+  MemberRoute: typeof MemberRoute
+  RegulationRoute: typeof RegulationRoute
   ApiRevalidateRoute: typeof ApiRevalidateRoute
-  AboutIndexRoute: typeof AboutIndexRoute
-  CalendarIndexRoute: typeof CalendarIndexRoute
-  DownloadIndexRoute: typeof DownloadIndexRoute
-  MemberIndexRoute: typeof MemberIndexRoute
-  RegulationIndexRoute: typeof RegulationIndexRoute
-  VideoIndexRoute: typeof VideoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,18 +178,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/download': {
+      id: '/download'
+      path: '/download'
+      fullPath: '/download'
+      preLoaderRoute: typeof DownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equestrian': {
+      id: '/equestrian'
+      path: '/equestrian'
+      fullPath: '/equestrian'
+      preLoaderRoute: typeof EquestrianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
       fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteRouteImport
+      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about/': {
-      id: '/about/'
-      path: '/about'
-      fullPath: '/about/'
-      preLoaderRoute: typeof AboutIndexRouteImport
+    '/member': {
+      id: '/member'
+      path: '/member'
+      fullPath: '/member'
+      preLoaderRoute: typeof MemberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/regulation': {
+      id: '/regulation'
+      path: '/regulation'
+      fullPath: '/regulation'
+      preLoaderRoute: typeof RegulationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/revalidate': {
@@ -199,82 +234,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRevalidateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/calendar/': {
-      id: '/calendar/'
-      path: '/calendar'
-      fullPath: '/calendar/'
-      preLoaderRoute: typeof CalendarIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/download/': {
-      id: '/download/'
-      path: '/download'
-      fullPath: '/download/'
-      preLoaderRoute: typeof DownloadIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/events/': {
       id: '/events/'
       path: '/'
       fullPath: '/events/'
       preLoaderRoute: typeof EventsIndexRouteImport
-      parentRoute: typeof EventsRouteRoute
+      parentRoute: typeof EventsRoute
     }
     '/events/$eventId': {
       id: '/events/$eventId'
       path: '/$eventId'
       fullPath: '/events/$eventId'
       preLoaderRoute: typeof EventsEventIdRouteImport
-      parentRoute: typeof EventsRouteRoute
-    }
-    '/member/': {
-      id: '/member/'
-      path: '/member'
-      fullPath: '/member/'
-      preLoaderRoute: typeof MemberIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/regulation/': {
-      id: '/regulation/'
-      path: '/regulation'
-      fullPath: '/regulation/'
-      preLoaderRoute: typeof RegulationIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/video/': {
-      id: '/video/'
-      path: '/video'
-      fullPath: '/video/'
-      preLoaderRoute: typeof VideoIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof EventsRoute
     }
   }
 }
 
-interface EventsRouteRouteChildren {
+interface EventsRouteChildren {
   EventsEventIdRoute: typeof EventsEventIdRoute
   EventsIndexRoute: typeof EventsIndexRoute
 }
 
-const EventsRouteRouteChildren: EventsRouteRouteChildren = {
+const EventsRouteChildren: EventsRouteChildren = {
   EventsEventIdRoute: EventsEventIdRoute,
   EventsIndexRoute: EventsIndexRoute,
 }
 
-const EventsRouteRouteWithChildren = EventsRouteRoute._addFileChildren(
-  EventsRouteRouteChildren,
-)
+const EventsRouteWithChildren =
+  EventsRoute._addFileChildren(EventsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  EventsRouteRoute: EventsRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  CalendarRoute: CalendarRoute,
+  DownloadRoute: DownloadRoute,
+  EquestrianRoute: EquestrianRoute,
+  EventsRoute: EventsRouteWithChildren,
+  MemberRoute: MemberRoute,
+  RegulationRoute: RegulationRoute,
   ApiRevalidateRoute: ApiRevalidateRoute,
-  AboutIndexRoute: AboutIndexRoute,
-  CalendarIndexRoute: CalendarIndexRoute,
-  DownloadIndexRoute: DownloadIndexRoute,
-  MemberIndexRoute: MemberIndexRoute,
-  RegulationIndexRoute: RegulationIndexRoute,
-  VideoIndexRoute: VideoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

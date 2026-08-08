@@ -11,7 +11,7 @@ const navLinks = [{
   to: '/about',
 }, {
   label: '馬術介紹',
-  to: '/video',
+  to: '/equestrian',
 }, {
   label: '制度專區',
   to: '/regulation',
