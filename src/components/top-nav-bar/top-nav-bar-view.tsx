@@ -2,6 +2,7 @@ import { Moon, Sun } from 'lucide-react'
 import type { ComponentProps, MouseEventHandler } from 'react'
 import { cn } from '#/lib/utils'
 import { Link, type FileRouteTypes } from '@tanstack/react-router'
+import { LoaderPlumBlossom } from '../ui/loader-plum-blossom'
 
 const navLinks = [{
   label: '活動看板',
@@ -62,7 +63,7 @@ export function TopNavBarView({
         className,
       )}
     >
-      <div className="mx-auto flex h-[var(--layout-header-content-height)] w-full items-center px-[44px] max-xl:px-7 max-sm:px-4">
+      <div className="mx-auto flex h-(--layout-header-content-height) px-11 w-full items-center max-xl:px-7 max-sm:px-4">
         <Link
           to="/"
           className="flex min-h-14 shrink-0 items-center gap-4"
@@ -96,20 +97,30 @@ export function TopNavBarView({
           ))}
         </nav>
 
-        <div className="ml-5 border-l border-[rgba(182,140,67,.38)] pl-5 dark:border-[#3a4752] max-lg:hidden">
-          <ThemeToggle
-            hydrated={hydrated}
-            theme={theme}
-            onThemeToggle={onThemeToggle}
-          />
+        <div className="ml-5 pl-5 dark:border-[#3a4752] max-lg:hidden">
+          {
+            hydrated ? (
+              <ThemeToggle
+                theme={theme}
+                onThemeToggle={onThemeToggle}
+              />
+            ) : (
+              <LoaderPlumBlossom className="shrink-0 [&>svg]:size-9 gap-0" />
+            )
+          }
         </div>
 
         <div className="ml-auto hidden items-center gap-2 max-lg:flex">
-          <ThemeToggle
-            hydrated={hydrated}
-            theme={theme}
-            onThemeToggle={onThemeToggle}
-          />
+          {
+            hydrated ? (
+              <ThemeToggle
+                theme={theme}
+                onThemeToggle={onThemeToggle}
+              />
+            ) : (
+              <LoaderPlumBlossom className="shrink-0 [&>svg]:size-9 gap-0" />
+            )
+          }
           <button
             type="button"
             className="group grid size-9 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
@@ -122,7 +133,7 @@ export function TopNavBarView({
               className={`block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none ${menuOpen ? 'translate-y-[3.5px] rotate-45' : ''}`}
             />
             <span
-              className={`block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none ${menuOpen ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+              className={`block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none ${menuOpen ? 'translate-y-[-3.5px] -rotate-45' : ''}`}
             />
           </button>
         </div>
@@ -154,10 +165,9 @@ export function TopNavBarView({
 }
 
 function ThemeToggle({
-  hydrated,
   theme,
   onThemeToggle,
-}: Pick<TopNavBarViewProps, 'hydrated' | 'theme' | 'onThemeToggle'>) {
+}: Pick<TopNavBarViewProps, 'theme' | 'onThemeToggle'>) {
   const label = theme === 'dark' ? '切換至淺色模式' : '切換至深色模式'
 
   return (
@@ -169,13 +179,13 @@ function ThemeToggle({
       title={label}
       onClick={onThemeToggle}
     >
-      {hydrated ? (
+      {
         theme === 'dark' ? (
           <Sun className="size-5" strokeWidth={1.5} aria-hidden="true" />
         ) : (
           <Moon className="size-5" strokeWidth={1.5} aria-hidden="true" />
         )
-      ) : null}
+      }
     </button>
   )
 }
