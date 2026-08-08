@@ -121,6 +121,13 @@ function normalizeEvent(value: unknown): EventItem | null {
   }
 }
 
+export function parseEventItems(items: unknown): Array<EventItem> {
+  if (!Array.isArray(items)) return []
+  return items
+    .map(normalizeEvent)
+    .filter((item): item is EventItem => item !== null)
+}
+
 export function getCategoryLabel(category: EventCategoryId) {
   return EVENT_CATEGORIES.find((item) => item.id === category)?.label ?? category
 }
@@ -128,10 +135,7 @@ export function getCategoryLabel(category: EventCategoryId) {
 export function getEvents(): Array<EventItem> {
   try {
     const data = eventsJson as EventsFile
-    const items = Array.isArray(data.items) ? data.items : []
-    return items
-      .map(normalizeEvent)
-      .filter((item): item is EventItem => item !== null)
+    return parseEventItems(data.items)
   } catch {
     return []
   }
