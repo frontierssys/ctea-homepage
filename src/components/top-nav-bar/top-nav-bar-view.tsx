@@ -2,6 +2,7 @@ import { Moon, Sun } from 'lucide-react'
 import type { ComponentProps, MouseEventHandler } from 'react'
 import { cn } from '#/lib/utils'
 import { Link, type FileRouteTypes } from '@tanstack/react-router'
+import { Button } from '#/components/ui/button'
 
 const navLinks = [{
   label: '活動看板',
@@ -113,11 +114,12 @@ export function TopNavBarView({
 
           <div className="ml-auto items-center gap-2 flex">
             <ThemeToggle theme={theme} onThemeToggle={onThemeToggle} />
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="icon"
               className={cn(
                 'hidden max-lg:grid',
-                'size-9 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
+                'rounded-none cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
               )}
               aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
               aria-expanded={menuOpen}
@@ -126,7 +128,7 @@ export function TopNavBarView({
             >
               <span className="block h-px w-6 bg-[#17140f] transition-transform duration-200 group-data-[state=open]/mobile-nav:translate-y-[3.5px] group-data-[state=open]/mobile-nav:rotate-45 dark:bg-[#f1eade] motion-reduce:transition-none" />
               <span className="block h-px w-6 bg-[#17140f] transition-transform duration-200 group-data-[state=open]/mobile-nav:translate-y-[-3.5px] group-data-[state=open]/mobile-nav:-rotate-45 dark:bg-[#f1eade] motion-reduce:transition-none" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -168,9 +170,10 @@ function ThemeToggle({
     )
 
   return (
-    <button
-      type="button"
-      className="grid size-9 shrink-0 cursor-pointer place-items-center border border-[rgba(185,145,75,.45)] text-[#7e5f2e] transition-[background,color,border-color] duration-200 hover:border-[#b68c43] hover:bg-[rgba(185,145,75,.07)] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:text-[#a99267] dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
+    <Button
+      variant="outline"
+      size="icon"
+      className="grid rounded-none shrink-0 cursor-pointer place-items-center border border-[rgba(185,145,75,.45)] text-[#7e5f2e] transition-[background,color,border-color] duration-200 hover:border-[#b68c43] hover:bg-[rgba(185,145,75,.07)] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:text-[#a99267] dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
       aria-label={label}
       aria-pressed={theme === 'dark'}
       title={label}
@@ -180,6 +183,6 @@ function ThemeToggle({
         <Sun className={iconClassName(theme === 'dark')} strokeWidth={1.5} />
         <Moon className={iconClassName(theme === 'light')} strokeWidth={1.5} />
       </span>
-    </button>
+    </Button>
   )
 }

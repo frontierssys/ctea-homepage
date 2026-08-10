@@ -8,12 +8,54 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * - shadcn semantic vars → Button / Sheet / future ui/*
+ * - --ctea-* aliases → brand utilities (bg-ctea-navy, text-ctea-gold-statement, …)
+ * - Hero scrim / carousel motion tokens stay local in hero-carousel/style.css
+ * - primary stays navy in light + dark; gold is ring / accent / brand punctuation
+ */
 :root {
-  --background: #fbf6ed;
-  --foreground: #151310;
   --layout-header-content-height: 122px;
   --layout-header-height: calc(var(--layout-header-content-height) + 1px);
   --radius: 0.625rem;
+
+  /* Brand aliases */
+  --ctea-paper: #fbf6ed;
+  --ctea-paper-header: #fbf8f1;
+  --ctea-paper-page: #f8f2e8;
+  --ctea-ink: #151310;
+  --ctea-ink-muted: #62615e;
+  --ctea-navy: #122b43;
+  --ctea-navy-footer: #11283e;
+  --ctea-gold: #b68c43;
+  --ctea-gold-statement: #a77d35;
+  --ctea-gold-ornament: #c5a15d;
+  --ctea-gold-focus: #9b742e;
+  --ctea-brown: #7e5f2e;
+  --ctea-hero-ground: #091725;
+  --ctea-hero-gold: #d0ae6d;
+  --ctea-hero-ink: #fffaf0;
+  --ctea-hero-focus: #f3dbad;
+
+  /* shadcn semantic */
+  --background: var(--ctea-paper);
+  --foreground: var(--ctea-ink);
+  --card: var(--ctea-paper-header);
+  --card-foreground: var(--ctea-ink);
+  --popover: var(--ctea-paper-header);
+  --popover-foreground: var(--ctea-ink);
+  --primary: var(--ctea-navy);
+  --primary-foreground: var(--ctea-paper);
+  --secondary: #f0e6d4;
+  --secondary-foreground: var(--ctea-ink);
+  --muted: #f0ebe1;
+  --muted-foreground: var(--ctea-ink-muted);
+  --accent: #f3ead8;
+  --accent-foreground: var(--ctea-gold-statement);
+  --destructive: #8f3d3d;
+  --border: rgb(182 140 67 / 0.38);
+  --input: rgb(182 140 67 / 0.45);
+  --ring: var(--ctea-gold-focus);
 }
 
 @media (width < 64rem) {
@@ -29,8 +71,38 @@
 }
 
 .dark {
-  --background: #0b1825;
-  --foreground: #f1eade;
+  --ctea-paper: #0b1825;
+  --ctea-paper-header: #122231;
+  --ctea-paper-page: #0b1825;
+  --ctea-ink: #f1eade;
+  --ctea-ink-muted: #b3aa99;
+  --ctea-navy: #1e4a6b;
+  --ctea-navy-footer: #122231;
+  --ctea-gold: #c6a465;
+  --ctea-gold-statement: #c6a465;
+  --ctea-gold-ornament: #ddc28d;
+  --ctea-gold-focus: #c6a465;
+  --ctea-brown: #a99267;
+  /* Hero stage colors stay photographic; do not invert with theme. */
+
+  --background: var(--ctea-paper);
+  --foreground: var(--ctea-ink);
+  --card: var(--ctea-paper-header);
+  --card-foreground: var(--ctea-ink);
+  --popover: #172a3c;
+  --popover-foreground: var(--ctea-ink);
+  --primary: var(--ctea-navy);
+  --primary-foreground: var(--ctea-ink);
+  --secondary: #172a3c;
+  --secondary-foreground: var(--ctea-ink);
+  --muted: #122231;
+  --muted-foreground: var(--ctea-ink-muted);
+  --accent: #213140;
+  --accent-foreground: var(--ctea-gold-statement);
+  --destructive: #b45c5c;
+  --border: #3a4752;
+  --input: #3a4752;
+  --ring: var(--ctea-gold-focus);
 }
 
 @theme inline {
@@ -51,6 +123,7 @@
   --font-body: 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
   --font-sport: 'Barlow Condensed', 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
   --font-sans: 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, sans-serif;
+  --font-heading: var(--font-display);
   --tracking-brand: 0.08em;
 
   /* Loaded web faces: Barlow 600/700 only. */
@@ -119,8 +192,44 @@
   --text-overline--letter-spacing: 0.12em;
   --text-overline--font-weight: 700;
 
+  /* shadcn → Tailwind color utilities */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand aliases → bg-ctea-*, text-ctea-*, border-ctea-* */
+  --color-ctea-paper: var(--ctea-paper);
+  --color-ctea-paper-header: var(--ctea-paper-header);
+  --color-ctea-paper-page: var(--ctea-paper-page);
+  --color-ctea-ink: var(--ctea-ink);
+  --color-ctea-ink-muted: var(--ctea-ink-muted);
+  --color-ctea-navy: var(--ctea-navy);
+  --color-ctea-navy-footer: var(--ctea-navy-footer);
+  --color-ctea-gold: var(--ctea-gold);
+  --color-ctea-gold-statement: var(--ctea-gold-statement);
+  --color-ctea-gold-ornament: var(--ctea-gold-ornament);
+  --color-ctea-gold-focus: var(--ctea-gold-focus);
+  --color-ctea-brown: var(--ctea-brown);
+  --color-ctea-hero-ground: var(--ctea-hero-ground);
+  --color-ctea-hero-gold: var(--ctea-hero-gold);
+  --color-ctea-hero-ink: var(--ctea-hero-ink);
+  --color-ctea-hero-focus: var(--ctea-hero-focus);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
