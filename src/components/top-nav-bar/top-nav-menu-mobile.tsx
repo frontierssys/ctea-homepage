@@ -8,11 +8,11 @@ import {
 } from '@tanstack/react-router'
 import { navLinks } from './const'
 
-type TopNavMenuMobileProps = {
+type TopNavMenuMobileProps = ComponentProps<'nav'> & {
   menuOpen: boolean
   setMenuOpen: (open: boolean) => void
 }
-export function TopNavMenuMobile({ menuOpen, setMenuOpen }: TopNavMenuMobileProps) {
+export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMenuMobileProps) {
 
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
@@ -29,6 +29,7 @@ export function TopNavMenuMobile({ menuOpen, setMenuOpen }: TopNavMenuMobileProp
         menuOpen
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0",
+        className,
       )}
 
       aria-label="行動版導覽"

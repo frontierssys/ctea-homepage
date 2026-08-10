@@ -35,7 +35,7 @@ export function TopNavBar() {
             "max-lg:hidden",
             isHidden ? '-translate-y-full' : 'translate-y-0'
           )} />
-          <TopNavMenuMobile menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          <TopNavMenuMobile className="hidden max-lg:block" menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
           <div className="flex items-center gap-2 max-lg:ml-auto">
             <ThemeToggler theme={resolvedTheme} onThemeToggle={toggleMode} />
