@@ -54,42 +54,63 @@ const timeline = [
 function RouteComponent() {
   return (
     <>
-      <AboutTitle eyebrow="History" title="協會歷史" />
-      <section className="grid lg:grid-cols-8">
-        <div className="col-span-5">
-          <HistoryTexts className="p-6" />
-        </div>
-        <div className="col-span-3">
-          <div className="grid border-l border-[rgba(17,17,15,0.18)] pl-6 sm:pl-10">
-            {timeline.map((item) => (
+      <AboutTitle
+        className="border-b border-border pb-8 sm:pb-10"
+        eyebrow="History"
+        title="協會歷史"
+      />
+      <section
+        className="mt-10 grid gap-14 sm:mt-14 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.75fr)] lg:items-start lg:gap-16"
+        aria-label="協會歷史"
+      >
+        <div className="lg:col-start-2 lg:row-start-1">
+          <div className="grid border-l border-border pl-6 sm:pl-10">
+            {timeline.map((item, index) => (
               <article
                 key={item.year}
-                className="relative border-t border-[rgba(17,17,15,0.18)] py-7 first:border-t-0"
+                className="relative border-t border-border py-7 first:border-t-0 first:pt-0 sm:py-8"
               >
-                <span className="absolute top-8 -left-[31px] size-3 rounded-full border border-[#11110f] bg-[#f1f0eb] sm:-left-[47px]" />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8b7254]">
+                <span
+                  className={cn(
+                    'absolute -left-7.75 size-3 rounded-full border border-ctea-gold-ornament bg-background ring-4 ring-background sm:-left-[47px]',
+                    index === 0 ? 'top-1' : 'top-8',
+                  )}
+                  aria-hidden="true"
+                />
+                <p className="font-sport text-meta font-semibold tabular-nums text-ctea-brown">
                   {item.year}
                 </p>
-                <h3 className="mt-3 text-3xl font-medium tracking-[-0.05em] text-[#11110f]">
+                <h3 className="mt-2 font-display text-card-title text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#686762]">
+                <p className="mt-3 font-body text-body-sm text-muted-foreground">
                   {item.description}
                 </p>
               </article>
             ))}
           </div>
         </div>
+        <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+          <HistoryTexts />
+        </div>
       </section>
-      <AboutNextLink label="閱讀協會宗旨" to="/mock/main/about/mission" />
+      <div className="mt-14 sm:mt-20">
+        <AboutNextLink label="閱讀協會宗旨" to="/about/mission" />
+      </div>
     </>
   )
 }
 
 function HistoryTexts({ className, ...props }: React.ComponentProps<'article'>) {
   return (
-    <article {...props} className={cn('space-y-4', className)}>
-      <p>
+    <article
+      {...props}
+      className={cn(
+        'max-w-3xl space-y-6 font-body text-body text-foreground/90',
+        className,
+      )}
+    >
+      <p className="font-sport text-meta text-ctea-brown">
         {'\u3000'}
         {'\u3000'}
         文章作者 / 馬協老人

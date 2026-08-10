@@ -29,43 +29,44 @@ export function TopNavBar() {
           isHidden ? '-translate-y-full' : 'translate-y-0'
         )}
       >
-        <LinkLogo />
-        <TopNavMenuDesktop className={cn(
-          "max-lg:hidden",
-          isHidden ? '-translate-y-full' : 'translate-y-0'
-        )} />
-        <TopNavMenuMobile menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <div className="mx-auto flex w-full max-w-7xl">
+          <LinkLogo />
+          <TopNavMenuDesktop className={cn(
+            "max-lg:hidden",
+            isHidden ? '-translate-y-full' : 'translate-y-0'
+          )} />
+          <TopNavMenuMobile menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-        <div className="ml-auto items-center gap-2 flex">
-          <ThemeToggler theme={resolvedTheme} onThemeToggle={toggleMode} />
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn(
-              'hidden max-lg:grid',
-              'rounded-none cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
-            )}
-            aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span
+          <div className="ml-auto flex items-center gap-2">
+            <ThemeToggler theme={resolvedTheme} onThemeToggle={toggleMode} />
+            <Button
+              variant="outline"
+              size="icon"
               className={cn(
-                'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
-                menuOpen && 'translate-y-[3.5px] rotate-45',
+                'hidden max-lg:grid',
+                'rounded-none cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
               )}
-            />
-            <span
-              className={cn(
-                'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
-                menuOpen && 'translate-y-[-3.5px] -rotate-45',
-              )}
-            />
-          </Button>
+              aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span
+                className={cn(
+                  'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
+                  menuOpen && 'translate-y-[3.5px] rotate-45',
+                )}
+              />
+              <span
+                className={cn(
+                  'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
+                  menuOpen && 'translate-y-[-3.5px] -rotate-45',
+                )}
+              />
+            </Button>
+          </div>
         </div>
       </section>
-      
       <MobileNavBackdrop isShown={menuOpen} onClick={() => setMenuOpen(false)} />
     </>)
 }

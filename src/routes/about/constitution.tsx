@@ -13,7 +13,7 @@ function RouteComponent() {
       <section className="py-4">
         <ConstitutionTexts />
       </section>
-      <AboutNextLink label="閱讀奮鬥願景" to="/mock/main/about/vision" />
+      <AboutNextLink label="閱讀奮鬥願景" to="/about/vision" />
     </>
   )
 }

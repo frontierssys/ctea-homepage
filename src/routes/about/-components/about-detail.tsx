@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
-import type { FileRouteTypes } from '~/routeTree.gen'
+import type { FileRouteTypes } from '#/routeTree.gen'
 
 type AboutPageShellProps = {
   eyebrow: string
@@ -76,10 +76,10 @@ type AboutTitleProps = {
 export function AboutTitle({ eyebrow, title, ...props }: AboutTitleProps) {
   return (
     <header {...props}>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8b7254]">
+      <p className="font-sport text-kicker uppercase text-ctea-brown">
         {eyebrow}
       </p>
-      <h2 className="mt-4 text-[clamp(2.2rem,5vw,4.7rem)] font-medium leading-[0.96] tracking-[-0.06em] text-[#11110f]">
+      <h2 className="mt-4 max-w-4xl font-display text-section text-foreground">
         {title}
       </h2>
     </header>
@@ -106,11 +106,11 @@ export function AboutNextLink({ label, to }: AboutNextLinkProps) {
   return (
     <Link
       to={to}
-      className="group inline-flex min-h-11 items-center gap-4 justify-self-start border-b border-[#11110f] text-sm font-semibold text-[#11110f] transition-opacity duration-200 hover:opacity-65 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8b7254]"
+      className="group inline-flex min-h-11 items-center gap-4 justify-self-start border-b border-ctea-gold font-body text-action text-foreground transition-colors duration-200 hover:text-ctea-gold-statement focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ctea-gold-focus"
     >
       {label}
       <span
-        className="grid size-7 place-items-center rounded-full border border-[#11110f] transition-transform duration-200 group-hover:translate-x-1"
+        className="grid size-7 place-items-center rounded-full border border-ctea-gold transition-transform duration-200 group-hover:translate-x-1"
         aria-hidden="true"
       >
         →

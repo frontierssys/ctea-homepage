@@ -26,7 +26,7 @@ function RouteComponent() {
         </Card>
       </section>
 
-      <AboutNextLink label="回顧協會歷史" to="/mock/main/about/history" />
+      <AboutNextLink label="回顧協會歷史" to="/about/history" />
     </>
   )
 }

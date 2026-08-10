@@ -6,7 +6,7 @@ export const Route = createFileRoute('/about')({
 
 function AboutLayout() {
   return (
-    <div className="mx-auto w-[min(100%-32px,1440px)] py-8 sm:w-[min(100%-48px,1440px)]">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6">
       <Outlet />
     </div>
   )

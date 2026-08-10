@@ -13,7 +13,7 @@ export function EventDetailView({ event, onBack }: EventDetailViewProps) {
 
   return (
     <main className="relative z-10 px-5 py-10 text-[#151310] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16">
-      <div className="mx-auto max-w-210">
+      <div className="mx-auto max-w-4xl">
         <article>
           <header className="border-b border-[rgba(182,140,67,.38)] pb-8 dark:border-[#3a4752]">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

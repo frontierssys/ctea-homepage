@@ -37,7 +37,7 @@ export function EventsIndexView({
 
   return (
     <main className="events-motion relative z-10 px-5 py-10 text-[#151310] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16">
-      <div className="mx-auto max-w-360">
+      <div className="mx-auto max-w-7xl">
         <header className="events-motion-intro max-w-2xl">
           <p className="font-sport text-kicker text-[#a77d35] uppercase dark:text-[#c6a465]">
             {page.eyebrow}

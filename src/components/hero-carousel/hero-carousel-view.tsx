@@ -100,14 +100,13 @@ export function HeroCarouselView({
         })}
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-[1600px] flex-col px-12 max-lg:px-8 max-sm:px-6">
-        <div className="grid flex-1 items-center py-6 max-sm:items-end max-sm:pt-8 max-sm:pb-5">
+      <div className="relative mx-auto z-20 flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-7xl flex-col px-12 max-lg:px-8 max-sm:px-6">
+        <article className="grid flex-1 items-center py-6 max-sm:items-end max-sm:pt-8 max-sm:pb-5">
           {slides.map((slide, index) => {
             const isActive = index === activeIndex
-
             return (
               <div
-                className="ctea-carousel-copy col-start-1 row-start-1 w-full max-w-220"
+                className="ctea-carousel-copy col-start-1 row-start-1 w-full max-w-4xl"
                 data-active={isActive}
                 aria-hidden={!isActive}
                 key={`${slide.eyebrow}-${index}`}
@@ -124,7 +123,7 @@ export function HeroCarouselView({
                   <span className="block text-[#d0ae6d]">{slide.titleLine2}</span>
                 </h1>
 
-                <p className="mt-5 max-w-160 text-pretty font-body text-lead text-[rgba(255,250,240,.82)]">
+                <p className="mt-5 max-w-2xl text-pretty font-body text-lead text-[rgba(255,250,240,.82)]">
                   {slide.description}
                 </p>
 
@@ -143,10 +142,10 @@ export function HeroCarouselView({
               </div>
             )
           })}
-        </div>
+        </article>
 
         {slideCount > 1 ? (
-          <div className="ctea-hero-controls mb-5 flex min-h-16 items-center gap-7 max-sm:mb-4 max-sm:gap-3">
+          <section className="ctea-hero-controls mb-5 flex min-h-16 items-center gap-7 max-sm:mb-4 max-sm:gap-3">
             <button
               type="button"
               className="grid size-12 shrink-0 cursor-pointer place-items-center border border-[rgba(208,174,109,.5)] text-[#fffaf0] transition-[background-color,color,border-color] duration-200 hover:border-[#d0ae6d] hover:bg-[#d0ae6d] hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:size-11"
@@ -206,7 +205,7 @@ export function HeroCarouselView({
                 <Play className="size-4" strokeWidth={1.5} aria-hidden="true" />
               )}
             </button>
-          </div>
+          </section>
         ) : null}
       </div>
     </section>

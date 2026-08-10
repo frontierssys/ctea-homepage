@@ -12,7 +12,6 @@ export const Route = createFileRoute('/about/mission')({
 })
 
 function RouteComponent() {
-  const { doc } = Route.useLoaderData()
   // const ContentNode = renderToReactElement({
   //   extensions: [StarterKit],
   //   content: doc,
@@ -34,7 +33,7 @@ function RouteComponent() {
           {/* <section className="space-y-4">{ContentNode}</section> */}
         </Card>
       </section>
-      <AboutNextLink label="查看組織章程" to="/mock/main/about/constitution" />
+      <AboutNextLink label="查看組織章程" to="/about/constitution" />
     </>
   )
 }

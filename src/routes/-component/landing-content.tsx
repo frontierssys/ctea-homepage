@@ -137,7 +137,7 @@ export function SectionLatestNews({
       className="relative bg-[#fbf6ed] px-5 py-24 transition-colors duration-200 dark:bg-[#0b1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[rgba(182,140,67,.38)] dark:bg-[#3a4752]" />
-      <div className="mx-auto max-w-375">
+      <div className="mx-auto max-w-7xl">
         <div className="flex items-end justify-between gap-8 max-md:block">
           <Heading
             eyebrow="News & Announcements"
@@ -235,7 +235,7 @@ export function SectionSocialFeed({ backgroundImage }: { backgroundImage: string
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
         loading="lazy"
       />
-      <div className="relative mx-auto grid max-w-375 grid-cols-12 items-start gap-10 max-lg:gap-6 max-md:block">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-12 items-start gap-10 max-lg:gap-6 max-md:block">
         <div className="col-span-4">
           <Heading eyebrow="From Our Community" title="馬術現場" english="Social Stories" />
           <p className="mt-8 max-w-sm font-body text-body text-[#62615e] dark:text-[#b3aa99]">
@@ -311,7 +311,7 @@ export function SectionLatestVideo() {
       className="relative overflow-hidden bg-[#122b43] px-5 py-24 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#122231] dark:text-[#f1eade] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
       <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_78%_24%,rgba(197,161,93,.45),transparent_31%),linear-gradient(120deg,transparent_25%,rgba(255,255,255,.06),transparent_64%)]" />
-      <div className="relative mx-auto max-w-375">
+      <div className="relative mx-auto max-w-7xl">
         <div className="grid grid-cols-12 items-end gap-10 max-md:block">
           <header className="col-span-7">
             <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
@@ -392,7 +392,7 @@ function PartnerMark({ code, zh, en }: { code: string; zh: string; en: string })
 export function SectionPartner() {
   return (
     <section className="border-b border-[rgba(182,140,67,.38)] px-5 py-20 dark:border-[#3a4752] md:px-10 lg:px-16">
-      <div className="mx-auto max-w-375">
+      <div className="mx-auto max-w-7xl">
         <header className="flex items-end justify-between gap-8 max-md:block">
           <div>
             <p className="font-sport text-kicker text-[#a77d35] uppercase">
@@ -429,7 +429,7 @@ export function SiteFooter() {
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"
         loading="lazy"
       />
-      <div className="relative mx-auto max-w-375">
+      <div className="relative mx-auto max-w-7xl">
         <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
           <div className="col-span-5 max-lg:col-span-2">
             <p className="font-brand text-xl font-semibold tracking-brand">
