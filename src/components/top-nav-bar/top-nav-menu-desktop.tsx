@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react'
 import {
   Link,
+  useNavigate,
   useRouterState,
 } from '@tanstack/react-router'
 import {
@@ -10,7 +11,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '#/components/ui/navigation-menu'
 import { cn } from '#/lib/utils'
 import { navLinks } from './const'
@@ -24,8 +24,8 @@ const desktopLinkClassName =
   'relative flex min-h-12 w-full flex-1 items-center justify-center rounded-none bg-transparent px-4 py-0 font-body text-nav whitespace-nowrap shadow-none transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#a77d35] before:transition-transform before:duration-200 hover:bg-transparent hover:text-[#a77d35] hover:before:scale-x-100 focus:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] focus-visible:ring-0 dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] max-[1500px]:px-3'
 
 const triggerClassName = cn(
-  navigationMenuTriggerStyle(),
   desktopLinkClassName,
+  'cursor-pointer',
   'h-auto w-full data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent data-[state=open]:text-[#a77d35] dark:data-[state=open]:text-[#c6a465] [&_svg]:hidden',
 )
 
@@ -41,6 +41,7 @@ const dropdownLinkClassName =
 
 
 export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
+  const navigate = useNavigate()
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
@@ -77,6 +78,9 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
                   aboutActive &&
                   'text-[#a77d35] before:scale-x-100 dark:text-[#c6a465]',
                 )}
+                onClick={() => {
+                  navigate({ to: item.to })
+                }}
               >
                 {item.label}
               </NavigationMenuTrigger>
