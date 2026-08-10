@@ -64,20 +64,17 @@ function RouteComponent() {
         aria-label="協會歷史"
       >
         <div className="lg:col-start-2 lg:row-start-1">
-          <div className="grid border-l border-border pl-6 sm:pl-10">
-            {timeline.map((item, index) => (
+          <div className="relative grid pl-6 before:absolute before:top-px before:bottom-0 before:left-0 before:w-px before:bg-border before:content-[''] sm:pl-10">
+            {timeline.map((item) => (
               <article
                 key={item.year}
-                className="relative border-t border-border py-7 first:border-t-0 first:pt-0 sm:py-8"
+                className="border-t border-border py-7 first:border-t-0 first:pt-0 sm:py-8"
               >
-                <span
-                  className={cn(
-                    'absolute -left-7.75 size-3 rounded-full border border-ctea-gold-ornament bg-background ring-4 ring-background sm:-left-[47px]',
-                    index === 0 ? 'top-1' : 'top-8',
-                  )}
-                  aria-hidden="true"
-                />
-                <p className="font-sport text-meta font-semibold tabular-nums text-ctea-brown">
+                <p className="relative font-sport text-meta font-semibold tabular-nums text-ctea-brown">
+                  <span
+                    className="absolute top-1/2 -left-6 size-3 -translate-x-1/2 -translate-y-1 rounded-full border border-ctea-gold-ornament bg-background ring-4 ring-background sm:-left-10"
+                    aria-hidden="true"
+                  />
                   {item.year}
                 </p>
                 <h3 className="mt-2 font-display text-card-title text-foreground">
