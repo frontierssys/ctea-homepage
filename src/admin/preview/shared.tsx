@@ -68,56 +68,63 @@ export function PreviewLayout({
         className={cn(
           'flex h-(--layout-header-height) px-11 max-xl:px-7',
           'z-50 border-b transition-[transform,background-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none',
-          'fixed inset-x-0 top-0 border-[rgba(185,145,75,.65)] bg-[rgba(251,248,241,.92)] shadow-[0_4px_20px_rgba(78,58,27,.06)] backdrop-blur-sm dark:border-[#3a4752] dark:bg-[rgba(18,34,49,.92)] dark:shadow-[0_4px_20px_rgba(2,8,14,.25)]',
+          'fixed inset-x-0 top-0 border-ctea-nav-border bg-ctea-nav-surface text-[#fffaf0] backdrop-blur-sm dark:text-[#f1eade]',
         )}
       >
-        <LinkLogo />
-        {/* Swap: no Radix NavigationMenu */}
-        <PreviewTopNavMenuDesktop />
-        {/* Swap: no useState / useRouterState */}
-        <PreviewTopNavMenuMobile
-          menuOpen={menuOpen}
-          setMenuOpen={(open) => instance.setState({ navMenuOpen: open })}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_-40%,rgba(208,174,109,.2),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_14%_-40%,rgba(198,164,101,.14),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.12),transparent_38%)]"
         />
-
-        <div className="ml-auto flex items-center gap-2">
-          <ThemeToggler
-            theme={theme}
-            onThemeToggle={() => {
-              instance.setState((state) => ({
-                previewTheme: state.previewTheme === 'dark' ? 'light' : 'dark',
-              }))
-            }}
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl">
+          <LinkLogo />
+          {/* Swap: no Radix NavigationMenu */}
+          <PreviewTopNavMenuDesktop className="max-lg:hidden" />
+          {/* Swap: no useState / useRouterState */}
+          <PreviewTopNavMenuMobile
+            className="hidden max-lg:block"
+            menuOpen={menuOpen}
+            setMenuOpen={(open) => instance.setState({ navMenuOpen: open })}
           />
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn(
-              'hidden max-lg:grid',
-              'cursor-pointer place-content-center gap-1.5 rounded-none border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] motion-reduce:transition-none dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465]',
-            )}
-            aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            onClick={() =>
-              instance.setState((state) => ({
-                navMenuOpen: !state.navMenuOpen,
-              }))
-            }
-          >
-            <span
-              className={cn(
-                'block h-px w-6 bg-[#17140f] transition-transform duration-200 motion-reduce:transition-none dark:bg-[#f1eade]',
-                menuOpen && 'translate-y-[3.5px] rotate-45',
-              )}
+
+          <div className="flex items-center gap-2 max-lg:ml-auto">
+            <ThemeToggler
+              theme={theme}
+              onThemeToggle={() => {
+                instance.setState((state) => ({
+                  previewTheme: state.previewTheme === 'dark' ? 'light' : 'dark',
+                }))
+              }}
             />
-            <span
+            <Button
+              variant="outline"
+              size="icon"
               className={cn(
-                'block h-px w-6 bg-[#17140f] transition-transform duration-200 motion-reduce:transition-none dark:bg-[#f1eade]',
-                menuOpen && 'translate-y-[-3.5px] -rotate-45',
+                'hidden max-lg:grid',
+                'cursor-pointer place-content-center gap-1.5 rounded-none border border-[rgba(208,174,109,.55)] bg-transparent transition-colors duration-200 hover:border-[#d0ae6d] hover:bg-[rgba(208,174,109,.1)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] motion-reduce:transition-none dark:border-[#3a4752] dark:bg-transparent dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465]',
               )}
-            />
-          </Button>
+              aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() =>
+                instance.setState((state) => ({
+                  navMenuOpen: !state.navMenuOpen,
+                }))
+              }
+            >
+              <span
+                className={cn(
+                  'block h-px w-6 bg-[#fffaf0] transition-transform duration-200 motion-reduce:transition-none dark:bg-[#f1eade]',
+                  menuOpen && 'translate-y-[3.5px] rotate-45',
+                )}
+              />
+              <span
+                className={cn(
+                  'block h-px w-6 bg-[#fffaf0] transition-transform duration-200 motion-reduce:transition-none dark:bg-[#f1eade]',
+                  menuOpen && 'translate-y-[-3.5px] -rotate-45',
+                )}
+              />
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -141,7 +148,7 @@ function PreviewMobileNavBackdrop({
       aria-hidden="true"
       className={cn(
         'fixed inset-x-0 top-(--layout-header-height) bottom-0 z-40 lg:hidden',
-        'bg-[rgba(251,248,241,.45)] dark:bg-[rgba(9,23,37,.5)]',
+        'bg-[rgba(9,23,37,.46)] dark:bg-[rgba(2,8,14,.6)]',
         'backdrop-blur-xs transition-opacity duration-200',
         'motion-reduce:transition-none motion-reduce:backdrop-blur-none',
         isShown ? 'opacity-100' : 'pointer-events-none opacity-0',
