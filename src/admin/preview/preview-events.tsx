@@ -47,7 +47,7 @@ function syncPreviewHtml(instance: EventsPreviewInstance, draft: EventItem | nul
 
   if (!source.trim()) return
 
-  void renderMarkdown(source).then(({ markup }) => {
+  renderMarkdown(source).then(({ markup }) => {
     if (instance._previewCompileToken !== token) return
     instance.setState({ contentHtml: markup })
   })

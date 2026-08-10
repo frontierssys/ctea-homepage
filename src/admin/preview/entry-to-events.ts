@@ -143,7 +143,9 @@ export function entryToEvent(
       date: normalizeDate(readData(entry, 'date')),
       author: readData(entry, 'author'),
       excerpt: readData(entry, 'excerpt'),
-      content: normalizeContent(readData(entry, 'content')),
+      content: normalizeContent(
+        readData(entry, 'content') ?? readData(entry, 'body'),
+      ),
       attachments,
     },
     readEntrySlug(entry),

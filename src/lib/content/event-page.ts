@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import eventPageJson from '../../../content/event.json'
 
 export type EventPageContent = {
@@ -12,23 +13,19 @@ export const DEFAULT_EVENT_PAGE: EventPageContent = {
   description: '依分類與標籤篩選協會公告，掌握賽事、會務、培訓與國際資訊。',
 }
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0
-}
+const nonEmptyTrimmed = z.string().trim().min(1)
+
+const eventPageSchema = z.object({
+  eyebrow: nonEmptyTrimmed.catch(DEFAULT_EVENT_PAGE.eyebrow),
+  title: nonEmptyTrimmed.catch(DEFAULT_EVENT_PAGE.title),
+  description: nonEmptyTrimmed.catch(DEFAULT_EVENT_PAGE.description),
+})
 
 export function normalizeEventPage(value: unknown): EventPageContent {
-  if (!value || typeof value !== 'object') return DEFAULT_EVENT_PAGE
-  const data = value as Record<string, unknown>
-
-  return {
-    eyebrow: isNonEmptyString(data.eyebrow)
-      ? data.eyebrow.trim()
-      : DEFAULT_EVENT_PAGE.eyebrow,
-    title: isNonEmptyString(data.title) ? data.title.trim() : DEFAULT_EVENT_PAGE.title,
-    description: isNonEmptyString(data.description)
-      ? data.description.trim()
-      : DEFAULT_EVENT_PAGE.description,
-  }
+  const parsed = eventPageSchema.safeParse(
+    value && typeof value === 'object' ? value : {},
+  )
+  return parsed.success ? parsed.data : DEFAULT_EVENT_PAGE
 }
 
 export function getEventPage(): EventPageContent {

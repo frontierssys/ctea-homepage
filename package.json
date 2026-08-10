@@ -32,7 +32,9 @@
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.1.18",
-    "tw-animate-css": "^1.3.6"
+    "tw-animate-css": "^1.3.6",
+    "yaml": "^2.9.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.26.0",
@@ -59,8 +61,7 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vite": "^8.0.0",
-    "wrangler": "^4.70.0",
-    "zod": "^4.4.3"
+    "wrangler": "^4.70.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

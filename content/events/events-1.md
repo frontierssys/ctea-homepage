@@ -1,0 +1,45 @@
+---
+title: 115年度全國馬術錦標賽競賽規程與報名資訊
+category: events
+tags:
+  - 2025全運
+  - 規程
+  - 活動
+date: "2026-06-08"
+author: 秘書處
+excerpt: 年度重點賽事即將展開，敬請參賽選手、教練與所屬單位依公告時程完成報名。
+attachments:
+  - name: 115年度全國馬術錦標賽報名表.pdf
+    url: "#"
+    size: 256 KB
+  - name: 賽事規程.pdf
+    url: "#"
+    size: 1.2 MB
+---
+
+各位會員您好：
+
+<code style="color: Olive;"> Test: code node in html </code>
+<p>Test: p node in html</p>
+
+```text
+Test Code block in Markdown
+```
+
+[![](https://pub-2bb6dae8f23943f19fe4d549fdfd5f2d.r2.dev/homepage/landingpage/ctea-field-signal-hero.webp "Test video")](https://youtu.be/dQw4w9WgXcQ?si=OWkkww6JKmZujWYN)
+
+115 年度全國馬術錦標賽即將舉行，現已公告競賽規程並開放報名。本次賽事將包含以下項目：
+
+-   馬場馬術（Dressage）— 初級組、中級組、高級組
+-   場地障礙（Show Jumping）— 青年組、公開組
+-   三日賽（Eventing）— 公開組
+
+### 報名資訊
+
+**報名期間**：2026 年 6 月 8 日至 2026 年 7 月 15 日
+
+**比賽日期**：2026 年 8 月 15 日至 8 月 17 日
+
+**比賽地點**：台北市立馬術中心
+
+請至本會官網下載報名表，填寫完畢後寄至 competition@ctea.org.tw。如有疑問，歡迎來電洽詢。

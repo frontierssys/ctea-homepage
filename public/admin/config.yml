@@ -107,8 +107,11 @@ collections:
     label_singular: 活動看板（詳情）
     folder: /content/events
     create: true
-    extension: json
-    format: json
+    extension: md
+    format: yaml-frontmatter
+    # Matches content-collections frontmatter body (`content` outside YAML).
+    body_field:
+      key: content
     slug: '{{slug}}'
     summary: '{{title}} — {{date}}'
     sortable_fields: [title, date, category, author]

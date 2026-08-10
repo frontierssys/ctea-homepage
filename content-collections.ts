@@ -1,36 +1,14 @@
 import { defineCollection, defineConfig } from '@content-collections/core'
-import { z } from 'zod'
+import { eventDocumentSchema } from './src/lib/content/events'
 import { renderMarkdown } from './src/lib/markdown'
-
-const eventAttachmentSchema = z.object({
-  name: z.string(),
-  url: z.string(),
-  size: z.string().optional(),
-})
 
 /** @see https://tanstack.com/start/latest/docs/framework/react/guide/rendering-markdown#method-1-static-markdown-with-content-collections */
 const events = defineCollection({
   name: 'events',
   directory: 'content/events',
-  include: '*.json',
-  parser: 'json',
-  schema: z.object({
-    title: z.string(),
-    category: z.enum([
-      'events',
-      'administration',
-      'education',
-      'international',
-      'rules',
-      'other',
-    ]),
-    tags: z.array(z.string()).default([]),
-    date: z.string(),
-    author: z.string().default(''),
-    excerpt: z.string().optional(),
-    content: z.string().default(''),
-    attachments: z.array(eventAttachmentSchema).default([]),
-  }),
+  include: '*.md',
+  parser: 'frontmatter',
+  schema: eventDocumentSchema,
   transform: async (document, { cache }) => {
     const { markup } = await cache(document.content, (content) =>
       renderMarkdown(content),

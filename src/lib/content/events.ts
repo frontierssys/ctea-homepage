@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export const EVENT_CATEGORIES = [
   { id: 'events', label: '活動賽事' },
   { id: 'administration', label: '行政會務' },
@@ -43,11 +45,39 @@ export const EVENT_FILTER_TAGS = [
 export type EventCategoryId = (typeof EVENT_CATEGORIES)[number]['id']
 export type EventFilterTag = (typeof EVENT_FILTER_TAGS)[number]
 
-export type EventAttachment = {
-  name: string
-  url: string
-  size?: string
+const eventCategoryIdSchema = z.enum(
+  EVENT_CATEGORIES.map<EventCategoryId>((category) => category.id)
+)
+
+const eventFilterTagSchema = z.enum(EVENT_FILTER_TAGS)
+
+/** Shared attachment contract (content-collections + normalize). */
+const eventAttachmentDocumentSchema = z.object({
+  name: z.string(),
+  url: z.string(),
+  size: z.string().optional(),
+})
+
+/** Shared event field contract — one shape, two consumers. */
+const eventFields = {
+  title: z.string(),
+  category: eventCategoryIdSchema,
+  tags: z.array(z.string()).default([]),
+  date: z.union([
+    z.string(),
+    z.date().transform((value) => value.toISOString().slice(0, 10)),
+  ]),
+  author: z.string().default(''),
+  excerpt: z.string().optional(),
+  content: z.string().default(''),
+  attachments: z.array(eventAttachmentDocumentSchema).default([]),
 }
+
+/** Strict parse for content-collections Markdown front matter (id from file meta). */
+export const eventDocumentSchema = z.object(eventFields)
+
+type EventDocument = z.infer<typeof eventDocumentSchema>
+type EventAttachment = z.infer<typeof eventAttachmentDocumentSchema>
 
 export type EventItem = {
   id: string
@@ -62,70 +92,107 @@ export type EventItem = {
   attachments: Array<EventAttachment>
 }
 
-const CATEGORY_IDS = new Set<string>(EVENT_CATEGORIES.map((c) => c.id))
-const TAG_IDS = new Set<string>(EVENT_FILTER_TAGS)
-
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0
-}
-
-function isCategoryId(value: unknown): value is EventCategoryId {
-  return isNonEmptyString(value) && CATEGORY_IDS.has(value)
-}
-
-export function isFilterTag(value: unknown): value is EventFilterTag {
-  return isNonEmptyString(value) && TAG_IDS.has(value)
-}
-
-function normalizeAttachment(value: unknown): EventAttachment | null {
-  if (!value || typeof value !== 'object') return null
-  const item = value as Record<string, unknown>
-  if (!isNonEmptyString(item.name)) return null
-
-  return {
-    name: item.name.trim(),
-    url: isNonEmptyString(item.url) ? item.url.trim() : '#',
-    ...(isNonEmptyString(item.size) ? { size: item.size.trim() } : {}),
-  }
-}
-
 /** Normalize a CMS / raw JSON entry into EventItem. */
 export function normalizeEvent(
   value: unknown,
   fallbackId?: string,
 ): EventItem | null {
-  if (!value || typeof value !== 'object') return null
-  const item = value as Record<string, unknown>
+  const parsed = z
+    .unknown()
+    .transform(toDocumentShape)
+    .pipe(eventDocumentSchema)
+    .safeParse(value)
+  if (!parsed.success) return null
 
-  const id = isNonEmptyString(item.id)
-    ? item.id.trim()
-    : isNonEmptyString(fallbackId)
-      ? fallbackId.trim()
-      : ''
+  const id = readEventId(value, fallbackId)
+  if (!id) return null
 
-  if (!id || !isNonEmptyString(item.title)) return null
-  if (!isCategoryId(item.category)) return null
-
-  const tags = Array.isArray(item.tags) ? item.tags.filter(isFilterTag) : []
-  const attachments = Array.isArray(item.attachments)
-    ? item.attachments
-        .map(normalizeAttachment)
-        .filter((attachment): attachment is EventAttachment => attachment !== null)
-    : []
-
-  return {
-    id,
-    title: item.title.trim(),
-    category: item.category,
-    tags,
-    date: isNonEmptyString(item.date) ? item.date.trim().slice(0, 10) : '',
-    author: isNonEmptyString(item.author) ? item.author.trim() : '',
-    ...(isNonEmptyString(item.excerpt) ? { excerpt: item.excerpt.trim() } : {}),
-    content: isNonEmptyString(item.content) ? item.content : '',
-    attachments,
-  }
+  return toEventItem(parsed.data, id)
 }
 
 export function getCategoryLabel(category: EventCategoryId) {
   return EVENT_CATEGORIES.find((item) => item.id === category)?.label ?? category
+}
+
+export function isFilterTag(value: string): value is EventFilterTag {
+  return eventFilterTagSchema.safeParse(value).success
+}
+
+function readNonEmptyString(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined
+}
+
+function coerceAttachment(value: unknown): EventAttachment | null {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null
+
+  const raw = value as Record<string, unknown>
+  const name = readNonEmptyString(raw.name)
+  if (!name) return null
+
+  const size = readNonEmptyString(raw.size)
+  return {
+    name,
+    url: readNonEmptyString(raw.url) ?? '#',
+    ...(size ? { size } : {}),
+  }
+}
+
+/** CMS / raw JSON → shape that satisfies `eventDocumentSchema`. */
+function toDocumentShape(value: unknown): unknown {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+
+  const raw = value as Record<string, unknown>
+  const title = readNonEmptyString(raw.title)
+  const excerpt = readNonEmptyString(raw.excerpt)
+
+  return {
+    ...(title ? { title } : {}),
+    category: raw.category,
+    tags: Array.isArray(raw.tags)
+      ? raw.tags.filter((tag): tag is string => typeof tag === 'string')
+      : [],
+    date:
+      typeof raw.date === 'string' && raw.date.trim()
+        ? raw.date.trim().slice(0, 10)
+        : '',
+    author:
+      typeof raw.author === 'string' && raw.author.trim()
+        ? raw.author.trim()
+        : '',
+    ...(excerpt ? { excerpt } : {}),
+    content:
+      typeof raw.content === 'string' && raw.content.trim() ? raw.content : '',
+    attachments: Array.isArray(raw.attachments)
+      ? raw.attachments.flatMap((item) => {
+          const attachment = coerceAttachment(item)
+          return attachment ? [attachment] : []
+        })
+      : [],
+  }
+}
+
+function toEventItem(document: EventDocument, id: string): EventItem {
+  return {
+    id,
+    title: document.title,
+    category: document.category,
+    tags: document.tags.filter(isFilterTag),
+    date: document.date.slice(0, 10),
+    author: document.author,
+    ...(document.excerpt?.trim() ? { excerpt: document.excerpt.trim() } : {}),
+    content: document.content,
+    attachments: document.attachments.map((attachment) => ({
+      name: attachment.name,
+      url: attachment.url,
+      ...(attachment.size?.trim() ? { size: attachment.size.trim() } : {}),
+    })),
+  }
+}
+
+function readEventId(value: unknown, fallbackId?: string): string | undefined {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    const id = readNonEmptyString((value as { id?: unknown }).id)
+    if (id) return id
+  }
+  return readNonEmptyString(fallbackId)
 }

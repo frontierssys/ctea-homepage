@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import homepageJson from '../../../content/homepage.json'
 
 export type CarouselSlide = {
@@ -13,10 +14,10 @@ export type CarouselSlide = {
 }
 
 export type CarouselContent = {
-  slides: CarouselSlide[]
+  slides: Array<CarouselSlide>
 }
 
-export const DEFAULT_CAROUSEL_SLIDES: CarouselSlide[] = [
+export const DEFAULT_CAROUSEL_SLIDES: Array<CarouselSlide> = [
   {
     eyebrow: 'Chinese Taipei Equestrian Association',
     titleLine1: '傳承經典',
@@ -56,39 +57,41 @@ const FALLBACK_CAROUSEL: CarouselContent = {
   slides: DEFAULT_CAROUSEL_SLIDES,
 }
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === 'string' && value.trim().length > 0
+const nonEmptyTrimmed = z.string().trim().min(1)
+
+function slideSchema(fallback: CarouselSlide) {
+  return z.object({
+    eyebrow: nonEmptyTrimmed.catch(fallback.eyebrow),
+    titleLine1: nonEmptyTrimmed.catch(fallback.titleLine1),
+    titleLine2: nonEmptyTrimmed.catch(fallback.titleLine2),
+    description: nonEmptyTrimmed.catch(fallback.description),
+    ctaLabel: nonEmptyTrimmed.catch(fallback.ctaLabel),
+    ctaHref: nonEmptyTrimmed.catch(fallback.ctaHref),
+    image: nonEmptyTrimmed.catch(fallback.image),
+    imageAlt: nonEmptyTrimmed.catch(fallback.imageAlt),
+    imagePosition: nonEmptyTrimmed.catch(fallback.imagePosition),
+  })
 }
 
-function pickString(value: unknown, fallback: string) {
-  return isNonEmptyString(value) ? value : fallback
-}
-
-function readSlide(value: unknown, fallback: CarouselSlide): CarouselSlide {
-  const slide = value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
-
-  return {
-    eyebrow: pickString(slide.eyebrow, fallback.eyebrow),
-    titleLine1: pickString(slide.titleLine1, fallback.titleLine1),
-    titleLine2: pickString(slide.titleLine2, fallback.titleLine2),
-    description: pickString(slide.description, fallback.description),
-    ctaLabel: pickString(slide.ctaLabel, fallback.ctaLabel),
-    ctaHref: pickString(slide.ctaHref, fallback.ctaHref),
-    image: pickString(slide.image, fallback.image),
-    imageAlt: pickString(slide.imageAlt, fallback.imageAlt),
-    imagePosition: pickString(slide.imagePosition, fallback.imagePosition),
-  }
+function normalizeSlide(value: unknown, fallback: CarouselSlide): CarouselSlide {
+  return slideSchema(fallback).parse(
+    value && typeof value === 'object' ? value : {},
+  )
 }
 
 export function getCarousel(): CarouselContent {
   try {
-    const slides = (homepageJson as { carousel?: { slides?: unknown } }).carousel?.slides
+    const slides = (homepageJson as { carousel?: { slides?: unknown } }).carousel
+      ?.slides
 
     if (!Array.isArray(slides) || slides.length === 0) return FALLBACK_CAROUSEL
 
     return {
       slides: slides.map((slide, index) =>
-        readSlide(slide, DEFAULT_CAROUSEL_SLIDES[index % DEFAULT_CAROUSEL_SLIDES.length]),
+        normalizeSlide(
+          slide,
+          DEFAULT_CAROUSEL_SLIDES[index % DEFAULT_CAROUSEL_SLIDES.length],
+        ),
       ),
     }
   } catch {

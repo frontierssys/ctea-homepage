@@ -85,12 +85,12 @@ Announcement bodies are **not** Markdown-parsed on each request. CMS writes sour
 
 ### CMS → source of truth
 
-Sveltia CMS writes JSON under git, for example:
+Sveltia CMS writes content under git, for example:
 
 | Collection | Path | Role |
 | --- | --- | --- |
 | `event` | `content/event.json` | `/events` list page chrome (title, description) |
-| `events` | `content/events/*.json` | One file per announcement; `content` field is **Markdown** |
+| `events` | `content/events/*.md` | One file per announcement; YAML front matter + Markdown body (`content`) |
 
 Editors do not write into `.content-collections/`. That folder is generated and gitignored.
 
@@ -98,13 +98,14 @@ Editors do not write into `.content-collections/`. That folder is generated and 
 
 Configured in `content-collections.ts` (Vite plugin `@content-collections/vite`):
 
-1. Scan `content/events/*.json`
-2. Validate with Zod
-3. `transform`: `renderMarkdown()` (`src/lib/markdown.ts` — unified / remark / rehype) converts Markdown → **HTML string**
-4. Emit `.content-collections/generated/` (e.g. `allEvents.js`)
+1. Scan `content/events/*.md`
+2. Parse YAML front matter + body (`parser: 'frontmatter'`)
+3. Validate with Zod
+4. `transform`: `renderMarkdown()` (`src/lib/markdown.ts` — unified / remark / rehype) converts Markdown body → **HTML string**
+5. Emit `.content-collections/generated/` (e.g. `allEvents.js`)
 
 ```text
-content/events/*.json          (Markdown in `content`)
+content/events/*.md            (front matter + Markdown body)
         ↓  content-collections (build / vite)
 .content-collections/generated  (HTML in `content`)
         ↓  import { allEvents } from '.content-collections/generated'
