@@ -60,7 +60,6 @@ export function PreviewLayout({
         menuOpen={instance.state.navMenuOpen}
         hidden={false}
         theme={instance.state.previewTheme}
-        hydrated={true}
         onMenuToggle={() => {
           instance.setState((state) => ({ navMenuOpen: !state.navMenuOpen }))
         }}

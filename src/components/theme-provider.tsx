@@ -1,84 +1,93 @@
-/** ref: https://ui.shadcn.com/docs/dark-mode/tanstack-start */
+/** Pattern: https://github.com/TanStack/tanstack.com/blob/main/src/components/ThemeProvider.tsx */
 import { ScriptOnce } from '@tanstack/react-router'
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react'
 
-type Theme = 'dark' | 'light' | 'system'
+type ThemeMode = 'dark' | 'light' | 'system'
+type ResolvedTheme = 'dark' | 'light'
 
 type ThemeProviderProps = {
-  children: React.ReactNode
-  defaultTheme?: Theme
+  children: ReactNode
+  defaultTheme?: ThemeMode
   storageKey?: string
 }
 
-type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+type ThemeContextProps = {
+  theme: ThemeMode
+  resolvedTheme: ResolvedTheme
+  setTheme: (theme: ThemeMode) => void
+  toggleMode: () => void
 }
 
-function getThemeScript(storageKey: string, defaultTheme: Theme) {
+function isThemeMode(value: string | null): value is ThemeMode {
+  return value === 'light' || value === 'dark' || value === 'system'
+}
+
+function getThemeScript(storageKey: string, defaultTheme: ThemeMode) {
   const key = JSON.stringify(storageKey)
   const fallback = JSON.stringify(defaultTheme)
 
   return `(function(){try{var t=localStorage.getItem(${key});if(t!=='light'&&t!=='dark'&&t!=='system'){t=${fallback}}var d=matchMedia('(prefers-color-scheme: dark)').matches;var r=t==='system'?(d?'dark':'light'):t;var e=document.documentElement;e.classList.add(r);e.style.colorScheme=r}catch(e){}})();`
 }
 
-const ThemeProviderContext = createContext<ThemeProviderState>({
-  theme: 'system',
-  setTheme: () => {},
-})
+function getSystemTheme(): ResolvedTheme {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
 
-function applyTheme(theme: Theme) {
+function applyTheme(theme: ThemeMode): ResolvedTheme {
   const root = document.documentElement
   root.classList.remove('light', 'dark')
 
-  const resolved =
-    theme === 'system'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : theme
-
+  const resolved = theme === 'system' ? getSystemTheme() : theme
   root.classList.add(resolved)
   root.style.colorScheme = resolved
+  return resolved
 }
+
+const ThemeProviderContext = createContext<ThemeContextProps | undefined>(undefined)
 
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'theme',
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(defaultTheme)
-  const [mounted, setMounted] = useState(false)
+  // Fixed initials — same on server and first client render (no localStorage/DOM reads).
+  const [theme, setThemeState] = useState<ThemeMode>(defaultTheme)
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light')
 
   useEffect(() => {
     const stored = localStorage.getItem(storageKey)
-    setThemeState(
-      stored === 'light' || stored === 'dark' || stored === 'system' ? stored : defaultTheme,
-    )
-    setMounted(true)
+    const next = isThemeMode(stored) ? stored : defaultTheme
+    setThemeState(next)
+    setResolvedTheme(applyTheme(next))
   }, [defaultTheme, storageKey])
 
   useEffect(() => {
-    if (!mounted) return
-    applyTheme(theme)
-  }, [theme, mounted])
-
-  useEffect(() => {
-    if (!mounted || theme !== 'system') return
+    if (theme !== 'system') return
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => applyTheme('system')
+    const onChange = () => setResolvedTheme(applyTheme('system'))
     media.addEventListener('change', onChange)
     return () => media.removeEventListener('change', onChange)
-  }, [theme, mounted])
+  }, [theme])
 
-  const setTheme = (next: Theme) => {
+  const setTheme = (next: ThemeMode) => {
     localStorage.setItem(storageKey, next)
     setThemeState(next)
+    setResolvedTheme(applyTheme(next))
+  }
+
+  const toggleMode = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 
   return (
-    <ThemeProviderContext value={{ theme, setTheme }}>
+    <ThemeProviderContext value={{ theme, resolvedTheme, setTheme, toggleMode }}>
       <ScriptOnce>{getThemeScript(storageKey, defaultTheme)}</ScriptOnce>
       {children}
     </ThemeProviderContext>
@@ -87,6 +96,6 @@ export function ThemeProvider({
 
 export function useTheme() {
   const context = useContext(ThemeProviderContext)
-  if (context === undefined) throw new Error('useTheme must be used within a ThemeProvider')
+  if (!context) throw new Error('useTheme must be used within a ThemeProvider')
   return context
 }

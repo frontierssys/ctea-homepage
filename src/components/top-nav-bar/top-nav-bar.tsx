@@ -1,4 +1,3 @@
-import { useHydrated } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useTheme } from '#/components/theme-provider'
 import { useScrollDirection } from '#/hooks/use-scroll-direction'
@@ -12,7 +11,6 @@ export type TopNavBarProps = Omit<
   | 'menuOpen'
   | 'hidden'
   | 'theme'
-  | 'hydrated'
   | 'onMenuToggle'
   | 'onMenuClose'
   | 'onThemeToggle'
@@ -21,13 +19,7 @@ export type TopNavBarProps = Omit<
 export function TopNavBar(props: TopNavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const { direction: scrollDirection, isAtTop } = useScrollDirection()
-  const hydrated = useHydrated()
-  const { theme, setTheme } = useTheme()
-  const resolvedTheme =
-    theme === 'dark' ||
-    (theme === 'system' && hydrated && document.documentElement.classList.contains('dark'))
-      ? 'dark'
-      : 'light'
+  const { resolvedTheme, toggleMode } = useTheme()
   const isFloating = !isAtTop
   const isHidden = isFloating && scrollDirection === 'down'
 
@@ -41,10 +33,9 @@ export function TopNavBar(props: TopNavBarProps) {
       menuOpen={menuOpen}
       hidden={isHidden}
       theme={resolvedTheme}
-      hydrated={hydrated}
       onMenuToggle={() => setMenuOpen((open) => !open)}
       onMenuClose={() => setMenuOpen(false)}
-      onThemeToggle={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+      onThemeToggle={toggleMode}
     />
   )
 }
