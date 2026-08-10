@@ -15,8 +15,7 @@
  * - primary stays navy in light + dark; gold is ring / accent / brand punctuation
  */
 :root {
-  --layout-header-content-height: 122px;
-  --layout-header-height: calc(var(--layout-header-content-height) + 1px);
+  --layout-header-height: 112px;
   --radius: 0.625rem;
 
   /* Brand aliases */
@@ -60,13 +59,13 @@
 
 @media (width < 64rem) {
   :root {
-    --layout-header-content-height: 96px;
+    --layout-header-height: 88px;
   }
 }
 
 @media (width < 40rem) {
   :root {
-    --layout-header-content-height: 82px;
+    --layout-header-height: 72px;
   }
 }
 

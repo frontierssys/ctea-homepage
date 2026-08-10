@@ -66,7 +66,7 @@ export function PreviewLayout({
     <>
       <section
         className={cn(
-          'flex h-(--layout-header-content-height) px-11 max-xl:px-7',
+          'flex h-(--layout-header-height) px-11 max-xl:px-7',
           'z-50 border-b transition-[transform,background-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none',
           'fixed inset-x-0 top-0 border-[rgba(185,145,75,.65)] bg-[rgba(251,248,241,.92)] shadow-[0_4px_20px_rgba(78,58,27,.06)] backdrop-blur-sm dark:border-[#3a4752] dark:bg-[rgba(18,34,49,.92)] dark:shadow-[0_4px_20px_rgba(2,8,14,.25)]',
         )}

@@ -100,7 +100,7 @@ export function HeroCarouselView({
         })}
       </div>
 
-      <div className="relative mx-auto z-20 flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-7xl flex-col px-12 max-lg:px-8 max-sm:px-6">
+      <div className="relative mx-auto z-20 flex min-h-[calc(100dvh-var(--layout-header-height))] w-full max-w-7xl px-12 xl:px-0 flex-col max-lg:px-8 max-sm:px-6">
         <article className="grid flex-1 items-center py-6 max-sm:items-end max-sm:pt-8 max-sm:pb-5">
           {slides.map((slide, index) => {
             const isActive = index === activeIndex

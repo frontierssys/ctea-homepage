@@ -49,7 +49,7 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
   return (
     <NavigationMenu
       viewport={false}
-      className={cn("max-w-none", className)}
+      className={cn("ml-auto", className)}
       delayDuration={50}
       aria-label="主要導覽"
     >

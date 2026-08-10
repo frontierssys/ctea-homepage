@@ -24,10 +24,10 @@ export function TopNavMenuMobile({ menuOpen, setMenuOpen }: TopNavMenuMobileProp
     <nav
       id="mobile-navigation"
       className={cn(
-        "absolute top-full right-4 left-4 grid -translate-y-2 border border-[rgba(185,145,75,.45)] bg-[rgba(251,248,241,.98)] px-6 shadow-[0_20px_55px_rgba(78,58,27,.07)] backdrop-blur-sm transition-[background,border-color,box-shadow,opacity,transform] duration-200 motion-reduce:transition-none",
+        "absolute top-full right-4 left-4 grid border border-[rgba(185,145,75,.45)] bg-[rgba(251,248,241,.98)] px-6 shadow-[0_20px_55px_rgba(78,58,27,.07)] backdrop-blur-sm transition-[background,border-color,box-shadow,opacity] duration-200 motion-reduce:transition-none",
         "dark:border-[#3a4752] dark:bg-[rgba(23,42,60,.98)] dark:shadow-[0_20px_55px_rgba(2,8,14,.35)]",
         menuOpen
-          ? "pointer-events-auto opacity-100 translate-y-0"
+          ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0",
       )}
 
