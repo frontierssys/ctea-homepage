@@ -30,7 +30,11 @@ export function TopNavBar() {
           isHidden ? '-translate-y-full' : 'translate-y-0'
         )}
       >
-        <div className="mx-auto flex w-full max-w-7xl">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_-40%,rgba(208,174,109,.2),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_14%_-40%,rgba(198,164,101,.14),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.12),transparent_38%)]"
+        />
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl">
           <LinkLogo />
           <TopNavMenuDesktop className={cn(
             "max-lg:hidden",

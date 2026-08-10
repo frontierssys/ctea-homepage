@@ -429,7 +429,11 @@ export function SiteFooter() {
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"
         loading="lazy"
       />
-      <div className="relative mx-auto max-w-7xl">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_8%,rgba(197,161,93,.16),transparent_30%),radial-gradient(circle_at_92%_78%,rgba(51,102,139,.34),transparent_38%)] dark:bg-[radial-gradient(circle_at_8%_8%,rgba(198,164,101,.12),transparent_30%),radial-gradient(circle_at_92%_78%,rgba(51,102,139,.26),transparent_38%)]"
+      />
+      <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
           <div className="col-span-5 max-lg:col-span-2">
             <p className="font-brand text-xl font-semibold tracking-brand">
