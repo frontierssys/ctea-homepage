@@ -19,10 +19,10 @@ export function LinkLogo({ className }: LinkLogoProps) {
         decoding="async"
       />
       <span className="min-w-0">
-        <strong className="block whitespace-nowrap font-brand text-brand text-[#151310] dark:text-[#f1eade]">
+        <strong className="block whitespace-nowrap font-brand text-brand text-[#fffaf0] dark:text-[#f1eade]">
           中華民國馬術協會
         </strong>
-        <span className="mt-1.5 block whitespace-nowrap font-sport text-meta text-[#7e5f2e] uppercase dark:text-[#a99267] max-sm:hidden">
+        <span className="mt-1.5 block whitespace-nowrap font-sport text-meta text-[#d0ae6d] uppercase dark:text-[#a99267] max-sm:hidden">
           Chinese Taipei Equestrian Association
         </span>
       </span>

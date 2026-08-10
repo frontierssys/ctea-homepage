@@ -420,7 +420,7 @@ export function SiteFooter() {
   return (
     <footer
       id="footer"
-      className="relative overflow-hidden bg-[#11283e] px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade] md:px-10 lg:px-16"
+      className="relative overflow-hidden bg-ctea-navy-footer px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16"
     >
       <img
         src="/media/ctea-sketch-ivory-bg.webp"
@@ -495,7 +495,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.4)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
+        <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.3)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
           <p>© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.</p>
           <div className="flex gap-7 max-sm:mt-3">
             <a href="#privacy" className="hover:text-white dark:hover:text-[#f1eade]">

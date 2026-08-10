@@ -26,6 +26,10 @@
   --ctea-ink-muted: #62615e;
   --ctea-navy: #122b43;
   --ctea-navy-footer: #11283e;
+  --ctea-nav-surface: rgb(18 43 67 / 0.96);
+  --ctea-nav-border: rgb(208 174 109 / 0.5);
+  --ctea-nav-overlay: rgb(28 58 83 / 0.99);
+  --ctea-nav-overlay-border: rgb(208 174 109 / 0.55);
   --ctea-gold: #b68c43;
   --ctea-gold-statement: #a77d35;
   --ctea-gold-ornament: #c5a15d;
@@ -77,6 +81,10 @@
   --ctea-ink-muted: #b3aa99;
   --ctea-navy: #1e4a6b;
   --ctea-navy-footer: #122231;
+  --ctea-nav-surface: rgb(24 47 67 / 0.97);
+  --ctea-nav-border: rgb(198 164 101 / 0.3);
+  --ctea-nav-overlay: rgb(33 59 82 / 0.99);
+  --ctea-nav-overlay-border: rgb(198 164 101 / 0.32);
   --ctea-gold: #c6a465;
   --ctea-gold-statement: #c6a465;
   --ctea-gold-ornament: #ddc28d;
@@ -219,6 +227,10 @@
   --color-ctea-ink-muted: var(--ctea-ink-muted);
   --color-ctea-navy: var(--ctea-navy);
   --color-ctea-navy-footer: var(--ctea-navy-footer);
+  --color-ctea-nav-surface: var(--ctea-nav-surface);
+  --color-ctea-nav-border: var(--ctea-nav-border);
+  --color-ctea-nav-overlay: var(--ctea-nav-overlay);
+  --color-ctea-nav-overlay-border: var(--ctea-nav-overlay-border);
   --color-ctea-gold: var(--ctea-gold);
   --color-ctea-gold-statement: var(--ctea-gold-statement);
   --color-ctea-gold-ornament: var(--ctea-gold-ornament);

@@ -24,8 +24,8 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
     <nav
       id="mobile-navigation"
       className={cn(
-        "absolute top-full right-4 left-4 grid border border-[rgba(185,145,75,.45)] bg-[rgba(251,248,241,.98)] px-6 shadow-[0_20px_55px_rgba(78,58,27,.07)] backdrop-blur-sm transition-[background,border-color,box-shadow,opacity] duration-200 motion-reduce:transition-none",
-        "dark:border-[#3a4752] dark:bg-[rgba(23,42,60,.98)] dark:shadow-[0_20px_55px_rgba(2,8,14,.35)]",
+        "absolute top-full right-4 left-4 grid border border-ctea-nav-overlay-border bg-ctea-nav-overlay px-6 text-[#fffaf0] shadow-[0_20px_55px_rgba(2,8,14,.24)] backdrop-blur-sm transition-[background,border-color,box-shadow,opacity] duration-200 motion-reduce:transition-none",
+        "dark:text-[#f1eade] dark:shadow-[0_20px_55px_rgba(2,8,14,.38)]",
         menuOpen
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0",
@@ -40,7 +40,7 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
           return (
             <Link
               to={item.to}
-              className="flex min-h-12 items-center border-b border-[rgba(182,140,67,.38)] font-body text-nav last:border-0 dark:border-[#3a4752]"
+              className="flex min-h-12 items-center border-b border-[rgba(208,174,109,.22)] font-body text-nav last:border-0 dark:border-[rgba(198,164,101,.2)]"
               key={item.to}
               tabIndex={menuOpen ? undefined : -1}
               onClick={() => {
@@ -55,13 +55,13 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
         return (
           <div
             key={item.to}
-            className="border-b border-[rgba(182,140,67,.38)] last:border-0 dark:border-[#3a4752]"
+            className="border-b border-[rgba(208,174,109,.22)] last:border-0 dark:border-[rgba(198,164,101,.2)]"
           >
             <button
               type="button"
               className={cn(
                 'flex min-h-12 w-full items-center gap-2 font-body text-nav cursor-pointer',
-                aboutActive && 'text-[#a77d35] dark:text-[#c6a465]',
+                aboutActive && 'text-[#d0ae6d] dark:text-[#c6a465]',
               )}
               aria-label={aboutMenuOpen ? '收合關於協會子選單' : '展開關於協會子選單'}
               aria-expanded={aboutMenuOpen}
@@ -73,7 +73,7 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
                 {item.label}
               </span>
               <span
-                className="grid size-11 shrink-0 place-items-center text-[#7e5f2e] dark:text-[#a99267]"
+                className="grid size-11 shrink-0 place-items-center text-[#d0ae6d] dark:text-[#c6a465]"
                 aria-hidden="true"
               >
                 <ChevronDown
@@ -94,13 +94,13 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
                 <Link
                   key={child.to}
                   to={child.to}
-                  className="flex min-h-11 items-center border-t border-[rgba(182,140,67,.28)] font-body text-nav dark:border-[#3a4752]"
+                  className="flex min-h-11 items-center border-t border-[rgba(208,174,109,.18)] font-body text-nav dark:border-[rgba(198,164,101,.18)]"
                   tabIndex={menuOpen && aboutMenuOpen ? undefined : -1}
                   onClick={() => {
                     setMenuOpen(false)
                   }}
                   activeProps={{
-                    className: 'text-[#a77d35] dark:text-[#c6a465]',
+                    className: 'text-[#d0ae6d] dark:text-[#c6a465]',
                   }}
                 >
                   {child.label}
@@ -123,7 +123,7 @@ export function MobileNavBackdrop({ isShown, ...props }: MobileNavBackdropProps)
       aria-hidden="true"
       className={cn(
         "fixed inset-x-0 top-(--layout-header-height) bottom-0 z-40 lg:hidden",
-        "bg-[rgba(251,248,241,.45)] dark:bg-[rgba(9,23,37,.5)]",
+        "bg-[rgba(9,23,37,.46)] dark:bg-[rgba(2,8,14,.6)]",
         "backdrop-blur-xs transition-opacity duration-200",
         "motion-reduce:transition-none motion-reduce:backdrop-blur-none",
         isShown ? "opacity-100" : "opacity-0 pointer-events-none",

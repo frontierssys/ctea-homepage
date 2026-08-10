@@ -25,7 +25,8 @@ export function TopNavBar() {
         className={cn(
           'flex px-11 max-xl:px-7 h-(--layout-header-height)',
           'z-50 border-b transition-[transform,background-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none',
-          'fixed inset-x-0 top-0 border-[rgba(185,145,75,.65)] bg-[rgba(251,248,241,.92)] shadow-[0_4px_20px_rgba(78,58,27,.06)] backdrop-blur-sm dark:border-[#3a4752] dark:bg-[rgba(18,34,49,.92)] dark:shadow-[0_4px_20px_rgba(2,8,14,.25)]',
+          'fixed inset-x-0 top-0 border-ctea-nav-border bg-ctea-nav-surface text-[#fffaf0] backdrop-blur-sm dark:text-[#f1eade]',
+          isFloating && 'shadow-[0_6px_20px_rgba(18,43,67,.16)] dark:shadow-[0_6px_24px_rgba(0,0,0,.28)]',
           isHidden ? '-translate-y-full' : 'translate-y-0'
         )}
       >
@@ -44,7 +45,7 @@ export function TopNavBar() {
               size="icon"
               className={cn(
                 'hidden max-lg:grid',
-                'rounded-none cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
+                'rounded-none cursor-pointer place-content-center gap-1.5 border border-[rgba(208,174,109,.55)] bg-transparent transition-colors duration-200 hover:border-[#d0ae6d] hover:bg-[rgba(208,174,109,.1)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] dark:border-[#3a4752] dark:bg-transparent dark:hover:border-[#c6a465] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
               )}
               aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
               aria-expanded={menuOpen}
@@ -53,13 +54,13 @@ export function TopNavBar() {
             >
               <span
                 className={cn(
-                  'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
+                  'block h-px w-6 bg-[#fffaf0] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
                   menuOpen && 'translate-y-[3.5px] rotate-45',
                 )}
               />
               <span
                 className={cn(
-                  'block h-px w-6 bg-[#17140f] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
+                  'block h-px w-6 bg-[#fffaf0] transition-transform duration-200 dark:bg-[#f1eade] motion-reduce:transition-none',
                   menuOpen && 'translate-y-[-3.5px] -rotate-45',
                 )}
               />
