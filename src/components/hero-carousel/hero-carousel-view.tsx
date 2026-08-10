@@ -113,7 +113,7 @@ export function HeroCarouselView({
                 key={`${slide.eyebrow}-${index}`}
               >
                 <div className="flex items-center gap-4 text-[#d0ae6d]">
-                  <span className="h-px w-12 bg-current" aria-hidden="true" />
+                  <span className="ctea-hero-kicker-rule h-px w-12 bg-current" aria-hidden="true" />
                   <p className="font-sport text-kicker uppercase">
                     {slide.eyebrow}
                   </p>
@@ -146,7 +146,7 @@ export function HeroCarouselView({
         </div>
 
         {slideCount > 1 ? (
-          <div className="mb-5 flex min-h-16 items-center gap-7 max-sm:mb-4 max-sm:gap-3">
+          <div className="ctea-hero-controls mb-5 flex min-h-16 items-center gap-7 max-sm:mb-4 max-sm:gap-3">
             <button
               type="button"
               className="grid size-12 shrink-0 cursor-pointer place-items-center border border-[rgba(208,174,109,.5)] text-[#fffaf0] transition-[background-color,color,border-color] duration-200 hover:border-[#d0ae6d] hover:bg-[#d0ae6d] hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:size-11"

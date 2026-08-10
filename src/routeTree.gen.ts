@@ -17,6 +17,11 @@ import { Route as EquestrianRouteImport } from './routes/equestrian'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as MemberRouteImport } from './routes/member'
 import { Route as RegulationRouteImport } from './routes/regulation'
+import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as AboutConstitutionRouteImport } from './routes/about/constitution'
+import { Route as AboutHistoryRouteImport } from './routes/about/history'
+import { Route as AboutMissionRouteImport } from './routes/about/mission'
+import { Route as AboutVisionRouteImport } from './routes/about/vision'
 import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
@@ -61,6 +66,31 @@ const RegulationRoute = RegulationRouteImport.update({
   path: '/regulation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutIndexRoute = AboutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutConstitutionRoute = AboutConstitutionRouteImport.update({
+  id: '/constitution',
+  path: '/constitution',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutHistoryRoute = AboutHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutMissionRoute = AboutMissionRouteImport.update({
+  id: '/mission',
+  path: '/mission',
+  getParentRoute: () => AboutRoute,
+} as any)
+const AboutVisionRoute = AboutVisionRouteImport.update({
+  id: '/vision',
+  path: '/vision',
+  getParentRoute: () => AboutRoute,
+} as any)
 const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
   id: '/api/revalidate',
   path: '/api/revalidate',
@@ -79,41 +109,55 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/about': typeof AboutRouteWithChildren
   '/calendar': typeof CalendarRoute
   '/download': typeof DownloadRoute
   '/equestrian': typeof EquestrianRoute
   '/events': typeof EventsRouteWithChildren
   '/member': typeof MemberRoute
   '/regulation': typeof RegulationRoute
+  '/about/constitution': typeof AboutConstitutionRoute
+  '/about/history': typeof AboutHistoryRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/about/': typeof AboutIndexRoute
   '/events/': typeof EventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/calendar': typeof CalendarRoute
   '/download': typeof DownloadRoute
   '/equestrian': typeof EquestrianRoute
   '/member': typeof MemberRoute
   '/regulation': typeof RegulationRoute
+  '/about/constitution': typeof AboutConstitutionRoute
+  '/about/history': typeof AboutHistoryRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/about': typeof AboutIndexRoute
   '/events': typeof EventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/about': typeof AboutRouteWithChildren
   '/calendar': typeof CalendarRoute
   '/download': typeof DownloadRoute
   '/equestrian': typeof EquestrianRoute
   '/events': typeof EventsRouteWithChildren
   '/member': typeof MemberRoute
   '/regulation': typeof RegulationRoute
+  '/about/constitution': typeof AboutConstitutionRoute
+  '/about/history': typeof AboutHistoryRoute
+  '/about/mission': typeof AboutMissionRoute
+  '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/about/': typeof AboutIndexRoute
   '/events/': typeof EventsIndexRoute
 }
 export interface FileRouteTypes {
@@ -127,20 +171,29 @@ export interface FileRouteTypes {
     | '/events'
     | '/member'
     | '/regulation'
+    | '/about/constitution'
+    | '/about/history'
+    | '/about/mission'
+    | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/about/'
     | '/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
     | '/calendar'
     | '/download'
     | '/equestrian'
     | '/member'
     | '/regulation'
+    | '/about/constitution'
+    | '/about/history'
+    | '/about/mission'
+    | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/about'
     | '/events'
   id:
     | '__root__'
@@ -152,14 +205,19 @@ export interface FileRouteTypes {
     | '/events'
     | '/member'
     | '/regulation'
+    | '/about/constitution'
+    | '/about/history'
+    | '/about/mission'
+    | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/about/'
     | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  AboutRoute: typeof AboutRouteWithChildren
   CalendarRoute: typeof CalendarRoute
   DownloadRoute: typeof DownloadRoute
   EquestrianRoute: typeof EquestrianRoute
@@ -227,6 +285,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegulationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about/': {
+      id: '/about/'
+      path: '/'
+      fullPath: '/about/'
+      preLoaderRoute: typeof AboutIndexRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/constitution': {
+      id: '/about/constitution'
+      path: '/constitution'
+      fullPath: '/about/constitution'
+      preLoaderRoute: typeof AboutConstitutionRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/history': {
+      id: '/about/history'
+      path: '/history'
+      fullPath: '/about/history'
+      preLoaderRoute: typeof AboutHistoryRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/mission': {
+      id: '/about/mission'
+      path: '/mission'
+      fullPath: '/about/mission'
+      preLoaderRoute: typeof AboutMissionRouteImport
+      parentRoute: typeof AboutRoute
+    }
+    '/about/vision': {
+      id: '/about/vision'
+      path: '/vision'
+      fullPath: '/about/vision'
+      preLoaderRoute: typeof AboutVisionRouteImport
+      parentRoute: typeof AboutRoute
+    }
     '/api/revalidate': {
       id: '/api/revalidate'
       path: '/api/revalidate'
@@ -251,6 +344,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AboutRouteChildren {
+  AboutConstitutionRoute: typeof AboutConstitutionRoute
+  AboutHistoryRoute: typeof AboutHistoryRoute
+  AboutMissionRoute: typeof AboutMissionRoute
+  AboutVisionRoute: typeof AboutVisionRoute
+  AboutIndexRoute: typeof AboutIndexRoute
+}
+
+const AboutRouteChildren: AboutRouteChildren = {
+  AboutConstitutionRoute: AboutConstitutionRoute,
+  AboutHistoryRoute: AboutHistoryRoute,
+  AboutMissionRoute: AboutMissionRoute,
+  AboutVisionRoute: AboutVisionRoute,
+  AboutIndexRoute: AboutIndexRoute,
+}
+
+const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
+
 interface EventsRouteChildren {
   EventsEventIdRoute: typeof EventsEventIdRoute
   EventsIndexRoute: typeof EventsIndexRoute
@@ -266,7 +377,7 @@ const EventsRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  AboutRoute: AboutRouteWithChildren,
   CalendarRoute: CalendarRoute,
   DownloadRoute: DownloadRoute,
   EquestrianRoute: EquestrianRoute,
