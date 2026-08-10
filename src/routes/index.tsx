@@ -4,9 +4,10 @@ import { DEFAULT_CAROUSEL_SLIDES, getCarousel } from '#/lib/content/carousel'
 import { getNews } from '#/lib/content/news'
 import { getSocial } from '#/lib/content/social'
 import {
-  LatestNews,
-  LatestVideo,
-  SocialFeed,
+  SectionLatestNews,
+  SectionLatestVideo,
+  SectionPartner,
+  SectionSocialFeed,
 } from './-component/landing-content'
 
 export const Route = createFileRoute('/')({
@@ -38,12 +39,13 @@ function RouteComponent() {
   return (
     <>
       <HeroCarousel slides={carousel.slides} />
-      <LatestNews
+      <SectionLatestNews
         featuredImage={news.featuredImage}
         featuredImageAlt={news.featuredImageAlt}
       />
-      <SocialFeed backgroundImage={social.backgroundImage} />
-      <LatestVideo />
+      <SectionSocialFeed backgroundImage={social.backgroundImage} />
+      <SectionLatestVideo />
+      <SectionPartner />
     </>
   )
 }

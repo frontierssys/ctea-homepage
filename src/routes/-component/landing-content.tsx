@@ -81,7 +81,7 @@ const partners = [
   ['AEF', '亞洲馬術總會', 'Asian Equestrian Federation'],
 ] as const
 
-function SectionHeading({
+function Heading({
   eyebrow,
   title,
   english,
@@ -122,7 +122,7 @@ function EditorialLink({ children, href = '#' }: { children: React.ReactNode; hr
   )
 }
 
-export function LatestNews({
+export function SectionLatestNews({
   featuredImage,
   featuredImageAlt,
 }: {
@@ -137,9 +137,9 @@ export function LatestNews({
       className="relative bg-[#fbf6ed] px-5 py-24 transition-colors duration-200 dark:bg-[#0b1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[rgba(182,140,67,.38)] dark:bg-[#3a4752]" />
-      <div className="mx-auto max-w-[1500px]">
+      <div className="mx-auto max-w-375">
         <div className="flex items-end justify-between gap-8 max-md:block">
-          <SectionHeading
+          <Heading
             eyebrow="News & Announcements"
             title="最新消息"
             english="Association News"
@@ -152,9 +152,9 @@ export function LatestNews({
         <div className="mt-16 grid grid-cols-12 gap-x-10 border-t border-[rgba(182,140,67,.38)] dark:border-[#3a4752] max-lg:gap-x-6 max-md:mt-12 max-md:block">
           <a
             href="#featured-news"
-            className="group col-span-7 grid min-h-[560px] grid-rows-[1fr_auto] overflow-hidden border-r border-[rgba(182,140,67,.38)] dark:border-[#3a4752] pr-10 focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-lg:col-span-6 max-lg:pr-6 max-md:min-h-0 max-md:border-r-0 max-md:border-b max-md:pr-0 max-md:pb-12"
+            className="group col-span-7 grid min-h-140 grid-rows-[1fr_auto] overflow-hidden border-r border-[rgba(182,140,67,.38)] dark:border-[#3a4752] pr-10 focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-lg:col-span-6 max-lg:pr-6 max-md:min-h-0 max-md:border-r-0 max-md:border-b max-md:pr-0 max-md:pb-12"
           >
-            <div className="relative mt-10 min-h-[330px] overflow-hidden [clip-path:ellipse(90%_88%_at_42%_46%)] max-md:mt-8 max-md:aspect-[4/3] max-md:min-h-0">
+            <div className="relative mt-10 min-h-82.5 overflow-hidden [clip-path:ellipse(90%_88%_at_42%_46%)] max-md:mt-8 max-md:aspect-4/3 max-md:min-h-0">
               <img
                 src={featuredImage}
                 alt={featuredImageAlt}
@@ -190,7 +190,7 @@ export function LatestNews({
             {secondary.map((item) => (
               <a
                 href="#news-detail"
-                className="group grid min-h-[178px] grid-cols-[120px_1fr_auto] items-center gap-6 border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] py-7 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-sm:grid-cols-[1fr_auto] max-sm:gap-4"
+                className="group grid min-h-44.5 grid-cols-[120px_1fr_auto] items-center gap-6 border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] py-7 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-sm:grid-cols-[1fr_auto] max-sm:gap-4"
                 key={item.title}
               >
                 <div className="max-sm:col-span-2">
@@ -222,7 +222,7 @@ export function LatestNews({
   )
 }
 
-export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
+export function SectionSocialFeed({ backgroundImage }: { backgroundImage: string }) {
   return (
     <section
       id="social"
@@ -235,9 +235,9 @@ export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
         loading="lazy"
       />
-      <div className="relative mx-auto grid max-w-[1500px] grid-cols-12 items-start gap-10 max-lg:gap-6 max-md:block">
+      <div className="relative mx-auto grid max-w-375 grid-cols-12 items-start gap-10 max-lg:gap-6 max-md:block">
         <div className="col-span-4">
-          <SectionHeading eyebrow="From Our Community" title="馬術現場" english="Social Stories" />
+          <Heading eyebrow="From Our Community" title="馬術現場" english="Social Stories" />
           <p className="mt-8 max-w-sm font-body text-body text-[#62615e] dark:text-[#b3aa99]">
             從賽場、訓練到國際交流，透過社群紀錄每一次專注、合作與成長。
           </p>
@@ -304,14 +304,14 @@ export function SocialFeed({ backgroundImage }: { backgroundImage: string }) {
   )
 }
 
-export function LatestVideo() {
+export function SectionLatestVideo() {
   return (
     <section
       id="video"
       className="relative overflow-hidden bg-[#122b43] px-5 py-24 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#122231] dark:text-[#f1eade] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_78%_24%,rgba(197,161,93,.45),transparent_31%),linear-gradient(120deg,transparent_25%,rgba(255,255,255,.06),transparent_64%)]" />
-      <div className="relative mx-auto max-w-[1500px]">
+      <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_78%_24%,rgba(197,161,93,.45),transparent_31%),linear-gradient(120deg,transparent_25%,rgba(255,255,255,.06),transparent_64%)]" />
+      <div className="relative mx-auto max-w-375">
         <div className="grid grid-cols-12 items-end gap-10 max-md:block">
           <header className="col-span-7">
             <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
@@ -389,122 +389,124 @@ function PartnerMark({ code, zh, en }: { code: string; zh: string; en: string })
   )
 }
 
+export function SectionPartner() {
+  return (
+    <section className="border-b border-[rgba(182,140,67,.38)] px-5 py-20 dark:border-[#3a4752] md:px-10 lg:px-16">
+      <div className="mx-auto max-w-375">
+        <header className="flex items-end justify-between gap-8 max-md:block">
+          <div>
+            <p className="font-sport text-kicker text-[#a77d35] uppercase">
+              Sponsors & Partners
+            </p>
+            <h2 className="mt-4 font-display text-feature-title">
+              贊助商與合作夥伴
+            </h2>
+          </div>
+          <p className="max-w-md font-body text-body-sm text-[#62615e] dark:text-[#b3aa99] max-md:mt-5">
+            感謝各界夥伴共同支持臺灣馬術運動的長期發展。
+          </p>
+        </header>
+        <div className="mt-12 grid grid-cols-4 border-y border-[rgba(182,140,67,.38)] dark:border-[#3a4752] max-lg:grid-cols-2 max-sm:grid-cols-1">
+          {partners.map(([code, zh, en]) => (
+            <PartnerMark code={code} zh={zh} en={en} key={code} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function SiteFooter() {
   return (
-    <footer className="bg-[#fbf6ed] text-[#151310] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade]">
-      <section className="border-b border-[rgba(182,140,67,.38)] px-5 py-20 dark:border-[#3a4752] md:px-10 lg:px-16">
-        <div className="mx-auto max-w-[1500px]">
-          <header className="flex items-end justify-between gap-8 max-md:block">
-            <div>
-              <p className="font-sport text-kicker text-[#a77d35] uppercase">
-                Sponsors & Partners
-              </p>
-              <h2 className="mt-4 font-display text-feature-title">
-                贊助商與合作夥伴
-              </h2>
-            </div>
-            <p className="max-w-md font-body text-body-sm text-[#62615e] dark:text-[#b3aa99] max-md:mt-5">
-              感謝各界夥伴共同支持臺灣馬術運動的長期發展。
+    <footer
+      id="footer"
+      className="relative overflow-hidden bg-[#11283e] px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade] md:px-10 lg:px-16"
+    >
+      <img
+        src="/media/ctea-sketch-ivory-bg.webp"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"
+        loading="lazy"
+      />
+      <div className="relative mx-auto max-w-375">
+        <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
+          <div className="col-span-5 max-lg:col-span-2">
+            <p className="font-brand text-xl font-semibold tracking-brand">
+              中華民國馬術協會
             </p>
-          </header>
-          <div className="mt-12 grid grid-cols-4 border-y border-[rgba(182,140,67,.38)] dark:border-[#3a4752] max-lg:grid-cols-2 max-sm:grid-cols-1">
-            {partners.map(([code, zh, en]) => (
-              <PartnerMark code={code} zh={zh} en={en} key={code} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="footer"
-        className="relative overflow-hidden bg-[#11283e] px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:bg-[#0b1825] dark:text-[#f1eade] md:px-10 lg:px-16"
-      >
-        <img
-          src="/media/ctea-sketch-ivory-bg.webp"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"
-          loading="lazy"
-        />
-        <div className="relative mx-auto max-w-[1500px]">
-          <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
-            <div className="col-span-5 max-lg:col-span-2">
-              <p className="font-brand text-xl font-semibold tracking-brand">
-                中華民國馬術協會
-              </p>
-              <p className="mt-3 font-sport text-meta text-[#d8c49e] uppercase dark:text-[#a99267]">
-                Chinese Taipei Equestrian Association
-              </p>
-              <p className="mt-8 max-w-md font-body text-body-sm text-[#e5dccd]/75">
-                推動馬術競技、教育培訓與國際交流，建立安全、專業且永續的馬術運動環境。
-              </p>
-            </div>
-
-            <address className="col-span-4 not-italic max-lg:col-span-1 max-md:mt-12">
-              <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
-                Contact
-              </p>
-              <div className="mt-6 grid gap-5 font-body text-body-sm text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
-                <a
-                  href="tel:+886227512142"
-                  className="flex min-h-11 items-center gap-4 transition-colors hover:text-white"
-                >
-                  <Phone className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
-                  +886 2 2751 2142
-                </a>
-                <a
-                  href="mailto:service@ctea.org.tw"
-                  className="flex min-h-11 items-center gap-4 transition-colors hover:text-white dark:hover:text-[#f1eade]"
-                >
-                  <Mail className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
-                  service@ctea.org.tw
-                </a>
-                <p className="flex items-start gap-4">
-                  <MapPin
-                    className="mt-1.5 size-4 shrink-0 text-[#c5a15d] dark:text-[#c6a465]"
-                    strokeWidth={1.3}
-                  />{' '}
-                  104 臺北市中山區朱崙街20號
-                </p>
-              </div>
-            </address>
-
-            <div className="col-span-3 max-lg:col-span-1 max-md:mt-12">
-              <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
-                Follow
-              </p>
-              <div className="mt-6 flex gap-3">
-                {[
-                  [FacebookIcon, 'Facebook', 'https://www.facebook.com/'],
-                  [InstagramIcon, 'Instagram', 'https://www.instagram.com/'],
-                  [YoutubeIcon, 'YouTube', 'https://www.youtube.com/'],
-                ].map(([Icon, label, href]) => (
-                  <a
-                    href={String(href)}
-                    aria-label={String(label)}
-                    className="grid size-12 place-items-center border border-[rgba(197,161,93,.5)] text-[#d8c49e] transition-colors duration-200 hover:bg-[#fbf6ed] hover:text-[#122b43] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#c5a15d] dark:border-[rgba(198,164,101,.55)] dark:text-[#a99267] dark:hover:bg-[#f1eade] dark:hover:text-[#122b43] dark:focus-visible:outline-[#c6a465]"
-                    key={String(label)}
-                  >
-                    <Icon className="size-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
+            <p className="mt-3 font-sport text-meta text-[#d8c49e] uppercase dark:text-[#a99267]">
+              Chinese Taipei Equestrian Association
+            </p>
+            <p className="mt-8 max-w-md font-body text-body-sm text-[#e5dccd]/75">
+              推動馬術競技、教育培訓與國際交流，建立安全、專業且永續的馬術運動環境。
+            </p>
           </div>
 
-          <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.4)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
-            <p>© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.</p>
-            <div className="flex gap-7 max-sm:mt-3">
-              <a href="#privacy" className="hover:text-white dark:hover:text-[#f1eade]">
-                隱私權政策
+          <address className="col-span-4 not-italic max-lg:col-span-1 max-md:mt-12">
+            <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
+              Contact
+            </p>
+            <div className="mt-6 grid gap-5 font-body text-body-sm text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
+              <a
+                href="tel:+886227512142"
+                className="flex min-h-11 items-center gap-4 transition-colors hover:text-white"
+              >
+                <Phone className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
+                +886 2 2751 2142
               </a>
-              <a href="#terms" className="hover:text-white dark:hover:text-[#f1eade]">
-                網站使用條款
+              <a
+                href="mailto:service@ctea.org.tw"
+                className="flex min-h-11 items-center gap-4 transition-colors hover:text-white dark:hover:text-[#f1eade]"
+              >
+                <Mail className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
+                service@ctea.org.tw
               </a>
+              <p className="flex items-start gap-4">
+                <MapPin
+                  className="mt-1.5 size-4 shrink-0 text-[#c5a15d] dark:text-[#c6a465]"
+                  strokeWidth={1.3}
+                />{' '}
+                104 臺北市中山區朱崙街20號
+              </p>
+            </div>
+          </address>
+
+          <div className="col-span-3 max-lg:col-span-1 max-md:mt-12">
+            <p className="font-sport text-kicker text-[#c5a15d] uppercase dark:text-[#c6a465]">
+              Follow
+            </p>
+            <div className="mt-6 flex gap-3">
+              {[
+                [FacebookIcon, 'Facebook', 'https://www.facebook.com/'],
+                [InstagramIcon, 'Instagram', 'https://www.instagram.com/'],
+                [YoutubeIcon, 'YouTube', 'https://www.youtube.com/'],
+              ].map(([Icon, label, href]) => (
+                <a
+                  href={String(href)}
+                  aria-label={String(label)}
+                  className="grid size-12 place-items-center border border-[rgba(197,161,93,.5)] text-[#d8c49e] transition-colors duration-200 hover:bg-[#fbf6ed] hover:text-[#122b43] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#c5a15d] dark:border-[rgba(198,164,101,.55)] dark:text-[#a99267] dark:hover:bg-[#f1eade] dark:hover:text-[#122b43] dark:focus-visible:outline-[#c6a465]"
+                  key={String(label)}
+                >
+                  <Icon className="size-5" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
-      </section>
+
+        <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.4)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
+          <p>© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.</p>
+          <div className="flex gap-7 max-sm:mt-3">
+            <a href="#privacy" className="hover:text-white dark:hover:text-[#f1eade]">
+              隱私權政策
+            </a>
+            <a href="#terms" className="hover:text-white dark:hover:text-[#f1eade]">
+              網站使用條款
+            </a>
+          </div>
+        </div>
+      </div>
     </footer>
   )
 }
