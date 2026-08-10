@@ -111,15 +111,14 @@ export function TopNavBarView({
             ))}
           </nav>
 
-          <div className="ml-5 pl-5 dark:border-[#3a4752] max-lg:hidden">
-            <ThemeToggle theme={theme} onThemeToggle={onThemeToggle} />
-          </div>
-
-          <div className="ml-auto hidden items-center gap-2 max-lg:flex">
+          <div className="ml-auto items-center gap-2 flex">
             <ThemeToggle theme={theme} onThemeToggle={onThemeToggle} />
             <button
               type="button"
-              className="grid size-9 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none"
+              className={cn(
+                'hidden max-lg:grid',
+                'size-9 cursor-pointer place-content-center gap-1.5 border border-[rgba(185,145,75,.45)] transition-colors duration-200 hover:bg-[rgba(185,145,75,.07)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:border-[#3a4752] dark:hover:bg-[#213140] dark:focus-visible:outline-[#c6a465] motion-reduce:transition-none'
+              )}
               aria-label={menuOpen ? '關閉導覽' : '開啟導覽'}
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
