@@ -23,7 +23,7 @@ export function AboutHistoryView({ history }: AboutHistoryViewProps) {
         aria-label={history.title}
       >
         <div className="lg:col-start-2 lg:row-start-1">
-          <div className="relative grid pl-6 before:absolute before:top-px before:bottom-0 before:left-0 before:w-px before:bg-border before:content-[''] sm:pl-10">
+          <div className="relative grid pl-6 before:absolute before:top-2 before:bottom-0 before:left-[-0.7px] before:w-px before:bg-border before:content-[''] sm:pl-10">
             {history.timeline.map((item) => (
               <article
                 key={`${item.year}-${item.title}`}
@@ -31,7 +31,7 @@ export function AboutHistoryView({ history }: AboutHistoryViewProps) {
               >
                 <p className="relative font-sport text-meta font-semibold tabular-nums text-ctea-brown">
                   <span
-                    className="absolute top-1/2 -left-6 size-3 -translate-x-1/2 -translate-y-1 rounded-full border border-ctea-gold-ornament bg-background ring-4 ring-background sm:-left-10"
+                    className="absolute top-1/2 -left-6 size-3 -translate-x-1/2 -translate-y-1 rounded-full border border-ctea-gold-ornament bg-background sm:-left-10"
                     aria-hidden="true"
                   />
                   {item.year}
