@@ -1,7 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { getEquestrian } from '#/lib/content/get-equestrian'
-import { ChevronUp, List } from 'lucide-react'
-import { useEffect, useId, useState, type ComponentProps } from 'react'
 import {
   EquestrianBody,
   EquestrianFrame,
@@ -9,36 +5,24 @@ import {
   EquestrianSectionList,
   EquestrianSectionToc,
 } from '#/components/equestrian/equestrian-parts'
-import type { EquestrianSection, } from '#/lib/content/equestrian'
+import type { EquestrianContent, EquestrianSection } from '#/lib/content/equestrian'
 import { cn } from '#/lib/utils'
+import { ChevronUp, List } from 'lucide-react'
+import type { ComponentProps } from 'react'
 
-export const Route = createFileRoute('/equestrian')({
-  loader: () => ({ equestrian: getEquestrian() }),
-  head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: loaderData
-          ? `${loaderData.equestrian.title}｜中華民國馬術協會 CTEA`
-          : '馬術介紹｜中華民國馬術協會 CTEA',
-      },
-      {
-        name: 'description',
-        content:
-          loaderData?.equestrian.lead ??
-          '認識國內馬術發展史、馬術起源、競賽項目、騎乘裝備、入門基礎、專家專欄與騎馬的好處。',
-      },
-    ],
-  }),
-  component: RouteComponent,
-})
+export type EquestrianPreviewViewProps = {
+  equestrian: EquestrianContent
+}
 
-/** Site composition: shared parts + scroll spy + mobile chapter jump. */
-export function RouteComponent() {
-  const { equestrian } = Route.useLoaderData()
-  const activeId = useActiveSectionId(equestrian.sections)
-
+/**
+ * Explicit preview variant — composes hook-free parts only.
+ * Do not import EquestrianView here (scroll spy / mobile jump use hooks).
+ */
+export function EquestrianPreviewView({
+  equestrian,
+}: EquestrianPreviewViewProps) {
   return (
-    <EquestrianFrame className="pb-28 lg:pb-16">
+    <EquestrianFrame>
       <EquestrianHeader
         eyebrow={equestrian.eyebrow}
         title={equestrian.title}
@@ -48,55 +32,17 @@ export function RouteComponent() {
         <EquestrianSectionToc
           className="hidden lg:block"
           sections={equestrian.sections}
-          activeId={activeId}
+          activeId={equestrian.sections[0]?.id}
         />
         <EquestrianSectionList sections={equestrian.sections} />
       </EquestrianBody>
       <MobileSectionJump
         className="lg:hidden"
         sections={equestrian.sections}
-        activeId={activeId}
+        activeId={equestrian.sections[0]?.id}
       />
     </EquestrianFrame>
   )
-}
-
-function useActiveSectionId(sections: Array<EquestrianSection>) {
-  const [activeId, setActiveId] = useState(sections[0]?.id ?? '')
-
-  useEffect(() => {
-    const elements = sections
-      .map((section) => document.getElementById(section.id))
-      .filter((element): element is HTMLElement => Boolean(element))
-
-    if (elements.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-
-        const nextId = visible[0]?.target.id
-        if (nextId) setActiveId(nextId)
-      },
-      {
-        rootMargin: '-20% 0px -55% 0px',
-        threshold: [0.1, 0.25, 0.5],
-      },
-    )
-
-    for (const element of elements) observer.observe(element)
-    return () => observer.disconnect()
-  }, [sections])
-
-  useEffect(() => {
-    if (!sections.some((section) => section.id === activeId)) {
-      setActiveId(sections[0]?.id ?? '')
-    }
-  }, [activeId, sections])
-
-  return activeId
 }
 
 type MobileSectionJumpProps = ComponentProps<'div'> & {
@@ -104,8 +50,7 @@ type MobileSectionJumpProps = ComponentProps<'div'> & {
   activeId: string
 }
 function MobileSectionJump({ sections, activeId, className }: MobileSectionJumpProps) {
-  const [open, setOpen] = useState(false)
-  const panelId = useId()
+  const open = false
   const activeSection =
     sections.find((section) => section.id === activeId) ?? sections[0]
   const activeIndex = Math.max(
@@ -113,32 +58,15 @@ function MobileSectionJump({ sections, activeId, className }: MobileSectionJumpP
     sections.findIndex((section) => section.id === activeSection?.id),
   )
 
-  useEffect(() => {
-    if (!open) return
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
-    }
-    window.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', onKeyDown)
-    }
-  }, [open])
-
   if (sections.length === 0) return null
 
   return (
     <div className={cn(className)}>
-      {open ? (
+       {open ? (
         <div
           className="fixed inset-0 z-40 bg-[rgb(5_15_25/0.42)] backdrop-blur-[1px] motion-reduce:backdrop-blur-none"
           aria-label="關閉章節選單"
-          onClick={() => setOpen(false)}
+          // onClick={() => setOpen(false)}
         />
       ) : null}
 
@@ -149,7 +77,6 @@ function MobileSectionJump({ sections, activeId, className }: MobileSectionJumpP
         )}
       >
         <section
-          id={panelId}
           role="dialog"
           aria-modal="true"
           aria-label="馬術介紹章節"
@@ -163,7 +90,7 @@ function MobileSectionJump({ sections, activeId, className }: MobileSectionJumpP
           <EquestrianSectionToc
             sections={sections}
             activeId={activeId}
-            onNavigate={() => setOpen(false)}
+            // onNavigate={() => setOpen(false)}
             className="pb-2"
           />
         </section>
@@ -182,9 +109,9 @@ function MobileSectionJump({ sections, activeId, className }: MobileSectionJumpP
           <button
             type="button"
             className="inline-flex min-h-11 items-center gap-2 border border-ctea-gold px-3.5 font-body text-action text-foreground transition-colors duration-200 hover:bg-ctea-gold hover:text-[#091725] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ctea-gold-focus dark:hover:text-[#0b1825]"
-            aria-expanded={open}
-            aria-controls={panelId}
-            onClick={() => setOpen((value) => !value)}
+            aria-expanded={false}
+            aria-controls={""}
+            // onClick={() => setOpen((value) => !value)}
           >
             <List className="size-4" aria-hidden="true" />
             章節

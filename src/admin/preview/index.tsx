@@ -1,6 +1,10 @@
 import { AboutHistoryPreview } from '#/admin/preview/preview-about-history'
 import { EventPreview } from '#/admin/preview/preview-event'
 import { CarouselPreview } from '#/admin/preview/preview-carousel'
+import {
+  EquestrianPagePreview,
+  EquestrianSectionPreview,
+} from '#/admin/preview/preview-equestrian'
 import { EventsPreview } from '#/admin/preview/preview-events'
 import '#/styles.css'
 
@@ -13,3 +17,5 @@ CMS.registerPreviewTemplate('homepage', CarouselPreview)
 CMS.registerPreviewTemplate('event', EventPreview)
 CMS.registerPreviewTemplate('events', EventsPreview)
 CMS.registerPreviewTemplate('history', AboutHistoryPreview)
+CMS.registerPreviewTemplate('equestrian', EquestrianPagePreview)
+CMS.registerPreviewTemplate('equestrian_sections', EquestrianSectionPreview)
