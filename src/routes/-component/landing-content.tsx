@@ -422,13 +422,6 @@ export function SiteFooter() {
       id="footer"
       className="relative overflow-hidden bg-ctea-navy-footer px-5 pt-20 pb-8 text-[#fbf6ed] transition-colors duration-200 dark:text-[#f1eade] md:px-10 lg:px-16"
     >
-      <img
-        src="/media/ctea-sketch-ivory-bg.webp"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-screen"
-        loading="lazy"
-      />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_8%,rgba(197,161,93,.16),transparent_30%),radial-gradient(circle_at_92%_78%,rgba(51,102,139,.34),transparent_38%)] dark:bg-[radial-gradient(circle_at_8%_8%,rgba(198,164,101,.12),transparent_30%),radial-gradient(circle_at_92%_78%,rgba(51,102,139,.26),transparent_38%)]"
