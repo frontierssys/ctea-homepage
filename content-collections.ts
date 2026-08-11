@@ -1,4 +1,5 @@
 import { defineCollection, defineConfig } from '@content-collections/core'
+import { aboutHistoryDocumentSchema } from './src/lib/content/about-history'
 import { eventDocumentSchema } from './src/lib/content/events'
 import { renderMarkdown } from './src/lib/markdown'
 
@@ -29,6 +30,28 @@ const events = defineCollection({
   },
 })
 
+const aboutHistory = defineCollection({
+  name: 'aboutHistory',
+  directory: 'content/about',
+  include: '*.md',
+  parser: 'frontmatter',
+  schema: aboutHistoryDocumentSchema,
+  transform: async (document, { cache }) => {
+    const { markup } = await cache(document.content, (content) =>
+      renderMarkdown(content),
+    )
+
+    return {
+      eyebrow: document.eyebrow,
+      title: document.title,
+      nextLabel: document.nextLabel,
+      nextTo: document.nextTo,
+      timeline: document.timeline,
+      content: markup,
+    }
+  },
+})
+
 export default defineConfig({
-  content: [events],
+  content: [events, aboutHistory],
 })

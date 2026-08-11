@@ -90,6 +90,38 @@ collections:
                 <<: *r2
                 prefix: homepage/landingpage/
 
+  - name: about
+    label: 關於協會
+    files:
+      - name: history
+        label: 協會歷史
+        file: content/about/history.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields:
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 下一頁連結文字, name: nextLabel, widget: string }
+          - label: 下一頁連結
+            name: nextTo
+            widget: select
+            options:
+              - { label: 協會宗旨, value: /about/mission }
+              - { label: 組織章程, value: /about/constitution }
+              - { label: 奮鬥願景, value: /about/vision }
+              - { label: 協會歷史, value: /about/history }
+          - name: timeline
+            label: 歷史時間軸
+            label_singular: 時間軸項目
+            widget: list
+            summary: '{{fields.year}} — {{fields.title}}'
+            fields:
+              - { label: 年份, name: year, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: description, widget: text }
+          - { label: 內文, name: content, widget: richtext }
+
   - name: event
     label: 活動看板（列表）
     files:

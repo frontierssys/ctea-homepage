@@ -1,3 +1,4 @@
+import { AboutHistoryPreview } from '#/admin/preview/preview-about-history'
 import { EventPreview } from '#/admin/preview/preview-event'
 import { CarouselPreview } from '#/admin/preview/preview-carousel'
 import { EventsPreview } from '#/admin/preview/preview-events'
@@ -11,3 +12,4 @@ CMS.registerPreviewStyle('/admin/preview-bundle.css')
 CMS.registerPreviewTemplate('homepage', CarouselPreview)
 CMS.registerPreviewTemplate('event', EventPreview)
 CMS.registerPreviewTemplate('events', EventsPreview)
+CMS.registerPreviewTemplate('history', AboutHistoryPreview)
