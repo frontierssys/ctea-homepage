@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ComponentProps } from 'react'
 import { useTheme } from '#/components/theme-provider'
 import { useScrollDirection } from '#/hooks/use-scroll-direction'
 import { TopNavMenuDesktop } from './top-nav-menu-desktop'
@@ -8,7 +8,7 @@ import { MobileNavBackdrop, TopNavMenuMobile } from './top-nav-menu-mobile'
 import { LinkLogo } from '../ui/link-logo'
 import { ThemeToggler } from '../ui/theme-toggler'
 
-export function TopNavBar() {
+export function TopNavBar({ className }: ComponentProps<"section">) {
   const [menuOpen, setMenuOpen] = useState(false)
   const { direction: scrollDirection, isAtTop } = useScrollDirection()
   const { resolvedTheme, toggleMode } = useTheme()
@@ -23,11 +23,12 @@ export function TopNavBar() {
     <>
       <section
         className={cn(
-          'flex px-11 max-xl:px-7 h-(--layout-header-height)',
+          'flex px-11 max-xl:px-7',
           'z-50 border-b transition-[transform,background-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none',
           'fixed inset-x-0 top-0 border-ctea-nav-border bg-ctea-nav-surface text-[#fffaf0] backdrop-blur-sm dark:text-[#f1eade]',
           isFloating && 'shadow-[0_6px_20px_rgba(18,43,67,.16)] dark:shadow-[0_6px_24px_rgba(0,0,0,.28)]',
-          isHidden ? '-translate-y-full' : 'translate-y-0'
+          isHidden ? '-translate-y-full' : 'translate-y-0',
+          className
         )}
       >
         <div
