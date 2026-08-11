@@ -7,16 +7,15 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-
 import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
 import { FONTS_NONBLOCKING_SCRIPT, FONTS_STYLESHEET } from '#/lib/fonts'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { ThemeProvider } from '../components/theme-provider'
 import { SiteFooter } from './-component/landing-content'
+import type { QueryClient } from '@tanstack/react-query'
+import { GradientGlowTopRight } from './-component/gradient-glow-top-right'
 
 import appCss from '../styles.css?url'
-
-import type { QueryClient } from '@tanstack/react-query'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -74,6 +73,7 @@ function RootLayout() {
     <>
       <TopNavBar />
       <div className="min-h-screen pt-(--layout-header-height)">
+        <GradientGlowTopRight />
         <Outlet />
       </div>
       <SiteFooter />
