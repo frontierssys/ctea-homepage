@@ -18,10 +18,14 @@ export function PreviewTopNavMenuDesktop({
 }: ComponentProps<'nav'>) {
   return (
     <nav
-      className={cn('ml-auto', className)}
+      className={cn(
+        // Match NavigationMenu root: grow + vertically center in the tall header.
+        'relative ml-auto flex max-w-max flex-1 items-center justify-center',
+        className,
+      )}
       aria-label="主要導覽"
     >
-      <div className="flex w-full items-center px-11 max-xl:px-7 max-sm:px-4">
+      <div className="flex w-full flex-1 items-center px-11 max-xl:px-7 max-sm:px-4">
         {navLinks.map((item) => {
           if (!item.children) {
             return (

@@ -63,10 +63,12 @@ export function PreviewLayout({
   const theme = instance.state.previewTheme
 
   return (
-    <>
+    // Single full-width root: Sveltia mounts the template on iframe <body>;
+    // a fragment of fixed + in-flow siblings can shrink the content column.
+    <div className="min-h-screen w-full">
       <section
         className={cn(
-          'flex h-(--layout-header-height) px-11 max-xl:px-7',
+          'flex h-(--layout-header-height) w-full items-center px-11 max-xl:px-7',
           'z-50 border-b transition-[transform,background-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none',
           'fixed inset-x-0 top-0 border-ctea-nav-border bg-ctea-nav-surface text-[#fffaf0] backdrop-blur-sm dark:text-[#f1eade]',
         )}
@@ -75,7 +77,7 @@ export function PreviewLayout({
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_-40%,rgba(208,174,109,.2),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.16),transparent_38%)] dark:bg-[radial-gradient(circle_at_14%_-40%,rgba(198,164,101,.14),transparent_38%),radial-gradient(circle_at_88%_140%,rgba(96,143,177,.12),transparent_38%)]"
         />
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl">
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-center">
           <LinkLogo />
           {/* Swap: no Radix NavigationMenu */}
           <PreviewTopNavMenuDesktop className="max-lg:hidden" />
@@ -86,7 +88,7 @@ export function PreviewLayout({
             setMenuOpen={(open) => instance.setState({ navMenuOpen: open })}
           />
 
-          <div className="flex items-center gap-2 max-lg:ml-auto">
+          <div className="flex shrink-0 items-center gap-2 max-lg:ml-auto">
             <ThemeToggler
               theme={theme}
               onThemeToggle={() => {
@@ -133,8 +135,8 @@ export function PreviewLayout({
         onClick={() => instance.setState({ navMenuOpen: false })}
       />
 
-      <div className="min-h-screen pt-(--layout-header-height)">{children}</div>
-    </>
+      <div className="w-full pt-(--layout-header-height)">{children}</div>
+    </div>
   )
 }
 
