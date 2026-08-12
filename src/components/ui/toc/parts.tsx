@@ -99,7 +99,7 @@ export function HeadingToc({
                     interactive &&
                       'transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ctea-gold-focus',
                     groupActive
-                      ? 'text-ctea-gold-statement'
+                      ? 'text-foreground'
                       : interactive
                         ? 'text-foreground hover:text-ctea-gold-statement'
                         : 'text-foreground',
@@ -177,7 +177,7 @@ export function HeadingToc({
                             interactive &&
                               'transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ctea-gold-focus',
                             active
-                              ? 'text-ctea-gold-statement'
+                              ? 'text-foreground'
                               : interactive
                                 ? 'text-muted-foreground hover:text-ctea-gold-statement'
                                 : 'text-muted-foreground',

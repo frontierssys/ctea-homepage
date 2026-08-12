@@ -19,10 +19,14 @@ const menuItemClassName =
   'relative flex flex-1 after:absolute after:top-1/2 after:right-0 after:h-6 after:w-px after:-translate-y-1/2 after:bg-[rgba(182,140,67,.38)] last:after:hidden dark:after:bg-[#3a4752]'
 
 const desktopLinkClassName =
-  'relative flex min-h-12 w-full flex-1 items-center justify-center rounded-none bg-transparent px-4 py-0 font-body text-nav whitespace-nowrap shadow-none transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#d0ae6d] before:transition-transform before:duration-200 hover:bg-transparent hover:text-[#d0ae6d] hover:before:scale-x-100 focus:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f3dbad] focus-visible:ring-0 dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] max-[1500px]:px-3'
+  'relative flex min-h-12 w-full flex-1 flex-row items-center justify-center gap-0 rounded-none bg-transparent px-4 py-0 font-body text-nav font-bold whitespace-nowrap shadow-none transition-colors duration-200 before:absolute before:bottom-1 before:left-1/2 before:h-px before:w-8 before:-translate-x-1/2 before:scale-x-0 before:bg-[#d0ae6d] before:transition-transform before:duration-200 hover:bg-transparent hover:text-[#d0ae6d] hover:before:scale-x-100 focus:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f3dbad] focus-visible:ring-0 dark:before:bg-[#c6a465] dark:hover:text-[#c6a465] dark:focus-visible:outline-[#c6a465] max-[1500px]:px-3'
+
+const desktopActiveClassName =
+  'data-[status=active]:text-[#d0ae6d] data-[status=active]:before:scale-x-100 data-[status=active]:focus:text-[#d0ae6d] dark:data-[status=active]:text-[#c6a465] dark:data-[status=active]:focus:text-[#c6a465]'
 
 const triggerClassName = cn(
   desktopLinkClassName,
+  desktopActiveClassName,
   'cursor-pointer',
   'h-auto w-full data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent data-[state=open]:text-[#d0ae6d] dark:data-[state=open]:text-[#c6a465] [&_svg]:hidden',
 )
@@ -57,7 +61,10 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
           if (!item.children) {
             return (
               <NavigationMenuItem key={item.to} className={menuItemClassName}>
-                <NavigationMenuLink asChild className={desktopLinkClassName}>
+                <NavigationMenuLink
+                  asChild
+                  className={cn(desktopLinkClassName, desktopActiveClassName)}
+                >
                   <Link to={item.to}>
                     {item.label}
                   </Link>
@@ -71,11 +78,8 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
           return (
             <NavigationMenuItem key={item.to} className={menuItemClassName}>
               <NavigationMenuTrigger
-                className={cn(
-                  triggerClassName,
-                  itemActive &&
-                  'text-[#d0ae6d] before:scale-x-100 dark:text-[#c6a465]',
-                )}
+                className={triggerClassName}
+                data-status={itemActive ? 'active' : undefined}
                 onClick={() => {
                   navigate({ to: item.to })
                 }}
