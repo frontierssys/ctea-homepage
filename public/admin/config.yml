@@ -106,7 +106,7 @@ collections:
           - label: 下一頁連結
             name: nextTo
             widget: select
-            options:
+            options: &about_next_to_options
               - { label: 協會宗旨, value: /about/mission }
               - { label: 組織章程, value: /about/constitution }
               - { label: 奮鬥願景, value: /about/vision }
@@ -121,6 +121,56 @@ collections:
               - { label: 標題, name: title, widget: string }
               - { label: 說明, name: description, widget: text }
           - { label: 內文, name: content, widget: richtext }
+      - name: mission
+        label: 協會宗旨
+        file: content/about/mission.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: &about_media_page_fields
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 下一頁連結文字, name: nextLabel, widget: string }
+          - label: 下一頁連結
+            name: nextTo
+            widget: select
+            options: *about_next_to_options
+          - label: 圖片
+            name: image
+            widget: image
+            media_libraries:
+              cloudflare_r2:
+                <<: *r2
+                prefix: homepage/about/
+          - { label: 圖片替代文字, name: imageAlt, widget: string }
+          - { label: 內文, name: content, widget: richtext }
+      - name: constitution
+        label: 組織章程
+        file: content/about/constitution.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields:
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 下一頁連結文字, name: nextLabel, widget: string }
+          - label: 下一頁連結
+            name: nextTo
+            widget: select
+            options: *about_next_to_options
+          - {
+              label: 內文,
+              name: content,
+              widget: richtext,
+              hint: '目錄由內文 ## / ### 標題自動產生',
+            }
+      - name: vision
+        label: 奮鬥願景
+        file: content/about/vision.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: *about_media_page_fields
 
   - name: equestrian
     label: 馬術介紹
