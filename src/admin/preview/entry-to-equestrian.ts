@@ -1,8 +1,6 @@
 import {
   normalizeEquestrianPage,
-  normalizeEquestrianSection,
   type EquestrianContent,
-  type EquestrianSection,
 } from '#/lib/content/equestrian'
 
 type CmsEntry = {
@@ -18,15 +16,6 @@ function readData(entry: CmsEntry, key: string) {
   return entry.getIn(['data', key])
 }
 
-function readSlug(entry: CmsEntry) {
-  if (typeof entry.get === 'function') {
-    const slug = entry.get('slug')
-    if (isNonEmptyString(slug)) return slug.trim()
-  }
-  const slug = entry.getIn(['slug'])
-  return isNonEmptyString(slug) ? slug.trim() : ''
-}
-
 function normalizeContent(value: unknown) {
   if (isNonEmptyString(value)) return value
   if (value && typeof value === 'object' && 'toString' in value) {
@@ -36,28 +25,17 @@ function normalizeContent(value: unknown) {
   return ''
 }
 
-/** Map the equestrian page files-collection entry. */
+/** Map the equestrian files-collection entry (content/equestrian/page.md). */
 export function entryToEquestrianPage(
   entry: CmsEntry,
-): Pick<EquestrianContent, 'eyebrow' | 'title' | 'lead'> | null {
+): EquestrianContent | null {
   return normalizeEquestrianPage({
     eyebrow: readData(entry, 'eyebrow'),
     title: readData(entry, 'title'),
     lead: readData(entry, 'lead'),
-  })
-}
-
-/** Map an equestrian section folder-collection entry (Markdown body). */
-export function entryToEquestrianSection(
-  entry: CmsEntry,
-): EquestrianSection | null {
-  return normalizeEquestrianSection({
-    id: readSlug(entry),
-    order: readData(entry, 'order'),
-    eyebrow: readData(entry, 'eyebrow'),
-    title: readData(entry, 'title'),
     content: normalizeContent(
       readData(entry, 'content') ?? readData(entry, 'body'),
     ),
+    headings: [],
   })
 }

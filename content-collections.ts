@@ -1,9 +1,6 @@
 import { defineCollection, defineConfig } from '@content-collections/core'
 import { aboutHistoryDocumentSchema } from './src/lib/content/about-history'
-import {
-  equestrianPageDocumentSchema,
-  equestrianSectionSchema,
-} from './src/lib/content/equestrian'
+import { equestrianPageDocumentSchema } from './src/lib/content/equestrian'
 import { eventDocumentSchema } from './src/lib/content/events'
 import {
   REGULATION_PAGE_IDS,
@@ -63,35 +60,27 @@ const aboutHistory = defineCollection({
 
 const equestrianPage = defineCollection({
   name: 'equestrianPage',
-  directory: 'content/equestrian-page',
-  include: '*.md',
+  directory: 'content/equestrian',
+  include: 'page.md',
   parser: 'frontmatter',
   schema: equestrianPageDocumentSchema,
-  transform: async (document) => ({
-    eyebrow: document.eyebrow,
-    title: document.title,
-    lead: document.lead,
-  }),
-})
-
-const equestrianSections = defineCollection({
-  name: 'equestrianSections',
-  directory: 'content/equestrian',
-  include: '*.md',
-  parser: 'frontmatter',
-  schema: equestrianSectionSchema,
   transform: async (document, { cache }) => {
-    const { markup } = await cache(document.content, (content) =>
+    const { markup, headings } = await cache(document.content, (content) =>
       renderMarkdown(content),
     )
 
     return {
-      // Anchor id comes from the filename / CMS slug, not an editable field.
-      id: document._meta.path,
-      order: document.order,
       eyebrow: document.eyebrow,
       title: document.title,
+      lead: document.lead,
       content: markup,
+      headings: headings
+        .filter((heading) => heading.level === 2 || heading.level === 3)
+        .map((heading) => ({
+          id: heading.id,
+          text: heading.text,
+          level: heading.level,
+        })),
     }
   },
 })
@@ -139,7 +128,6 @@ export default defineConfig({
     events,
     aboutHistory,
     equestrianPage,
-    equestrianSections,
     regulationPages,
   ],
 })

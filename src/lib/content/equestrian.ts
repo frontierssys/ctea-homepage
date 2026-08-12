@@ -1,16 +1,7 @@
 import { z } from 'zod'
+import type { MarkdownHeading } from '#/lib/markdown'
 
-const equestrianSectionDocumentSchema = z.object({
-  order: z.coerce.number().int().nonnegative(),
-  eyebrow: z.string().trim().min(1),
-  title: z.string().trim().min(1),
-  content: z.string().default(''),
-})
-
-/** Strict parse for content/equestrian/*.md front matter. */
-export const equestrianSectionSchema = equestrianSectionDocumentSchema
-
-/** Strict parse for content/equestrian.md front matter. */
+/** Page front matter — content/equestrian/page.md */
 export const equestrianPageDocumentSchema = z.object({
   eyebrow: z.string().trim().min(1),
   title: z.string().trim().min(1),
@@ -18,20 +9,16 @@ export const equestrianPageDocumentSchema = z.object({
   content: z.string().default(''),
 })
 
-export type EquestrianSection = {
-  id: string
-  order: number
-  eyebrow: string
-  title: string
-  /** HTML on the site (content-collections); Markdown in live CMS drafts. */
-  content: string
-}
+export type EquestrianTocHeading = Pick<MarkdownHeading, 'id' | 'text' | 'level'>
 
 export type EquestrianContent = {
   eyebrow: string
   title: string
   lead: string
-  sections: Array<EquestrianSection>
+  /** HTML on the site (content-collections). */
+  content: string
+  /** h2/h3 from the page body for TOC. */
+  headings: Array<EquestrianTocHeading>
 }
 
 const DEFAULT_EQUESTRIAN_PAGE = {
@@ -40,57 +27,45 @@ const DEFAULT_EQUESTRIAN_PAGE = {
   lead: '從國內發展、運動起源、競賽項目、騎乘裝備、入門基礎到專家觀點與騎馬益處，認識中華民國馬術協會所推廣的馬術運動。',
 }
 
+function readTrimmedString(value: unknown) {
+  return typeof value === 'string' && value.trim() ? value.trim() : ''
+}
+
+function coerceHeadings(value: unknown): Array<EquestrianTocHeading> {
+  if (!Array.isArray(value)) return []
+  return value.flatMap((item) => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return []
+    const raw = item as Record<string, unknown>
+    const id = readTrimmedString(raw.id)
+    const text = readTrimmedString(raw.text)
+    const levelRaw = raw.level
+    const level =
+      typeof levelRaw === 'number' && Number.isFinite(levelRaw)
+        ? levelRaw
+        : typeof levelRaw === 'string' && levelRaw.trim()
+          ? Number(levelRaw)
+          : NaN
+    if (!id || !text || (level !== 2 && level !== 3)) return []
+    return [{ id, text, level }]
+  })
+}
+
 /** Normalize CMS / raw draft page fields (lenient for live preview). */
 export function normalizeEquestrianPage(
   value: unknown,
-): Pick<EquestrianContent, 'eyebrow' | 'title' | 'lead'> | null {
+): EquestrianContent | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null
 
   const raw = value as Record<string, unknown>
-  const title = typeof raw.title === 'string' ? raw.title.trim() : ''
+  const title = readTrimmedString(raw.title)
   if (!title) return null
 
   return {
-    eyebrow:
-      typeof raw.eyebrow === 'string' && raw.eyebrow.trim()
-        ? raw.eyebrow.trim()
-        : DEFAULT_EQUESTRIAN_PAGE.eyebrow,
+    eyebrow: readTrimmedString(raw.eyebrow) || DEFAULT_EQUESTRIAN_PAGE.eyebrow,
     title,
-    lead:
-      typeof raw.lead === 'string' && raw.lead.trim()
-        ? raw.lead.trim()
-        : DEFAULT_EQUESTRIAN_PAGE.lead,
-  }
-}
-
-/** Normalize a CMS / raw draft section (lenient for live preview). */
-export function normalizeEquestrianSection(
-  value: unknown,
-): EquestrianSection | null {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null
-
-  const raw = value as Record<string, unknown>
-  const title = typeof raw.title === 'string' ? raw.title.trim() : ''
-  const id = typeof raw.id === 'string' ? raw.id.trim() : ''
-  if (!id || !title) return null
-
-  const orderRaw = raw.order
-  const order =
-    typeof orderRaw === 'number' && Number.isFinite(orderRaw)
-      ? orderRaw
-      : typeof orderRaw === 'string' && orderRaw.trim()
-        ? Number(orderRaw)
-        : 0
-
-  return {
-    id,
-    order: Number.isFinite(order) ? order : 0,
-    eyebrow:
-      typeof raw.eyebrow === 'string' && raw.eyebrow.trim()
-        ? raw.eyebrow.trim()
-        : 'Section',
-    title,
+    lead: readTrimmedString(raw.lead) || DEFAULT_EQUESTRIAN_PAGE.lead,
     content:
       typeof raw.content === 'string' && raw.content.trim() ? raw.content : '',
+    headings: coerceHeadings(raw.headings),
   }
 }

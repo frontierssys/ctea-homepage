@@ -127,30 +127,15 @@ collections:
     files:
       - name: equestrian
         label: 馬術介紹頁面
-        file: content/equestrian-page/page.md
+        file: content/equestrian/page.md
         format: yaml-frontmatter
+        body_field:
+          key: content
         fields:
           - { label: 英文標示, name: eyebrow, widget: string }
           - { label: 標題, name: title, widget: string }
           - { label: 導言, name: lead, widget: text }
-
-  - name: equestrian_sections
-    label: 馬術介紹章節
-    label_singular: 章節
-    folder: /content/equestrian
-    create: true
-    extension: md
-    format: yaml-frontmatter
-    body_field:
-      key: content
-    slug: '{{slug}}'
-    summary: '{{order}} — {{title}}'
-    sortable_fields: [order, title]
-    fields:
-      - { label: 排序, name: order, widget: number, value_type: int, min: 1 }
-      - { label: 英文標示, name: eyebrow, widget: string }
-      - { label: 標題, name: title, widget: string }
-      - { label: 內文, name: content, widget: richtext }
+          - { label: 內文, name: content, widget: richtext }
 
   - name: event
     label: 活動看板（列表）

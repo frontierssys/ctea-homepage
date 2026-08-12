@@ -1,10 +1,7 @@
 import { AboutHistoryPreview } from '#/admin/preview/preview-about-history'
 import { EventPreview } from '#/admin/preview/preview-event'
 import { CarouselPreview } from '#/admin/preview/preview-carousel'
-import {
-  EquestrianPagePreview,
-  EquestrianSectionPreview,
-} from '#/admin/preview/preview-equestrian'
+import { EquestrianPagePreview } from '#/admin/preview/preview-equestrian'
 import { RegulationPagePreview } from '#/admin/preview/preview-regulation'
 import { EventsPreview } from '#/admin/preview/preview-events'
 import '#/styles.css'
@@ -19,7 +16,6 @@ CMS.registerPreviewTemplate('event', EventPreview)
 CMS.registerPreviewTemplate('events', EventsPreview)
 CMS.registerPreviewTemplate('history', AboutHistoryPreview)
 CMS.registerPreviewTemplate('equestrian', EquestrianPagePreview)
-CMS.registerPreviewTemplate('equestrian_sections', EquestrianSectionPreview)
 CMS.registerPreviewTemplate('fei', RegulationPagePreview)
 CMS.registerPreviewTemplate('domestic', RegulationPagePreview)
 CMS.registerPreviewTemplate('training', RegulationPagePreview)
