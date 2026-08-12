@@ -78,13 +78,18 @@ export function LiveTocProvider({
         group.heading.id === activeId ||
         group.children.some((child) => child.id === activeId),
     )
-    if (!activeGroup || activeGroup.children.length === 0) return
+    const nextExpandedId =
+      activeGroup && activeGroup.children.length > 0
+        ? activeGroup.heading.id
+        : null
 
     setExpandedIds((current) => {
-      if (current.has(activeGroup.heading.id)) return current
-      const next = new Set(current)
-      next.add(activeGroup.heading.id)
-      return next
+      if (nextExpandedId) {
+        if (current.size === 1 && current.has(nextExpandedId)) return current
+        return new Set([nextExpandedId])
+      }
+
+      return current.size === 0 ? current : new Set()
     })
   }, [activeId, groups])
 
