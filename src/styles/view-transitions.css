@@ -10,9 +10,16 @@
   view-transition-name: view-transition-header;
 }
 
-/* The fixed header is stable chrome, outside the page transition. */
-::view-transition-group(view-transition-header),
-::view-transition-old(view-transition-header),
+/* Keep one header snapshot visible so its translucent surface is not doubled. */
+::view-transition-group(view-transition-header) {
+  animation: none;
+}
+
+::view-transition-old(view-transition-header) {
+  animation: none;
+  opacity: 0;
+}
+
 ::view-transition-new(view-transition-header) {
   animation: none;
   mix-blend-mode: normal;
