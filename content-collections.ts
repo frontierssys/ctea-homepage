@@ -5,6 +5,11 @@ import {
   equestrianSectionSchema,
 } from './src/lib/content/equestrian'
 import { eventDocumentSchema } from './src/lib/content/events'
+import {
+  REGULATION_PAGE_IDS,
+  regulationPageDocumentSchema,
+  type RegulationPageId,
+} from './src/lib/content/regulation'
 import { renderMarkdown } from './src/lib/markdown'
 
 /** @see https://tanstack.com/start/latest/docs/framework/react/guide/rendering-markdown#method-1-static-markdown-with-content-collections */
@@ -91,6 +96,50 @@ const equestrianSections = defineCollection({
   },
 })
 
+
+const regulationPages = defineCollection({
+  name: 'regulationPages',
+  directory: 'content/regulation',
+  include: '*.md',
+  parser: 'frontmatter',
+  schema: regulationPageDocumentSchema,
+  transform: async (document, { cache }) => {
+    const { markup, headings } = await cache(document.content, (content) =>
+      renderMarkdown(content),
+    )
+
+    const id = document._meta.path
+    if (!REGULATION_PAGE_IDS.includes(id as RegulationPageId)) {
+      throw new Error(
+        `Invalid regulation page id "${id}". Expected one of: ${REGULATION_PAGE_IDS.join(', ')}`,
+      )
+    }
+
+    return {
+      id: id as RegulationPageId,
+      order: document.order,
+      eyebrow: document.eyebrow,
+      title: document.title,
+      lead: document.lead,
+      downloads: document.downloads,
+      content: markup,
+      headings: headings
+        .filter((heading) => heading.level === 2 || heading.level === 3)
+        .map((heading) => ({
+          id: heading.id,
+          text: heading.text,
+          level: heading.level,
+        })),
+    }
+  },
+})
+
 export default defineConfig({
-  content: [events, aboutHistory, equestrianPage, equestrianSections],
+  content: [
+    events,
+    aboutHistory,
+    equestrianPage,
+    equestrianSections,
+    regulationPages,
+  ],
 })

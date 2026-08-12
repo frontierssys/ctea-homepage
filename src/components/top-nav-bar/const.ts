@@ -3,6 +3,7 @@ import type { FileRouteTypes } from "#/routeTree.gen"
 export type NavChild = {
   label: string
   to: FileRouteTypes['to']
+  params?: Record<string, string>
 }
 
 export type NavLink = {
@@ -33,6 +34,28 @@ export const navLinks: ReadonlyArray<NavLink> = [
   {
     label: '制度專區',
     to: '/regulation',
+    children: [
+      {
+        label: 'FEI 規章',
+        to: '/regulation/$sectionId',
+        params: { sectionId: 'fei' },
+      },
+      {
+        label: '國內制度',
+        to: '/regulation/$sectionId',
+        params: { sectionId: 'domestic' },
+      },
+      {
+        label: '培訓甄選',
+        to: '/regulation/$sectionId',
+        params: { sectionId: 'training' },
+      },
+      {
+        label: 'PDF 下載',
+        to: '/regulation/$sectionId',
+        params: { sectionId: 'downloads' },
+      },
+    ],
   },
   {
     label: '行事曆',
@@ -47,3 +70,7 @@ export const navLinks: ReadonlyArray<NavLink> = [
     to: '/download',
   },
 ]
+
+export function isNavItemActive(pathname: string, to: string) {
+  return pathname === to || pathname.startsWith(`${to}/`)
+}

@@ -5,6 +5,7 @@ import {
   EquestrianPagePreview,
   EquestrianSectionPreview,
 } from '#/admin/preview/preview-equestrian'
+import { RegulationPagePreview } from '#/admin/preview/preview-regulation'
 import { EventsPreview } from '#/admin/preview/preview-events'
 import '#/styles.css'
 
@@ -19,3 +20,7 @@ CMS.registerPreviewTemplate('events', EventsPreview)
 CMS.registerPreviewTemplate('history', AboutHistoryPreview)
 CMS.registerPreviewTemplate('equestrian', EquestrianPagePreview)
 CMS.registerPreviewTemplate('equestrian_sections', EquestrianSectionPreview)
+CMS.registerPreviewTemplate('fei', RegulationPagePreview)
+CMS.registerPreviewTemplate('domestic', RegulationPagePreview)
+CMS.registerPreviewTemplate('training', RegulationPagePreview)
+CMS.registerPreviewTemplate('downloads', RegulationPagePreview)

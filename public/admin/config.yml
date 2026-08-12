@@ -245,6 +245,61 @@ collections:
                 prefix: homepage/events/
           - { label: 檔案大小, name: size, widget: string, required: false, hint: '例如 256 KB' }
 
+
+  - name: regulation
+    label: 制度專區
+    files:
+      - name: fei
+        label: FEI 規章
+        file: content/regulation/fei.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: &regulation_page_fields
+          - { label: 排序, name: order, widget: number, value_type: int, min: 1 }
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 導言, name: lead, widget: text }
+          - name: downloads
+            label: 下載檔案
+            label_singular: 檔案
+            widget: list
+            required: false
+            summary: '{{fields.name}}'
+            fields:
+              - { label: 顯示名稱, name: name, widget: string }
+              - { label: 連結網址, name: url, widget: string, hint: '可填外部網址，或之後改接下載專區檔案' }
+              - { label: 格式, name: format, widget: string, required: false, hint: '例如 PDF、DOC' }
+              - label: 來源
+                name: source
+                widget: select
+                required: false
+                options:
+                  - { label: CTEA, value: CTEA }
+                  - { label: FEI, value: FEI }
+          - { label: 內文, name: content, widget: richtext, hint: '目錄由內文 ## / ### 標題自動產生' }
+      - name: domestic
+        label: 國內制度
+        file: content/regulation/domestic.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: *regulation_page_fields
+      - name: training
+        label: 培訓甄選
+        file: content/regulation/training.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: *regulation_page_fields
+      - name: downloads
+        label: PDF 下載
+        file: content/regulation/downloads.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields: *regulation_page_fields
+
   - name: posts
     label: Posts
     label_singular: Post

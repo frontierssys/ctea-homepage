@@ -13,9 +13,7 @@ import {
   NavigationMenuTrigger,
 } from '#/components/ui/navigation-menu'
 import { cn } from '#/lib/utils'
-import { navLinks } from './const'
-
-
+import { isNavItemActive, navLinks } from './const'
 
 const menuItemClassName =
   'relative flex flex-1 after:absolute after:top-1/2 after:right-0 after:h-6 after:w-px after:-translate-y-1/2 after:bg-[rgba(182,140,67,.38)] last:after:hidden dark:after:bg-[#3a4752]'
@@ -39,13 +37,11 @@ const dropdownPanelViewportFalseOverrideClassName =
 const dropdownLinkClassName =
   'flex min-h-12 flex-row items-center gap-0 rounded-none border-b border-[rgba(208,174,109,.22)] p-0 px-5 font-body text-nav whitespace-nowrap transition-colors duration-200 last:border-0 hover:bg-[rgba(208,174,109,.1)] hover:text-[#d0ae6d] focus:bg-[rgba(208,174,109,.1)] focus:text-[#d0ae6d] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#f3dbad] focus-visible:ring-0 dark:border-[rgba(198,164,101,.2)] dark:hover:bg-[rgba(198,164,101,.1)] dark:hover:text-[#c6a465] dark:focus:bg-[rgba(198,164,101,.1)] dark:focus:text-[#c6a465] dark:focus-visible:outline-[#c6a465]'
 
-
 export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
   const navigate = useNavigate()
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
-  const aboutActive = pathname === '/about' || pathname.startsWith('/about/')
 
   return (
     <NavigationMenu
@@ -70,12 +66,14 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
             )
           }
 
+          const itemActive = isNavItemActive(pathname, item.to)
+
           return (
             <NavigationMenuItem key={item.to} className={menuItemClassName}>
               <NavigationMenuTrigger
                 className={cn(
                   triggerClassName,
-                  aboutActive &&
+                  itemActive &&
                   'text-[#d0ae6d] before:scale-x-100 dark:text-[#c6a465]',
                 )}
                 onClick={() => {
@@ -92,13 +90,14 @@ export function TopNavMenuDesktop({ className }: ComponentProps<'nav'>) {
               >
                 <ul className="m-0 grid list-none p-0">
                   {item.children.map((child) => (
-                    <li key={child.to}>
+                    <li key={`${child.to}-${child.params?.sectionId ?? child.label}`}>
                       <NavigationMenuLink
                         asChild
                         className={dropdownLinkClassName}
                       >
                         <Link
                           to={child.to}
+                          params={child.params}
                           activeProps={{
                             className: 'text-[#d0ae6d] dark:text-[#c6a465]',
                           }}

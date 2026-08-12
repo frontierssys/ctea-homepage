@@ -25,6 +25,8 @@ import { Route as AboutVisionRouteImport } from './routes/about/vision'
 import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
+import { Route as RegulationIndexRouteImport } from './routes/regulation.index'
+import { Route as RegulationSectionIdRouteImport } from './routes/regulation.$sectionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -106,6 +108,16 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
   path: '/$eventId',
   getParentRoute: () => EventsRoute,
 } as any)
+const RegulationIndexRoute = RegulationIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RegulationRoute,
+} as any)
+const RegulationSectionIdRoute = RegulationSectionIdRouteImport.update({
+  id: '/$sectionId',
+  path: '/$sectionId',
+  getParentRoute: () => RegulationRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,15 +127,17 @@ export interface FileRoutesByFullPath {
   '/equestrian': typeof EquestrianRoute
   '/events': typeof EventsRouteWithChildren
   '/member': typeof MemberRoute
-  '/regulation': typeof RegulationRoute
+  '/regulation': typeof RegulationRouteWithChildren
   '/about/constitution': typeof AboutConstitutionRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/mission': typeof AboutMissionRoute
   '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/regulation/$sectionId': typeof RegulationSectionIdRoute
   '/about/': typeof AboutIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/regulation/': typeof RegulationIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,15 +145,16 @@ export interface FileRoutesByTo {
   '/download': typeof DownloadRoute
   '/equestrian': typeof EquestrianRoute
   '/member': typeof MemberRoute
-  '/regulation': typeof RegulationRoute
   '/about/constitution': typeof AboutConstitutionRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/mission': typeof AboutMissionRoute
   '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/regulation/$sectionId': typeof RegulationSectionIdRoute
   '/about': typeof AboutIndexRoute
   '/events': typeof EventsIndexRoute
+  '/regulation': typeof RegulationIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,15 +165,17 @@ export interface FileRoutesById {
   '/equestrian': typeof EquestrianRoute
   '/events': typeof EventsRouteWithChildren
   '/member': typeof MemberRoute
-  '/regulation': typeof RegulationRoute
+  '/regulation': typeof RegulationRouteWithChildren
   '/about/constitution': typeof AboutConstitutionRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/mission': typeof AboutMissionRoute
   '/about/vision': typeof AboutVisionRoute
   '/api/revalidate': typeof ApiRevalidateRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/regulation/$sectionId': typeof RegulationSectionIdRoute
   '/about/': typeof AboutIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/regulation/': typeof RegulationIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,8 +194,10 @@ export interface FileRouteTypes {
     | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/regulation/$sectionId'
     | '/about/'
     | '/events/'
+    | '/regulation/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -186,15 +205,16 @@ export interface FileRouteTypes {
     | '/download'
     | '/equestrian'
     | '/member'
-    | '/regulation'
     | '/about/constitution'
     | '/about/history'
     | '/about/mission'
     | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/regulation/$sectionId'
     | '/about'
     | '/events'
+    | '/regulation'
   id:
     | '__root__'
     | '/'
@@ -211,8 +231,10 @@ export interface FileRouteTypes {
     | '/about/vision'
     | '/api/revalidate'
     | '/events/$eventId'
+    | '/regulation/$sectionId'
     | '/about/'
     | '/events/'
+    | '/regulation/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,7 +245,7 @@ export interface RootRouteChildren {
   EquestrianRoute: typeof EquestrianRoute
   EventsRoute: typeof EventsRouteWithChildren
   MemberRoute: typeof MemberRoute
-  RegulationRoute: typeof RegulationRoute
+  RegulationRoute: typeof RegulationRouteWithChildren
   ApiRevalidateRoute: typeof ApiRevalidateRoute
 }
 
@@ -341,6 +363,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsEventIdRouteImport
       parentRoute: typeof EventsRoute
     }
+    '/regulation/': {
+      id: '/regulation/'
+      path: '/'
+      fullPath: '/regulation/'
+      preLoaderRoute: typeof RegulationIndexRouteImport
+      parentRoute: typeof RegulationRoute
+    }
+    '/regulation/$sectionId': {
+      id: '/regulation/$sectionId'
+      path: '/$sectionId'
+      fullPath: '/regulation/$sectionId'
+      preLoaderRoute: typeof RegulationSectionIdRouteImport
+      parentRoute: typeof RegulationRoute
+    }
   }
 }
 
@@ -375,6 +411,20 @@ const EventsRouteChildren: EventsRouteChildren = {
 const EventsRouteWithChildren =
   EventsRoute._addFileChildren(EventsRouteChildren)
 
+interface RegulationRouteChildren {
+  RegulationSectionIdRoute: typeof RegulationSectionIdRoute
+  RegulationIndexRoute: typeof RegulationIndexRoute
+}
+
+const RegulationRouteChildren: RegulationRouteChildren = {
+  RegulationSectionIdRoute: RegulationSectionIdRoute,
+  RegulationIndexRoute: RegulationIndexRoute,
+}
+
+const RegulationRouteWithChildren = RegulationRoute._addFileChildren(
+  RegulationRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRouteWithChildren,
@@ -383,7 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   EquestrianRoute: EquestrianRoute,
   EventsRoute: EventsRouteWithChildren,
   MemberRoute: MemberRoute,
-  RegulationRoute: RegulationRoute,
+  RegulationRoute: RegulationRouteWithChildren,
   ApiRevalidateRoute: ApiRevalidateRoute,
 }
 export const routeTree = rootRouteImport

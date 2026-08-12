@@ -1,4 +1,3 @@
-
 import { ChevronDown } from 'lucide-react'
 import { useState, type ComponentProps } from 'react'
 import { cn } from '#/lib/utils'
@@ -6,19 +5,26 @@ import {
   Link,
   useRouterState,
 } from '@tanstack/react-router'
-import { navLinks } from './const'
+import { isNavItemActive, navLinks } from './const'
 
 type TopNavMenuMobileProps = ComponentProps<'nav'> & {
   menuOpen: boolean
   setMenuOpen: (open: boolean) => void
 }
-export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMenuMobileProps) {
 
+function initialOpenMenus(pathname: string) {
+  return Object.fromEntries(
+    navLinks
+      .filter((item) => item.children)
+      .map((item) => [item.to, isNavItemActive(pathname, item.to)]),
+  ) as Record<string, boolean>
+}
+
+export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMenuMobileProps) {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
-  const aboutActive = pathname === '/about' || pathname.startsWith('/about/')
-  const [aboutMenuOpen, setAboutMenuOpen] = useState(aboutActive)
+  const [openMenus, setOpenMenus] = useState(() => initialOpenMenus(pathname))
 
   return (<>
     <nav
@@ -52,6 +58,10 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
           )
         }
 
+        const itemActive = isNavItemActive(pathname, item.to)
+        const submenuOpen = openMenus[item.to] ?? false
+        const submenuId = `mobile-submenu-${item.to.replaceAll('/', '')}`
+
         return (
           <div
             key={item.to}
@@ -61,13 +71,18 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
               type="button"
               className={cn(
                 'flex min-h-12 w-full items-center gap-2 font-body text-nav cursor-pointer',
-                aboutActive && 'text-[#d0ae6d] dark:text-[#c6a465]',
+                itemActive && 'text-[#d0ae6d] dark:text-[#c6a465]',
               )}
-              aria-label={aboutMenuOpen ? '收合關於協會子選單' : '展開關於協會子選單'}
-              aria-expanded={aboutMenuOpen}
-              aria-controls="mobile-about-submenu"
+              aria-label={submenuOpen ? `收合${item.label}子選單` : `展開${item.label}子選單`}
+              aria-expanded={submenuOpen}
+              aria-controls={submenuId}
               tabIndex={menuOpen ? undefined : -1}
-              onClick={() => setAboutMenuOpen((open) => !open)}
+              onClick={() =>
+                setOpenMenus((current) => ({
+                  ...current,
+                  [item.to]: !submenuOpen,
+                }))
+              }
             >
               <span className="flex min-h-12 flex-1 items-center text-left">
                 {item.label}
@@ -79,23 +94,24 @@ export function TopNavMenuMobile({ className, menuOpen, setMenuOpen }: TopNavMen
                 <ChevronDown
                   className={cn(
                     'size-5 transition-transform duration-200 motion-reduce:transition-none',
-                    aboutMenuOpen && 'rotate-180',
+                    submenuOpen && 'rotate-180',
                   )}
                   strokeWidth={1.5}
                 />
               </span>
             </button>
             <div
-              id="mobile-about-submenu"
-              hidden={!aboutMenuOpen}
+              id={submenuId}
+              hidden={!submenuOpen}
               className="pb-2 pl-4"
             >
               {item.children.map((child) => (
                 <Link
-                  key={child.to}
+                  key={`${child.to}-${child.params?.sectionId ?? child.label}`}
                   to={child.to}
+                  params={child.params}
                   className="flex min-h-11 items-center border-t border-[rgba(208,174,109,.18)] font-body text-nav dark:border-[rgba(198,164,101,.18)]"
-                  tabIndex={menuOpen && aboutMenuOpen ? undefined : -1}
+                  tabIndex={menuOpen && submenuOpen ? undefined : -1}
                   onClick={() => {
                     setMenuOpen(false)
                   }}
