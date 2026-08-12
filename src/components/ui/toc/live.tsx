@@ -178,7 +178,21 @@ export function LiveTocMobileJump({
   )
 }
 
-/** Scroll-spy active anchor id via IntersectionObserver. Site only (uses hooks). */
+/** Match sticky header + heading scroll-mt so click/scroll share the same active line. */
+function getHeadingActivationOffset() {
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue('--layout-header-height')
+    .trim()
+  const headerHeight = Number.parseFloat(raw) || 0
+  return headerHeight + 24
+}
+
+/**
+ * Scroll-spy active anchor id.
+ * Last heading whose top has crossed the sticky-header line — works for
+ * wheel scroll and hash clicks (scroll-mt parks headings above mid-viewport
+ * IntersectionObserver bands, which used to leave active stuck).
+ */
 export function useActiveAnchorId(ids: Array<string>) {
   const [activeId, setActiveId] = useState(ids[0] ?? '')
 
@@ -189,23 +203,35 @@ export function useActiveAnchorId(ids: Array<string>) {
 
     if (elements.length === 0) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    const resolveActiveId = () => {
+      const offset = getHeadingActivationOffset()
+      let current = elements[0]?.id ?? ''
+      for (const element of elements) {
+        if (element.getBoundingClientRect().top <= offset) {
+          current = element.id
+        } else {
+          break
+        }
+      }
 
-        const nextId = visible[0]?.target.id
-        if (nextId) setActiveId(nextId)
-      },
-      {
-        rootMargin: '-20% 0px -55% 0px',
-        threshold: [0.1, 0.25, 0.5],
-      },
-    )
+      const atPageEnd =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 1
+      if (atPageEnd) current = elements.at(-1)?.id ?? current
 
-    for (const element of elements) observer.observe(element)
-    return () => observer.disconnect()
+      setActiveId((prev) => (prev === current ? prev : current))
+    }
+
+    window.addEventListener('scroll', resolveActiveId, { passive: true })
+    window.addEventListener('resize', resolveActiveId)
+    window.addEventListener('hashchange', resolveActiveId)
+    resolveActiveId()
+
+    return () => {
+      window.removeEventListener('scroll', resolveActiveId)
+      window.removeEventListener('resize', resolveActiveId)
+      window.removeEventListener('hashchange', resolveActiveId)
+    }
   }, [ids])
 
   useEffect(() => {
