@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { MarkdownHeading } from '#/lib/markdown'
+import type { TocHeading } from '#/lib/content/toc'
 
 /** Page front matter — content/equestrian/page.md */
 export const equestrianPageDocumentSchema = z.object({
@@ -9,8 +9,6 @@ export const equestrianPageDocumentSchema = z.object({
   content: z.string().default(''),
 })
 
-export type EquestrianTocHeading = Pick<MarkdownHeading, 'id' | 'text' | 'level'>
-
 export type EquestrianContent = {
   eyebrow: string
   title: string
@@ -18,7 +16,7 @@ export type EquestrianContent = {
   /** HTML on the site (content-collections). */
   content: string
   /** h2/h3 from the page body for TOC. */
-  headings: Array<EquestrianTocHeading>
+  headings: Array<TocHeading>
 }
 
 const DEFAULT_EQUESTRIAN_PAGE = {
@@ -31,7 +29,7 @@ function readTrimmedString(value: unknown) {
   return typeof value === 'string' && value.trim() ? value.trim() : ''
 }
 
-function coerceHeadings(value: unknown): Array<EquestrianTocHeading> {
+function coerceHeadings(value: unknown): Array<TocHeading> {
   if (!Array.isArray(value)) return []
   return value.flatMap((item) => {
     if (!item || typeof item !== 'object' || Array.isArray(item)) return []

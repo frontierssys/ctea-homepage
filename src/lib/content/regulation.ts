@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { MarkdownHeading } from '#/lib/markdown'
+import type { TocHeading } from '#/lib/content/toc'
 
 export const REGULATION_PAGE_IDS = [
   'fei',
@@ -35,8 +35,6 @@ export const regulationPageDocumentSchema = z.object({
 
 export type RegulationDownload = z.infer<typeof regulationDownloadSchema>
 
-export type RegulationTocHeading = Pick<MarkdownHeading, 'id' | 'text' | 'level'>
-
 export type RegulationPage = {
   id: RegulationPageId
   order: number
@@ -47,7 +45,7 @@ export type RegulationPage = {
   /** HTML on the site (content-collections). */
   content: string
   /** h2/h3 from the page body for TOC. */
-  headings: Array<RegulationTocHeading>
+  headings: Array<TocHeading>
 }
 
 const DEFAULT_REGULATION_PAGE = {
@@ -80,7 +78,7 @@ function coerceDownload(value: unknown): RegulationDownload | null {
   }
 }
 
-function coerceHeadings(value: unknown): Array<RegulationTocHeading> {
+function coerceHeadings(value: unknown): Array<TocHeading> {
   if (!Array.isArray(value)) return []
   return value.flatMap((item) => {
     if (!item || typeof item !== 'object' || Array.isArray(item)) return []
