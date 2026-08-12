@@ -71,7 +71,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootLayout() {
   return (
     <>
-      <TopNavBar className="h-(--layout-header-height)"/>
+      <TopNavBar className="view-transition-header h-(--layout-header-height)" />
       <div className="min-h-screen pt-(--layout-header-height)">
         <GradientGlowTopRight />
         <Outlet />

@@ -5,6 +5,7 @@
 @import 'tw-animate-css';
 /* Fold hero CSS into the root stylesheet so the homepage doesn't pay a second render-blocking request. */
 @import './components/hero-carousel/style.css';
+@import './styles/view-transitions.css';
 
 @custom-variant dark (&:is(.dark *));
 

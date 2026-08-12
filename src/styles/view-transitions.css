@@ -1,0 +1,110 @@
+/*
+ * Route View Transitions — keep the fixed header stable while a viewport-sized
+ * page snapshot follows browser history direction. The footer remains part of
+ * the page because its position changes with document height.
+ *
+ * Enabled via createRouter({ defaultViewTransition }) in src/router.tsx.
+ */
+
+.view-transition-header {
+  view-transition-name: view-transition-header;
+}
+
+/* The fixed header is stable chrome, outside the page transition. */
+::view-transition-group(view-transition-header),
+::view-transition-old(view-transition-header),
+::view-transition-new(view-transition-header) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Use a neutral crossfade when transition types are unavailable. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: ctea-vt-fade-exit 180ms ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: ctea-vt-fade-enter 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html:active-view-transition-type(navigation-forward)::view-transition-old(root) {
+  animation-name: ctea-vt-forward-exit;
+}
+
+html:active-view-transition-type(navigation-forward)::view-transition-new(root) {
+  animation-name: ctea-vt-forward-enter;
+}
+
+html:active-view-transition-type(navigation-back)::view-transition-old(root) {
+  animation-name: ctea-vt-back-exit;
+}
+
+html:active-view-transition-type(navigation-back)::view-transition-new(root) {
+  animation-name: ctea-vt-back-enter;
+}
+
+@keyframes ctea-vt-fade-exit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ctea-vt-fade-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ctea-vt-forward-exit {
+  to {
+    opacity: 0;
+    transform: translate3d(-6px, 0, 0);
+  }
+}
+
+@keyframes ctea-vt-forward-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(8px, 0, 0);
+  }
+}
+
+@keyframes ctea-vt-back-exit {
+  to {
+    opacity: 0;
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+@keyframes ctea-vt-back-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(-8px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

@@ -12,6 +12,26 @@ export function getRouter() {
     scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
+    // Same-document View Transitions: keep the fixed header stable while the
+    // viewport snapshot follows browser history direction (see styles).
+    defaultViewTransition: {
+      types: ({ fromLocation, toLocation, pathChanged }) => {
+        if (!pathChanged || !fromLocation) return false
+        if (
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          return false
+        }
+
+        const fromIndex = fromLocation.state.__TSR_index
+        const toIndex = toLocation.state.__TSR_index
+
+        if (toIndex < fromIndex) return ['navigation-back']
+        if (toIndex > fromIndex) return ['navigation-forward']
+        return ['navigation-neutral']
+      },
+    },
   })
 
   setupRouterSsrQueryIntegration({ router, queryClient: context.queryClient })
