@@ -9,6 +9,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
   type ComponentProps,
   type ReactNode,
@@ -140,6 +141,7 @@ export function LiveHeadingToc({
     state: { headings, activeId, expandedIds },
     actions: { navigate, toggleGroup },
   } = useToc()
+  const scrollRailRef = useActiveTocRail(activeId, expandedIds)
 
   return (
     <HeadingToc
@@ -147,6 +149,7 @@ export function LiveHeadingToc({
       headings={headings}
       activeId={activeId}
       expandedIds={expandedIds}
+      scrollRailRef={scrollRailRef}
       onNavigate={navigate}
       onToggleGroup={toggleGroup}
     />
@@ -161,6 +164,7 @@ export function LiveTocMobileJump({
     actions: { setOpen, navigate, toggleGroup },
     meta: { panelId },
   } = useToc()
+  const scrollRailRef = useActiveTocRail(activeId, expandedIds, open)
 
   return (
     <TocMobileJump
@@ -176,6 +180,7 @@ export function LiveTocMobileJump({
         headings={headings}
         activeId={activeId}
         expandedIds={expandedIds}
+        scrollRailRef={scrollRailRef}
         onNavigate={navigate}
         onToggleGroup={toggleGroup}
       />
@@ -183,13 +188,45 @@ export function LiveTocMobileJump({
   )
 }
 
-/** Match sticky header + heading scroll-mt so click/scroll share the same active line. */
-function getHeadingActivationOffset() {
-  const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue('--layout-header-height')
-    .trim()
-  const headerHeight = Number.parseFloat(raw) || 0
-  return headerHeight + 24
+/** Keep the active link visible without moving the main document. */
+function useActiveTocRail(
+  activeId: string,
+  expandedIds: Set<string>,
+  enabled = true,
+) {
+  const railRef = useRef<HTMLOListElement>(null)
+
+  useEffect(() => {
+    const rail = railRef.current
+    if (!enabled || !activeId || !rail) return
+
+    const keepActiveVisible = () => {
+      const activeLink = rail.querySelector<HTMLElement>(
+        '[aria-current="true"]',
+      )
+      if (!activeLink) return
+
+      const railRect = rail.getBoundingClientRect()
+      const activeRect = activeLink.getBoundingClientRect()
+      if (activeRect.top < railRect.top) {
+        rail.scrollTop += activeRect.top - railRect.top
+      } else if (activeRect.bottom > railRect.bottom) {
+        rail.scrollTop += activeRect.bottom - railRect.bottom
+      }
+    }
+
+    keepActiveVisible()
+    window.addEventListener('resize', keepActiveVisible)
+    return () => window.removeEventListener('resize', keepActiveVisible)
+  }, [activeId, enabled, expandedIds])
+
+  return railRef
+}
+
+/** Use the heading's scroll margin as the single activation offset source. */
+function getHeadingActivationOffset(element: HTMLElement) {
+  const offset = Number.parseFloat(getComputedStyle(element).scrollMarginTop)
+  return Number.isFinite(offset) ? offset : 0
 }
 
 /**
@@ -209,7 +246,7 @@ export function useActiveAnchorId(ids: Array<string>) {
     if (elements.length === 0) return
 
     const resolveActiveId = () => {
-      const offset = getHeadingActivationOffset()
+      const offset = getHeadingActivationOffset(elements[0])
       let current = elements[0]?.id ?? ''
       for (const element of elements) {
         if (element.getBoundingClientRect().top <= offset) {

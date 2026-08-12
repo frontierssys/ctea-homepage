@@ -4,7 +4,7 @@
  */
 
 import { ChevronRight, ChevronUp, List } from 'lucide-react'
-import type { ComponentProps, ReactNode } from 'react'
+import type { ComponentProps, ReactNode, Ref } from 'react'
 import type { TocHeading } from '#/lib/content/toc'
 import { cn } from '#/lib/utils'
 
@@ -42,6 +42,7 @@ export type HeadingTocProps = ComponentProps<'nav'> & {
   activeId?: string
   /** When omitted, groups with children render expanded (static preview). */
   expandedIds?: Set<string>
+  scrollRailRef?: Ref<HTMLOListElement>
   onNavigate?: () => void
   /** When omitted, expand control is decorative (static preview). */
   onToggleGroup?: (id: string) => void
@@ -56,6 +57,7 @@ export function HeadingToc({
   headings,
   activeId,
   expandedIds,
+  scrollRailRef,
   onNavigate,
   onToggleGroup,
 }: HeadingTocProps) {
@@ -75,7 +77,10 @@ export function HeadingToc({
       <p className="shrink-0 font-sport text-overline uppercase text-ctea-brown">
         Contents
       </p>
-      <ol className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-border [scrollbar-gutter:stable]">
+      <ol
+        ref={scrollRailRef}
+        className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-border [scrollbar-gutter:stable]"
+      >
         {groups.map((group) => {
           const hasChildren = group.children.length > 0
           const expanded =
