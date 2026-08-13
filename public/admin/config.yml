@@ -145,6 +145,99 @@ collections:
               - { label: 文字, name: label, widget: string }
               - { label: 連結, name: href, widget: string }
 
+  - name: event
+    label: 活動看板（列表）
+    files:
+      - name: event
+        label: 活動看板
+        file: content/event.json
+        format: json
+        fields:
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 說明, name: description, widget: text }
+
+  - name: events
+    label: 活動看板（詳情）
+    label_singular: 活動看板（詳情）
+    folder: /content/events
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    # Matches content-collections frontmatter body (`content` outside YAML).
+    body_field:
+      key: content
+    slug: '{{slug}}'
+    summary: '{{title}} — {{date}}'
+    sortable_fields: [title, date, category, author]
+    fields:
+      - { label: 標題, name: title, widget: string }
+      - label: 分類
+        name: category
+        widget: select
+        options:
+          - { label: 活動賽事, value: events }
+          - { label: 行政會務, value: administration }
+          - { label: 培訓講習, value: education }
+          - { label: 國際資訊, value: international }
+          - { label: 規章制度, value: rules }
+          - { label: 其他公告, value: other }
+      - label: 標籤
+        name: tags
+        widget: select
+        multiple: true
+        required: false
+        options:
+          - 2025全運
+          - 大專盃
+          - 亞洲錦標賽
+          - FEI挑戰賽
+          - 選手
+          - 教練
+          - 裁判
+          - 會員單位
+          - 證照
+          - 證件申請
+          - TUE
+          - 藥檢
+          - 收據
+          - FEI
+          - AEF
+          - Quota
+          - YOG
+          - 規程
+          - 秩序冊
+          - 成績
+          - 積分
+          - 會議
+          - 人事
+          - 會費
+          - 培訓
+          - 講習
+          - 活動
+          - 緊急通知
+          - 延期
+          - 天氣
+      - { label: 日期, name: date, widget: datetime, type: date }
+      - { label: 作者, name: author, widget: string, required: false }
+      - { label: 摘要, name: excerpt, widget: text, required: false }
+      - { label: 內文, name: content, widget: richtext }
+      - name: attachments
+        label: 附件
+        label_singular: 附件
+        widget: list
+        required: false
+        fields:
+          - { label: 檔名, name: name, widget: string }
+          - label: 檔案
+            name: url
+            widget: file
+            media_libraries:
+              cloudflare_r2:
+                <<: *r2
+                prefix: homepage/events/
+          - { label: 檔案大小, name: size, widget: string, required: false, hint: '例如 256 KB' }
+
   - name: about
     label: 關於協會
     files:
@@ -242,120 +335,6 @@ collections:
           - { label: 導言, name: lead, widget: text }
           - { label: 內文, name: content, widget: richtext }
 
-  - name: calendar
-    label: 行事曆
-    files:
-      - name: calendar
-        label: 行事曆
-        file: content/calendar/page.md
-        format: yaml-frontmatter
-        body_field:
-          key: content
-        fields:
-          - { label: 英文標示, name: eyebrow, widget: string }
-          - { label: 標題, name: title, widget: string }
-          - { label: 導言, name: lead, widget: text }
-          - {
-              label: 內文,
-              name: content,
-              widget: richtext,
-              hint: '可貼 Markdown 表格或 HTML 表格。欄位建議：時間、地點、活動名稱、主辦單位、附件下載。附件請用連結。',
-            }
-
-  - name: event
-    label: 活動看板（列表）
-    files:
-      - name: event
-        label: 活動看板
-        file: content/event.json
-        format: json
-        fields:
-          - { label: 英文標示, name: eyebrow, widget: string }
-          - { label: 標題, name: title, widget: string }
-          - { label: 說明, name: description, widget: text }
-
-  - name: events
-    label: 活動看板（詳情）
-    label_singular: 活動看板（詳情）
-    folder: /content/events
-    create: true
-    extension: md
-    format: yaml-frontmatter
-    # Matches content-collections frontmatter body (`content` outside YAML).
-    body_field:
-      key: content
-    slug: '{{slug}}'
-    summary: '{{title}} — {{date}}'
-    sortable_fields: [title, date, category, author]
-    fields:
-      - { label: 標題, name: title, widget: string }
-      - label: 分類
-        name: category
-        widget: select
-        options:
-          - { label: 活動賽事, value: events }
-          - { label: 行政會務, value: administration }
-          - { label: 培訓講習, value: education }
-          - { label: 國際資訊, value: international }
-          - { label: 規章制度, value: rules }
-          - { label: 其他公告, value: other }
-      - label: 標籤
-        name: tags
-        widget: select
-        multiple: true
-        required: false
-        options:
-          - 2025全運
-          - 大專盃
-          - 亞洲錦標賽
-          - FEI挑戰賽
-          - 選手
-          - 教練
-          - 裁判
-          - 會員單位
-          - 證照
-          - 證件申請
-          - TUE
-          - 藥檢
-          - 收據
-          - FEI
-          - AEF
-          - Quota
-          - YOG
-          - 規程
-          - 秩序冊
-          - 成績
-          - 積分
-          - 會議
-          - 人事
-          - 會費
-          - 培訓
-          - 講習
-          - 活動
-          - 緊急通知
-          - 延期
-          - 天氣
-      - { label: 日期, name: date, widget: datetime, type: date }
-      - { label: 作者, name: author, widget: string, required: false }
-      - { label: 摘要, name: excerpt, widget: text, required: false }
-      - { label: 內文, name: content, widget: richtext }
-      - name: attachments
-        label: 附件
-        label_singular: 附件
-        widget: list
-        required: false
-        fields:
-          - { label: 檔名, name: name, widget: string }
-          - label: 檔案
-            name: url
-            widget: file
-            media_libraries:
-              cloudflare_r2:
-                <<: *r2
-                prefix: homepage/events/
-          - { label: 檔案大小, name: size, widget: string, required: false, hint: '例如 256 KB' }
-
-
   - name: regulation
     label: 制度專區
     files:
@@ -410,12 +389,22 @@ collections:
           key: content
         fields: *regulation_page_fields
 
-  - name: posts
-    label: Posts
-    label_singular: Post
-    folder: /content/posts
-    create: true
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: datetime, type: date }
-      - { label: Body, name: body, widget: richtext }
+  - name: calendar
+    label: 行事曆
+    files:
+      - name: calendar
+        label: 行事曆
+        file: content/calendar/page.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields:
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 導言, name: lead, widget: text }
+          - {
+              label: 內文,
+              name: content,
+              widget: richtext,
+              hint: '可貼 Markdown 表格或 HTML 表格。欄位建議：時間、地點、活動名稱、主辦單位、附件下載。附件請用連結。',
+            }
