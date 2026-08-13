@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
+import { NotFoundPage } from '#/components/not-found-page'
 import { getFooter } from '#/lib/content/footer'
 import { FONTS_NONBLOCKING_SCRIPT, FONTS_STYLESHEET } from '#/lib/fonts'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
@@ -68,6 +69,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
   shellComponent: RootDocument,
   component: RootLayout,
+  notFoundComponent: NotFoundPage,
 })
 
 function RootLayout() {
