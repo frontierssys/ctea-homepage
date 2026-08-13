@@ -1,5 +1,4 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
-
 import { DeferredEmbed } from '#/components/deferred-embed'
 import type { FooterContent, SocialPlatform } from '#/lib/content/footer'
 
@@ -135,9 +134,8 @@ export function SectionLatestNews({
   return (
     <section
       id="news"
-      className="relative bg-[#fbf6ed] px-5 py-24 transition-colors duration-200 dark:bg-[#0b1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
+      className="border-t border-[rgba(182,140,67,.38)] bg-[#fbf6ed] px-5 py-24 transition-colors duration-200 dark:border-[#3a4752] dark:bg-[#0b1825] md:px-10 md:py-32 lg:px-16 lg:py-36"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[rgba(182,140,67,.38)] dark:bg-[#3a4752]" />
       <div className="mx-auto max-w-7xl">
         <div className="flex items-end justify-between gap-8 max-md:block">
           <Heading
