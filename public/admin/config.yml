@@ -242,6 +242,26 @@ collections:
           - { label: 導言, name: lead, widget: text }
           - { label: 內文, name: content, widget: richtext }
 
+  - name: calendar
+    label: 行事曆
+    files:
+      - name: calendar
+        label: 行事曆
+        file: content/calendar/page.md
+        format: yaml-frontmatter
+        body_field:
+          key: content
+        fields:
+          - { label: 英文標示, name: eyebrow, widget: string }
+          - { label: 標題, name: title, widget: string }
+          - { label: 導言, name: lead, widget: text }
+          - {
+              label: 內文,
+              name: content,
+              widget: richtext,
+              hint: '可貼 Markdown 表格或 HTML 表格。欄位建議：時間、地點、活動名稱、主辦單位、附件下載。附件請用連結。',
+            }
+
   - name: event
     label: 活動看板（列表）
     files:

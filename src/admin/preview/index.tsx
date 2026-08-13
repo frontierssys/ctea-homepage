@@ -1,6 +1,7 @@
 import { AboutConstitutionPreview } from '#/admin/preview/preview-about-constitution'
 import { AboutHistoryPreview } from '#/admin/preview/preview-about-history'
 import { AboutMediaPreview } from '#/admin/preview/preview-about-media'
+import { CalendarPagePreview } from '#/admin/preview/preview-calendar'
 import { EventPreview } from '#/admin/preview/preview-event'
 import { CarouselPreview } from '#/admin/preview/preview-carousel'
 import { EquestrianPagePreview } from '#/admin/preview/preview-equestrian'
@@ -25,6 +26,7 @@ CMS.registerPreviewTemplate('mission', AboutMediaPreview)
 CMS.registerPreviewTemplate('constitution', AboutConstitutionPreview)
 CMS.registerPreviewTemplate('vision', AboutMediaPreview)
 CMS.registerPreviewTemplate('equestrian', EquestrianPagePreview)
+CMS.registerPreviewTemplate('calendar', CalendarPagePreview)
 CMS.registerPreviewTemplate('fei', RegulationPagePreview)
 CMS.registerPreviewTemplate('domestic', RegulationPagePreview)
 CMS.registerPreviewTemplate('training', RegulationPagePreview)

@@ -161,6 +161,26 @@ const equestrianPage = defineCollection({
   },
 })
 
+const calendarPage = defineCollection({
+  name: 'calendarPage',
+  directory: 'content/calendar',
+  include: 'page.md',
+  parser: 'frontmatter',
+  schema: equestrianPageDocumentSchema,
+  transform: async (document, { cache }) => {
+    const { markup } = await cache(document.content, (content) =>
+      renderMarkdown(content),
+    )
+
+    return {
+      eyebrow: document.eyebrow,
+      title: document.title,
+      lead: document.lead,
+      content: markup,
+    }
+  },
+})
+
 const regulationPages = defineCollection({
   name: 'regulationPages',
   directory: 'content/regulation',
@@ -200,6 +220,7 @@ export default defineConfig({
     aboutVision,
     aboutConstitution,
     equestrianPage,
+    calendarPage,
     regulationPages,
   ],
 })
