@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { TopNavBar } from '#/components/top-nav-bar/top-nav-bar'
+import { getFooter } from '#/lib/content/footer'
 import { FONTS_NONBLOCKING_SCRIPT, FONTS_STYLESHEET } from '#/lib/fonts'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { ThemeProvider } from '../components/theme-provider'
@@ -22,6 +23,7 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  loader: () => ({ footer: getFooter() }),
   // Default ISR cache for all page responses. Child routes can override.
   // Static /admin and API handlers return their own responses, so they ignore this.
   headers: () => ({
@@ -69,6 +71,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function RootLayout() {
+  const { footer } = Route.useLoaderData()
+
   return (
     <>
       <TopNavBar className="view-transition-header h-(--layout-header-height)" />
@@ -76,7 +80,7 @@ function RootLayout() {
         <GradientGlowTopRight />
         <Outlet />
       </div>
-      <SiteFooter />
+      <SiteFooter footer={footer} />
     </>
   )
 }

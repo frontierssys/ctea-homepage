@@ -4,6 +4,7 @@ import { AboutMediaPreview } from '#/admin/preview/preview-about-media'
 import { EventPreview } from '#/admin/preview/preview-event'
 import { CarouselPreview } from '#/admin/preview/preview-carousel'
 import { EquestrianPagePreview } from '#/admin/preview/preview-equestrian'
+import { FooterPreview } from '#/admin/preview/preview-footer'
 import { RegulationPagePreview } from '#/admin/preview/preview-regulation'
 import { EventsPreview } from '#/admin/preview/preview-events'
 import '#/styles.css'
@@ -16,6 +17,7 @@ CMS.registerPreviewStyle('/admin/preview-bundle.css')
 CMS.registerPreviewTemplate('homepage', CarouselPreview)
 CMS.registerPreviewTemplate('event', EventPreview)
 CMS.registerPreviewTemplate('events', EventsPreview)
+CMS.registerPreviewTemplate('footer', FooterPreview)
 CMS.registerPreviewTemplate('history', AboutHistoryPreview)
 CMS.registerPreviewTemplate('mission', AboutMediaPreview)
 CMS.registerPreviewTemplate('constitution', AboutConstitutionPreview)

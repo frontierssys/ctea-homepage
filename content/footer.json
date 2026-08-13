@@ -1,0 +1,18 @@
+{
+  "brandNameZh": "中華民國馬術協會",
+  "brandNameEn": "Chinese Taipei Equestrian Association",
+  "tagline": "推動馬術競技、教育培訓與國際交流，建立安全、專業且永續的馬術運動環境。",
+  "phone": "+886 2 2751 2142",
+  "email": "service@ctea.org.tw",
+  "address": "104 臺北市中山區朱崙街20號",
+  "socialLinks": [
+    { "platform": "facebook", "url": "https://www.facebook.com/" },
+    { "platform": "instagram", "url": "https://www.instagram.com/" },
+    { "platform": "youtube", "url": "https://www.youtube.com/" }
+  ],
+  "copyright": "© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.",
+  "legalLinks": [
+    { "label": "隱私權政策", "href": "#privacy" },
+    { "label": "網站使用條款", "href": "#terms" }
+  ]
+}

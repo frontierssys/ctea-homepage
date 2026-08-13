@@ -1,6 +1,7 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
 
 import { DeferredEmbed } from '#/components/deferred-embed'
+import type { FooterContent, SocialPlatform } from '#/lib/content/footer'
 
 type BrandIconProps = React.ComponentProps<'svg'>
 
@@ -416,7 +417,20 @@ export function SectionPartner() {
   )
 }
 
-export function SiteFooter() {
+const SOCIAL_ICONS: Record<
+  SocialPlatform,
+  { Icon: (props: BrandIconProps) => React.JSX.Element; label: string }
+> = {
+  facebook: { Icon: FacebookIcon, label: 'Facebook' },
+  instagram: { Icon: InstagramIcon, label: 'Instagram' },
+  youtube: { Icon: YoutubeIcon, label: 'YouTube' },
+}
+
+function toTelHref(phone: string) {
+  return `tel:${phone.replace(/[\s()-]/g, '')}`
+}
+
+export function SiteFooter({ footer }: { footer: FooterContent }) {
   return (
     <footer
       id="footer"
@@ -430,13 +444,13 @@ export function SiteFooter() {
         <div className="grid grid-cols-12 gap-10 pb-20 max-lg:grid-cols-2 max-md:block">
           <div className="col-span-5 max-lg:col-span-2">
             <p className="font-brand text-xl font-semibold tracking-brand">
-              中華民國馬術協會
+              {footer.brandNameZh}
             </p>
             <p className="mt-3 font-sport text-meta text-[#d8c49e] uppercase dark:text-[#a99267]">
-              Chinese Taipei Equestrian Association
+              {footer.brandNameEn}
             </p>
             <p className="mt-8 max-w-md font-body text-body-sm text-[#e5dccd]/75">
-              推動馬術競技、教育培訓與國際交流，建立安全、專業且永續的馬術運動環境。
+              {footer.tagline}
             </p>
           </div>
 
@@ -446,25 +460,25 @@ export function SiteFooter() {
             </p>
             <div className="mt-6 grid gap-5 font-body text-body-sm text-[rgba(229,220,205,.78)] dark:text-[#b3aa99]">
               <a
-                href="tel:+886227512142"
+                href={toTelHref(footer.phone)}
                 className="flex min-h-11 items-center gap-4 transition-colors hover:text-white"
               >
                 <Phone className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
-                +886 2 2751 2142
+                {footer.phone}
               </a>
               <a
-                href="mailto:service@ctea.org.tw"
+                href={`mailto:${footer.email}`}
                 className="flex min-h-11 items-center gap-4 transition-colors hover:text-white dark:hover:text-[#f1eade]"
               >
                 <Mail className="size-4 text-[#c5a15d] dark:text-[#c6a465]" strokeWidth={1.3} />{' '}
-                service@ctea.org.tw
+                {footer.email}
               </a>
-              <p className="flex items-start gap-4">
+              <p className="flex min-h-11 items-center gap-4">
                 <MapPin
-                  className="mt-1.5 size-4 shrink-0 text-[#c5a15d] dark:text-[#c6a465]"
+                  className="size-4 shrink-0 text-[#c5a15d] dark:text-[#c6a465]"
                   strokeWidth={1.3}
                 />{' '}
-                104 臺北市中山區朱崙街20號
+                {footer.address}
               </p>
             </div>
           </address>
@@ -474,33 +488,35 @@ export function SiteFooter() {
               Follow
             </p>
             <div className="mt-6 flex gap-3">
-              {[
-                [FacebookIcon, 'Facebook', 'https://www.facebook.com/'],
-                [InstagramIcon, 'Instagram', 'https://www.instagram.com/'],
-                [YoutubeIcon, 'YouTube', 'https://www.youtube.com/'],
-              ].map(([Icon, label, href]) => (
-                <a
-                  href={String(href)}
-                  aria-label={String(label)}
-                  className="grid size-12 place-items-center border border-[rgba(197,161,93,.5)] text-[#d8c49e] transition-colors duration-200 hover:bg-[#fbf6ed] hover:text-[#122b43] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#c5a15d] dark:border-[rgba(198,164,101,.55)] dark:text-[#a99267] dark:hover:bg-[#f1eade] dark:hover:text-[#122b43] dark:focus-visible:outline-[#c6a465]"
-                  key={String(label)}
-                >
-                  <Icon className="size-5" />
-                </a>
-              ))}
+              {footer.socialLinks.map(({ platform, url }) => {
+                const { Icon, label } = SOCIAL_ICONS[platform]
+                return (
+                  <a
+                    href={url}
+                    aria-label={label}
+                    className="grid size-12 place-items-center border border-[rgba(197,161,93,.5)] text-[#d8c49e] transition-colors duration-200 hover:bg-[#fbf6ed] hover:text-[#122b43] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#c5a15d] dark:border-[rgba(198,164,101,.55)] dark:text-[#a99267] dark:hover:bg-[#f1eade] dark:hover:text-[#122b43] dark:focus-visible:outline-[#c6a465]"
+                    key={`${platform}:${url}`}
+                  >
+                    <Icon className="size-5" />
+                  </a>
+                )
+              })}
             </div>
           </div>
         </div>
 
         <div className="flex min-h-16 items-end justify-between gap-8 border-t border-[rgba(197,161,93,.35)] pt-7 font-body text-overline text-[rgba(229,220,205,.58)] dark:border-[rgba(198,164,101,.3)] dark:text-[rgba(179,170,153,.68)] max-sm:block max-sm:leading-7">
-          <p>© 2026 Chinese Taipei Equestrian Association. All Rights Reserved.</p>
+          <p>{footer.copyright}</p>
           <div className="flex gap-7 max-sm:mt-3">
-            <a href="#privacy" className="hover:text-white dark:hover:text-[#f1eade]">
-              隱私權政策
-            </a>
-            <a href="#terms" className="hover:text-white dark:hover:text-[#f1eade]">
-              網站使用條款
-            </a>
+            {footer.legalLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="hover:text-white dark:hover:text-[#f1eade]"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>

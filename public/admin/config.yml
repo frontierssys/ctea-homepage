@@ -90,6 +90,44 @@ collections:
                 <<: *r2
                 prefix: homepage/landingpage/
 
+  - name: site
+    label: 網站設定
+    files:
+      - name: footer
+        label: Footer
+        file: content/footer.json
+        format: json
+        fields:
+          - { label: 中文名稱, name: brandNameZh, widget: string }
+          - { label: 英文名稱, name: brandNameEn, widget: string }
+          - { label: 簡介, name: tagline, widget: text }
+          - { label: 電話, name: phone, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: 地址, name: address, widget: string }
+          - name: socialLinks
+            label: 社群連結
+            label_singular: 社群
+            widget: list
+            summary: '{{fields.platform}}'
+            fields:
+              - label: 平台
+                name: platform
+                widget: select
+                options:
+                  - { label: Facebook, value: facebook }
+                  - { label: Instagram, value: instagram }
+                  - { label: YouTube, value: youtube }
+              - { label: 網址, name: url, widget: string }
+          - { label: 版權文字, name: copyright, widget: string }
+          - name: legalLinks
+            label: 法律連結
+            label_singular: 連結
+            widget: list
+            summary: '{{fields.label}}'
+            fields:
+              - { label: 文字, name: label, widget: string }
+              - { label: 連結, name: href, widget: string }
+
   - name: about
     label: 關於協會
     files:
