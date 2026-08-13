@@ -7,6 +7,7 @@ import { EquestrianPagePreview } from '#/admin/preview/preview-equestrian'
 import { FooterPreview } from '#/admin/preview/preview-footer'
 import { RegulationPagePreview } from '#/admin/preview/preview-regulation'
 import { EventsPreview } from '#/admin/preview/preview-events'
+import { NewsPreview } from '#/admin/preview/preview-news'
 import '#/styles.css'
 
 // CMS preview uses Google Fonts for Barlow; site self-hosts the same face via fontsource.
@@ -15,6 +16,7 @@ CMS.registerPreviewStyle(
 )
 CMS.registerPreviewStyle('/admin/preview-bundle.css')
 CMS.registerPreviewTemplate('homepage', CarouselPreview)
+CMS.registerPreviewTemplate('news', NewsPreview)
 CMS.registerPreviewTemplate('event', EventPreview)
 CMS.registerPreviewTemplate('events', EventsPreview)
 CMS.registerPreviewTemplate('footer', FooterPreview)

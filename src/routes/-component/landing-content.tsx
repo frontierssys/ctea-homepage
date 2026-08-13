@@ -1,6 +1,9 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 import { DeferredEmbed } from '#/components/deferred-embed'
+import { getCategoryLabel } from '#/lib/content/events'
 import type { FooterContent, SocialPlatform } from '#/lib/content/footer'
+import type { NewsContent } from '#/lib/content/news'
 
 type BrandIconProps = React.ComponentProps<'svg'>
 
@@ -46,34 +49,6 @@ function YoutubeIcon(props: BrandIconProps) {
   )
 }
 
-const newsItems = [
-  {
-    date: '2026.06.08',
-    category: '賽事公告',
-    title: '115年度全國馬術錦標賽競賽規程與報名資訊',
-    excerpt: '年度重點賽事即將展開，敬請參賽選手、教練與所屬單位依公告時程完成報名。',
-    featured: true,
-  },
-  {
-    date: '2026.05.26',
-    category: '協會消息',
-    title: '國家代表隊培訓計畫及選拔作業說明',
-    excerpt: '公布培訓期程、選拔原則與相關申請文件。',
-  },
-  {
-    date: '2026.05.12',
-    category: '教育推廣',
-    title: '馬術教練暨裁判增能研習開放報名',
-    excerpt: '以國際規範與實務案例為核心，持續提升專業人才培育品質。',
-  },
-  {
-    date: '2026.04.30',
-    category: '國際交流',
-    title: '亞洲馬術交流會議代表團成果紀要',
-    excerpt: '深化區域合作，持續推動我國馬術運動與國際制度接軌。',
-  },
-] as const
-
 const partners = [
   ['SA', '教育部體育署', 'Sports Administration'],
   ['CTOC', '中華奧林匹克委員會', 'Chinese Taipei Olympic Committee'],
@@ -107,29 +82,13 @@ function Heading({
   )
 }
 
-function EditorialLink({ children, href = '#' }: { children: React.ReactNode; href?: string }) {
-  return (
-    <a
-      href={href}
-      className="group inline-flex min-h-11 items-center gap-5 border-b border-[rgba(182,140,67,.65)] font-body text-action transition-colors duration-200 hover:border-[#a77d35] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:border-[#52606b] dark:hover:border-[#c6a465] dark:hover:text-[#ddc28d] dark:focus-visible:outline-[#c6a465]"
-    >
-      {children}
-      <ArrowUpRight
-        className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-        strokeWidth={1.3}
-      />
-    </a>
-  )
-}
-
 export function SectionLatestNews({
   featuredImage,
   featuredImageAlt,
-}: {
-  featuredImage: string
-  featuredImageAlt: string
-}) {
-  const [featured, ...secondary] = newsItems
+  events,
+}: NewsContent) {
+  const [featured, ...secondary] = events
+  if (!featured) return null
 
   return (
     <section
@@ -144,13 +103,23 @@ export function SectionLatestNews({
             english="Association News"
           />
           <div className="max-md:mt-8">
-            <EditorialLink href="#all-news">查看所有消息</EditorialLink>
+            <Link
+              to="/events"
+              className="group inline-flex min-h-11 items-center gap-5 border-b border-[rgba(182,140,67,.65)] font-body text-action transition-colors duration-200 hover:border-[#a77d35] hover:text-[#a77d35] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9b742e] dark:border-[#52606b] dark:hover:border-[#c6a465] dark:hover:text-[#ddc28d] dark:focus-visible:outline-[#c6a465]"
+            >
+              查看所有消息
+              <ArrowUpRight
+                className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.3}
+              />
+            </Link>
           </div>
         </div>
 
         <div className="mt-16 grid grid-cols-12 gap-x-10 border-t border-[rgba(182,140,67,.38)] dark:border-[#3a4752] max-lg:gap-x-6 max-md:mt-12 max-md:block">
-          <a
-            href="#featured-news"
+          <Link
+            to="/events/$eventId"
+            params={{ eventId: featured.id }}
             className="group col-span-7 grid min-h-140 grid-rows-[1fr_auto] overflow-hidden border-r border-[rgba(182,140,67,.38)] dark:border-[#3a4752] pr-10 focus-visible:outline-2 focus-visible:outline-offset-6 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-lg:col-span-6 max-lg:pr-6 max-md:min-h-0 max-md:border-r-0 max-md:border-b max-md:pr-0 max-md:pb-12"
           >
             <div className="relative mt-10 min-h-82.5 overflow-hidden [clip-path:ellipse(90%_88%_at_42%_46%)] max-md:mt-8 max-md:aspect-4/3 max-md:min-h-0">
@@ -167,52 +136,63 @@ export function SectionLatestNews({
             </div>
             <div className="grid grid-cols-[140px_1fr] gap-8 pt-8 max-sm:grid-cols-1 max-sm:gap-3">
               <div>
-                <time className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]">
-                  {featured.date}
+                <time
+                  dateTime={featured.date}
+                  className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]"
+                >
+                  {featured.date.replaceAll('-', '.')}
                 </time>
                 <p className="mt-2 font-body text-meta text-[#a77d35] dark:text-[#c6a465]">
-                  {featured.category}
+                  {getCategoryLabel(featured.category)}
                 </p>
               </div>
               <div>
                 <h3 className="font-display text-feature-title transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
                   {featured.title}
                 </h3>
-                <p className="mt-4 max-w-2xl font-body text-body text-[#62615e] dark:text-[#b3aa99]">
-                  {featured.excerpt}
-                </p>
+                {featured.excerpt ? (
+                  <p className="mt-4 max-w-2xl font-body text-body text-[#62615e] dark:text-[#b3aa99]">
+                    {featured.excerpt}
+                  </p>
+                ) : null}
               </div>
             </div>
-          </a>
+          </Link>
 
           <div className="col-span-5 max-lg:col-span-6">
             {secondary.map((item) => (
-              <a
-                href="#news-detail"
+              <Link
+                to="/events/$eventId"
+                params={{ eventId: item.id }}
                 className="group grid min-h-44.5 grid-cols-[120px_1fr_auto] items-center gap-6 border-b border-[rgba(182,140,67,.38)] dark:border-[#3a4752] py-7 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#9b742e] dark:focus-visible:outline-[#c6a465] max-sm:grid-cols-[1fr_auto] max-sm:gap-4"
-                key={item.title}
+                key={item.id}
               >
                 <div className="max-sm:col-span-2">
-                  <time className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]">
-                    {item.date}
+                  <time
+                    dateTime={item.date}
+                    className="font-sport text-meta text-[#7e5f2e] tabular-nums dark:text-[#a99267]"
+                  >
+                    {item.date.replaceAll('-', '.')}
                   </time>
                   <p className="mt-2 font-body text-meta text-[#a77d35] dark:text-[#c6a465]">
-                    {item.category}
+                    {getCategoryLabel(item.category)}
                   </p>
                 </div>
                 <div>
                   <h3 className="font-display text-card-title transition-colors duration-200 group-hover:text-[#8d682d] dark:group-hover:text-[#ddc28d]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 font-body text-body-sm text-[#62615e] dark:text-[#b3aa99]">
-                    {item.excerpt}
-                  </p>
+                  {item.excerpt ? (
+                    <p className="mt-2 font-body text-body-sm text-[#62615e] dark:text-[#b3aa99]">
+                      {item.excerpt}
+                    </p>
+                  ) : null}
                 </div>
                 <ArrowUpRight
                   className="size-5 text-[#a77d35] dark:text-[#c6a465] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={1.2}
                 />
-              </a>
+              </Link>
             ))}
           </div>
         </div>

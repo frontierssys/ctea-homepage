@@ -39,10 +39,7 @@ function RouteComponent() {
   return (
     <>
       <HeroCarousel slides={carousel.slides} />
-      <SectionLatestNews
-        featuredImage={news.featuredImage}
-        featuredImageAlt={news.featuredImageAlt}
-      />
+      <SectionLatestNews {...news} />
       <SectionSocialFeed backgroundImage={social.backgroundImage} />
       <SectionLatestVideo />
       <SectionPartner />

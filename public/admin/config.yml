@@ -77,6 +77,23 @@ collections:
                 <<: *r2
                 prefix: homepage/landingpage/
           - { label: 焦點消息圖片替代文字, name: featuredImageAlt, widget: string }
+          - name: eventIds
+            label: 首頁消息
+            label_singular: 公告
+            hint: 從活動看板全部公告中選 4 則。第一筆是焦點大卡。
+            widget: list
+            min: 4
+            max: 4
+            allow_reorder: true
+            collapsed: false
+            field:
+              name: event
+              label: 公告
+              widget: relation
+              collection: events
+              value_field: '{{slug}}'
+              display_fields: ['{{title}} — {{date}}']
+              search_fields: [title, excerpt, category]
       - name: social
         label: 馬術現場
         file: content/social.json
