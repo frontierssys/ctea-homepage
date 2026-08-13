@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import type { CarouselSlide } from '#/lib/content/carousel'
 
 export const AUTOPLAY_DELAY_MS = 7000
@@ -15,25 +15,19 @@ export function shiftCarouselIndex(
 export type HeroCarouselViewProps = {
   slides: CarouselSlide[]
   activeIndex: number
-  autoplayEnabled: boolean
   isRotating: boolean
   onChangeSlide: (direction: -1 | 1) => void
   onSelectSlide: (index: number) => void
-  onAutoplayToggle: () => void
   onHoverChange: (isHovered: boolean) => void
-  onFocusWithinChange: (hasFocus: boolean) => void
 }
 
 export function HeroCarouselView({
   slides,
   activeIndex,
-  autoplayEnabled,
   isRotating,
   onChangeSlide,
   onSelectSlide,
-  onAutoplayToggle,
   onHoverChange,
-  onFocusWithinChange,
 }: HeroCarouselViewProps) {
   const slideCount = slides.length
 
@@ -48,10 +42,6 @@ export function HeroCarouselView({
       aria-label="首頁焦點輪播"
       onMouseEnter={() => onHoverChange(true)}
       onMouseLeave={() => onHoverChange(false)}
-      onFocusCapture={() => onFocusWithinChange(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) onFocusWithinChange(false)
-      }}
       onKeyDown={(event) => {
         if (event.key === 'ArrowLeft') {
           event.preventDefault()
@@ -190,20 +180,6 @@ export function HeroCarouselView({
               onClick={() => onChangeSlide(1)}
             >
               <ArrowRight className="size-5" strokeWidth={1.3} aria-hidden="true" />
-            </button>
-
-            <button
-              type="button"
-              className="grid size-12 shrink-0 cursor-pointer place-items-center text-[rgba(255,250,240,.82)] transition-colors duration-200 hover:text-[#d0ae6d] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#f3dbad] motion-reduce:transition-none max-sm:size-11"
-              aria-label={autoplayEnabled ? '暫停自動播放' : '開始自動播放'}
-              aria-pressed={!autoplayEnabled}
-              onClick={onAutoplayToggle}
-            >
-              {autoplayEnabled ? (
-                <Pause className="size-4" strokeWidth={1.5} aria-hidden="true" />
-              ) : (
-                <Play className="size-4" strokeWidth={1.5} aria-hidden="true" />
-              )}
             </button>
           </section>
         ) : null}

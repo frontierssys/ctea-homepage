@@ -19,9 +19,7 @@ type CarouselPreviewProps = PreviewWindowProps & {
 
 type CarouselPreviewState = {
   activeIndex: number
-  autoplayEnabled: boolean
   isHovered: boolean
-  hasFocus: boolean
   prefersReducedMotion: boolean
   navMenuOpen: boolean
   previewTheme: 'light' | 'dark'
@@ -46,8 +44,8 @@ function getPreviewSlides(instance: CarouselPreviewInstance) {
 }
 
 function isPreviewRotating(instance: CarouselPreviewInstance, slideCount: number) {
-  const { autoplayEnabled, isHovered, hasFocus, prefersReducedMotion } = instance.state
-  return slideCount > 1 && autoplayEnabled && !isHovered && !hasFocus && !prefersReducedMotion
+  const { isHovered, prefersReducedMotion } = instance.state
+  return slideCount > 1 && !isHovered && !prefersReducedMotion
 }
 
 function schedulePreviewAutoplay(instance: CarouselPreviewInstance) {
@@ -68,9 +66,7 @@ export const CarouselPreview = createClass({
   getInitialState: function (): CarouselPreviewState {
     return {
       activeIndex: 0,
-      autoplayEnabled: true,
       isHovered: false,
-      hasFocus: false,
       prefersReducedMotion: false,
       navMenuOpen: false,
       previewTheme: 'light',
@@ -132,7 +128,6 @@ export const CarouselPreview = createClass({
         <HeroCarouselView
           slides={slides}
           activeIndex={activeIndex}
-          autoplayEnabled={this.state.autoplayEnabled}
           isRotating={isRotating}
           onChangeSlide={(direction) => {
             this.setState((state) => ({
@@ -140,11 +135,7 @@ export const CarouselPreview = createClass({
             }))
           }}
           onSelectSlide={(nextIndex) => this.setState({ activeIndex: nextIndex })}
-          onAutoplayToggle={() => {
-            this.setState((state) => ({ autoplayEnabled: !state.autoplayEnabled }))
-          }}
           onHoverChange={(isHovered) => this.setState({ isHovered })}
-          onFocusWithinChange={(hasFocus) => this.setState({ hasFocus })}
         />
       </PreviewLayout>
     )

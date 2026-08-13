@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { CarouselSlide } from '#/lib/content/carousel'
 import {
   AUTOPLAY_DELAY_MS,
@@ -12,13 +12,10 @@ export type HeroCarouselProps = {
 
 export function HeroCarousel({ slides }: HeroCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [autoplayEnabled, setAutoplayEnabled] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
-  const [hasFocus, setHasFocus] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const slideCount = slides.length
-  const isRotating =
-    slideCount > 1 && autoplayEnabled && !isHovered && !hasFocus && !prefersReducedMotion
+  const isRotating = slideCount > 1 && !isHovered && !prefersReducedMotion
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -43,24 +40,16 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
     if (activeIndex >= slideCount) setActiveIndex(0)
   }, [activeIndex, slideCount])
 
-  const changeSlide = useCallback(
-    (direction: -1 | 1) => {
-      setActiveIndex((index) => shiftCarouselIndex(index, direction, slideCount))
-    },
-    [slideCount],
-  )
-
   return (
     <HeroCarouselView
       slides={slides}
       activeIndex={activeIndex}
-      autoplayEnabled={autoplayEnabled}
       isRotating={isRotating}
-      onChangeSlide={changeSlide}
+      onChangeSlide={(direction) =>
+        setActiveIndex((index) => shiftCarouselIndex(index, direction, slideCount))
+      }
       onSelectSlide={setActiveIndex}
-      onAutoplayToggle={() => setAutoplayEnabled((enabled) => !enabled)}
       onHoverChange={setIsHovered}
-      onFocusWithinChange={setHasFocus}
     />
   )
 }
