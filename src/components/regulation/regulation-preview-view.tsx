@@ -1,5 +1,5 @@
 import {
-  RegulationDownloadList,
+  RegulationDownloadsSection,
   RegulationFrame,
   RegulationHeader,
   RegulationMarkdown,
@@ -25,24 +25,6 @@ export function RegulationPagePreviewView({ page }: { page: RegulationPage }) {
         lead={page.lead}
       />
 
-      {page.downloads.length > 0 ? (
-        <section
-          aria-labelledby="regulation-downloads"
-          className="mt-10 sm:mt-12"
-        >
-          <h2
-            id="regulation-downloads"
-            className="font-sport text-overline uppercase text-ctea-brown"
-          >
-            檔案下載
-          </h2>
-          <RegulationDownloadList
-            className="mt-4"
-            downloads={page.downloads}
-          />
-        </section>
-      ) : null}
-
       {showToc ? (
         <RegulationPageBody>
           <HeadingToc
@@ -57,6 +39,8 @@ export function RegulationPagePreviewView({ page }: { page: RegulationPage }) {
           <RegulationMarkdown content={page.content} />
         </div>
       )}
+
+      <RegulationDownloadsSection downloads={page.downloads} />
 
       {showToc ? (
         <TocMobileJump

@@ -1,5 +1,5 @@
 import {
-  RegulationDownloadList,
+  RegulationDownloadsSection,
   RegulationFrame,
   RegulationHeader,
   RegulationMarkdown,
@@ -15,41 +15,22 @@ import type { RegulationPage } from '#/lib/content/regulation'
 export function RegulationPageView({ page }: { page: RegulationPage }) {
   const showToc = page.headings.length > 0
 
-  const chrome = (
-    <>
-      <RegulationHeader
-        eyebrow={page.eyebrow}
-        title={page.title}
-        lead={page.lead}
-      />
-
-      {page.downloads.length > 0 ? (
-        <section
-          aria-labelledby="regulation-downloads"
-          className="mt-10 sm:mt-12"
-        >
-          <h2
-            id="regulation-downloads"
-            className="font-sport text-overline uppercase text-ctea-brown"
-          >
-            檔案下載
-          </h2>
-          <RegulationDownloadList
-            className="mt-4"
-            downloads={page.downloads}
-          />
-        </section>
-      ) : null}
-    </>
+  const header = (
+    <RegulationHeader
+      eyebrow={page.eyebrow}
+      title={page.title}
+      lead={page.lead}
+    />
   )
 
   if (!showToc) {
     return (
       <RegulationFrame>
-        {chrome}
+        {header}
         <div className="mt-10 sm:mt-14">
           <RegulationMarkdown content={page.content} />
         </div>
+        <RegulationDownloadsSection downloads={page.downloads} />
       </RegulationFrame>
     )
   }
@@ -57,11 +38,12 @@ export function RegulationPageView({ page }: { page: RegulationPage }) {
   return (
     <LiveTocProvider headings={page.headings}>
       <RegulationFrame className="pb-28 lg:pb-16">
-        {chrome}
+        {header}
         <RegulationPageBody>
           <LiveHeadingToc className="hidden lg:flex" />
           <RegulationMarkdown content={page.content} />
         </RegulationPageBody>
+        <RegulationDownloadsSection downloads={page.downloads} />
         <LiveTocMobileJump className="lg:hidden" />
       </RegulationFrame>
     </LiveTocProvider>

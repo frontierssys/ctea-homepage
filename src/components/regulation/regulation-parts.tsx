@@ -73,6 +73,29 @@ export function RegulationBackLink({
   )
 }
 
+export function RegulationDownloadsSection({
+  downloads,
+}: {
+  downloads: Array<RegulationDownload>
+}) {
+  if (downloads.length === 0) return null
+
+  return (
+    <section
+      aria-labelledby="regulation-downloads"
+      className="mt-10 sm:mt-14"
+    >
+      <h2
+        id="regulation-downloads"
+        className="font-sport text-overline uppercase text-ctea-brown"
+      >
+        檔案下載
+      </h2>
+      <RegulationDownloadList className="mt-4" downloads={downloads} />
+    </section>
+  )
+}
+
 export function RegulationDownloadList({
   downloads,
   className,
