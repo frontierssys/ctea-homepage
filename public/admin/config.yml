@@ -4,6 +4,8 @@ backend:
   name: github
   repo: bensontuan-frt/ctea-homepage
 
+app_title: CTEA Homepage CMS
+
 logo:
   src: /media/ctea-logo-nav.webp
   show_in_header: true
